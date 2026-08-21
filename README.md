@@ -71,14 +71,14 @@ draws is the only way back that exists.
 ## Usage
 
 ```tsx
-import { AppBar, TabRow, RecordRow, Chip } from "cc-ui";
+import { AppBar, AccountButton, TabRow, RecordRow, Chip } from "cc-ui";
 import { Plus, Send } from "lucide-react";
 
 // Top of the app: no back.
 <AppBar
   product={{ name: "Subcontracts", href: "/" }}
   action={{ label: "Create subcontract", icon: <Plus size={16} />, href: "/new" }}
-  account={{ initials: "AR", name: "Aaron Rothwell", onOpen: openMenu }}
+  account={<AccountButton email={user.email} onSignOut={signOut} />}
 />
 <TabRow tabs={[
   { label: "Pending", href: "/", count: 7, current: true },
@@ -91,7 +91,7 @@ import { Plus, Send } from "lucide-react";
   back={{ label: "Pending", href: "/" }}
   product={{ name: "Subcontracts", href: "/" }}
   action={{ label: "Send for signature", icon: <Send size={16} />, onClick: send, variant: "ghost" }}
-  account={account}
+  account={<AccountButton email={user.email} onSignOut={signOut} />}
 />
 <RecordRow
   title="26268-1 · Michael Wallace"
@@ -128,6 +128,7 @@ This is why `icon` is required: on a phone it is the whole control, and
 | Export | What it is |
 |---|---|
 | `AppBar`, `IdentityBar` | The bar. Signed in and signed out. |
+| `AccountButton` | The avatar and its menu. The shell owns the avatar so it is identical everywhere; the app supplies the items, because Notetaker has a daily brief and Subcontracts does not. "All apps" and "Sign out" are appended by the shell, since those are the two that kept going missing. |
 | `TabRow`, `RecordRow`, `Chip` | Row two: tabs on a list, the record's name and status on a detail screen. Same height, so nothing jumps. |
 | `CCLogo` | The mark, the full lockup, and a single-colour lockup for dark grounds. |
 | `Button`, `Field`, `TextInput`, `Select`, `Row`, `RowGroup`, `Sheet` | The `ui-*` primitives, proved in CRMP at `/ui`. |

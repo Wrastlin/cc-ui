@@ -60,14 +60,6 @@ export type BarAction = {
   disabled?: boolean;
 };
 
-export type AccountMenu = {
-  /** Two letters. Shown in the avatar. */
-  initials: string;
-  /** Full name, for the control's accessible name. */
-  name: string;
-  onOpen: () => void;
-};
-
 export function AppBar({
   back,
   product,
@@ -91,8 +83,13 @@ export function AppBar({
    * put secondary controls in the page or the account menu instead.
    */
   extraActions?: ReactNode;
-  /** Omit only when signed out. An app with no way to sign out is unfinished. */
-  account?: AccountMenu;
+  /**
+   * The account control. Pass `<AccountButton />` from this package: the shell
+   * owns the avatar so it is identical everywhere, but the menu's contents are
+   * the app's, because Notetaker has a daily brief and Subcontracts does not.
+   * Omit only when signed out.
+   */
+  account?: ReactNode;
   className?: string;
 }) {
   return (
@@ -120,16 +117,7 @@ export function AppBar({
       {extraActions}
       {action ? <BarActionControl {...action} /> : null}
 
-      {account ? (
-        <button
-          type="button"
-          className="cc-avatar"
-          onClick={account.onOpen}
-          aria-label={`${account.name}, account and menu`}
-        >
-          {account.initials}
-        </button>
-      ) : null}
+      {account}
     </header>
   );
 }
