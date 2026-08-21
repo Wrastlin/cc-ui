@@ -1,0 +1,259 @@
+/*
+ * cc-ui primitives
+ * ---------------------------------------------------------------------------
+ * Ported from cc-crmp app/globals.css, rebound from app-local variable names
+ * to --cc-* so this file is self-contained and cannot pick up whatever an app
+ * happens to call its own colours.
+ *
+ * A separate namespace on purpose. In CRMP, plain `.btn` was re-specified by
+ * about 24 surface rules, which is why one class measured 34, 38, 40, 44 and
+ * 48px on a single screen. Nothing targets `.ui-*` except this file.
+ *
+ * Three rules are enforced here so no call site has to remember them:
+ *   1. heights come from --cc-ctl-h / --cc-ctl-h-sm, never a literal
+ *   2. every text slot is min-width:0, so labels truncate instead of pushing
+ *      out of their box (a flex item's default min-width is `auto`, which is
+ *      the whole reason text escapes buttons)
+ *   3. one radius per role
+ */
+/* ---- Button ---- */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--cc-ctl-h);
+  padding: 0 18px;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  background: var(--cc-panel);
+  color: var(--cc-text);
+  font-family: inherit;
+  font-size: var(--cc-fs-ui);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  /* a label never wraps inside a button; if three do not fit, the LAYOUT
+     stacks them — the button does not become two lines tall */
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.ui-btn-sm {
+  min-height: var(--cc-ctl-h-sm);
+  padding: 0 12px;
+  font-size: var(--cc-fs-meta);
+}
+.ui-btn-block {
+  width: 100%;
+}
+.ui-btn-icon {
+  width: var(--cc-ctl-h);
+  padding: 0;
+}
+.ui-btn-sm.ui-btn-icon {
+  width: var(--cc-ctl-h-sm);
+}
+/* THE trap. Without min-width:0 this slot refuses to shrink below its own
+   text, so the text wins and leaves the button. */
+.ui-btn-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ui-btn-glyph,
+.ui-btn-trail {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.ui-btn-primary {
+  background: var(--cc-accent);
+  border-color: transparent;
+  color: #fff;
+}
+.ui-btn-primary:hover {
+  background: var(--cc-accent-hover);
+}
+.ui-btn-ghost:hover {
+  background: var(--cc-panel-2);
+}
+/* the only red in the set, so red keeps meaning one thing */
+.ui-btn-danger {
+  color: var(--cc-danger);
+  border-color: color-mix(in srgb, var(--cc-danger) 34%, var(--cc-line));
+}
+.ui-btn-danger:hover {
+  background: color-mix(in srgb, var(--cc-danger) 8%, var(--cc-panel));
+}
+.ui-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.ui-btn:focus-visible {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: 2px;
+}
+
+/* ---- Row ---- */
+.ui-rows {
+  background: var(--cc-panel);
+  border: 1px solid var(--cc-line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.ui-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: max(var(--cc-ctl-h), 56px);
+  padding: 10px 16px;
+  border: none;
+  border-top: 1px solid var(--cc-line);
+  background: transparent;
+  color: var(--cc-text);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ui-rows > .ui-row:first-child {
+  border-top: none;
+}
+.ui-row:hover {
+  background: var(--cc-panel-2);
+}
+.ui-row-glyph {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: var(--cc-muted);
+}
+/* same trap, same fix: the text block shrinks so the trailing content stays */
+.ui-row-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.ui-row-title {
+  font-size: var(--cc-fs-ui);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.ui-row-sub {
+  font-size: var(--cc-fs-meta);
+  color: var(--cc-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ui-row-trail {
+  flex: 0 0 auto;
+  color: var(--cc-muted);
+  font-size: var(--cc-fs-ui);
+}
+
+/* ---- Field ---- */
+.ui-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.ui-field-label {
+  font-size: var(--cc-fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cc-muted);
+}
+.ui-field-help {
+  font-size: var(--cc-fs-meta);
+  color: var(--cc-muted);
+}
+.ui-field-err .ui-field-label,
+.ui-field-err .ui-field-help {
+  color: var(--cc-danger);
+}
+/* an input is the same height as a button beside it, not a second guess */
+.ui-input {
+  min-height: var(--cc-ctl-h);
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  background: var(--cc-bg);
+  color: var(--cc-text);
+  font-family: inherit;
+  font-size: var(--cc-fs-body);
+}
+.ui-input:focus-visible {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: 1px;
+  border-color: var(--cc-accent);
+}
+.ui-field-err .ui-input {
+  border-color: var(--cc-danger);
+}
+.ui-select {
+  background: var(--cc-panel);
+}
+
+/* ---- Sheet ---- */
+.ui-sheet-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(20, 32, 46, 0.42);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.ui-sheet {
+  width: 100%;
+  max-width: 560px;
+  /* dvh, never vh — see the header comment and scripts/check-vh.mjs */
+  max-height: min(88dvh, 760px);
+  display: flex;
+  flex-direction: column;
+  background: var(--cc-panel);
+  color: var(--cc-text);
+  border-radius: 20px 20px 0 0;
+  padding: 10px 20px max(16px, env(safe-area-inset-bottom));
+}
+.ui-sheet:focus {
+  outline: none;
+}
+.ui-sheet-grab {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--cc-line);
+  margin: 0 auto 10px;
+}
+.ui-sheet-title {
+  flex: 0 0 auto;
+  margin: 0 0 10px;
+  font-size: var(--cc-fs-title);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+/* the ONE scroll region — never a scroller inside this */
+.ui-sheet-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.ui-sheet-foot {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 10px;
+  padding-top: 14px;
+}
+.ui-sheet-foot > .ui-btn {
+  flex: 1 1 0;
+}

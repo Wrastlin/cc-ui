@@ -1,0 +1,122 @@
+/*
+ * C&C Services shared design tokens
+ * Version 2.0.0 (2026-08-20)
+ *
+ * v1.0.0 was a file copied into each repo, which is exactly how the suite
+ * drifted: Canvass hand-copied the values and renamed half of them, and
+ * Subcontracts imported the file and then wrote the hexes as literals anyway.
+ * This version ships inside the `cc-ui` package instead, so there is one copy
+ * and `npm update` is the only way it changes.
+ *
+ * Namespaced --cc-* so it can sit beside app-local variables without
+ * collisions. Apps adopt by aliasing their own names to these
+ * (e.g. --accent: var(--cc-accent)), never by restating a value.
+ *
+ * Breakpoints (custom properties cannot drive @media; keep these numbers):
+ *   narrow < 420px · phone < 720px · desktop >= 720px · wide >= 1000px
+ */
+
+:root {
+  /* -------------------------------------------------------------- palette */
+  --cc-bg: #f4f6f9;
+  --cc-panel: #ffffff;
+  --cc-panel-2: #f1f4f8;
+  --cc-sunk: #f7f9fc;
+  --cc-line: #e2e7ee;
+  --cc-line-2: #eef1f6;
+  --cc-text: #16202e;
+  --cc-muted: #46566b;
+  --cc-faint: #8494a8;
+  --cc-accent: #1f4a9b;
+  --cc-accent-hover: #24549f;
+  --cc-accent-press: #173a7d;
+  --cc-accent-bg: #eaf0fb;
+  --cc-good: #1f7a4d;
+  --cc-good-bg: #e2f2ea;
+  --cc-warn: #b57d1f;
+  --cc-warn-bg: #fbf2df;
+  --cc-danger: #b3372f;
+  --cc-danger-bg: #f9e5e3;
+  --cc-ring: #1f4a9b;
+
+  /*
+   * The logo is the one carve-out from design rule 3 (navy plus status
+   * colours only). The C&C mark carries its real second blue; nothing else
+   * in app UI may use it. Declared here so it is greppable, not so it is
+   * reusable.
+   */
+  --cc-logo-blue: #3697d3;
+  --cc-logo-navy: #1f4a9b;
+  --cc-logo-grey: #5f7180;
+
+  /* ----------------------------------------------------------- type scale */
+  --cc-fs-caption: 11px;
+  --cc-fs-meta: 12px;
+  --cc-fs-ui: 13px;
+  --cc-fs-body: 15px;
+  --cc-fs-title: 17px;
+  --cc-fs-page: 20px;
+  --cc-fs-display: 24px;
+
+  --cc-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  --cc-font-mono: ui-monospace, SFMono-Regular, "IBM Plex Mono", Menlo,
+    monospace;
+
+  /* -------------------------------------------------- spacing (8pt-ish) */
+  --cc-space-1: 4px;
+  --cc-space-2: 8px;
+  --cc-space-3: 12px;
+  --cc-space-4: 16px;
+  --cc-space-5: 24px;
+  --cc-space-6: 32px;
+
+  /* --------------------------------------------------------------- radii */
+  --cc-radius-sm: 6px;
+  --cc-radius: 8px;
+  --cc-radius-lg: 12px;
+
+  /* ----------------------------------------------------------- elevation */
+  --cc-e1: 0 1px 2px rgba(22, 32, 46, 0.06);
+  --cc-e2: 0 2px 8px rgba(22, 32, 46, 0.09);
+  --cc-e3: 0 8px 24px rgba(22, 32, 46, 0.14);
+
+  /*
+   * Control heights. Never write a literal height on a control: the 44px
+   * touch floor below is a floor, not a suggestion, and it only holds if
+   * every control reads it from here.
+   */
+  --cc-ctl-h: 36px;
+  --cc-ctl-h-sm: 32px;
+
+  /* ---------------------------------------------------------- the shell */
+  --cc-bar-h: 52px;
+  --cc-bar-pad-x: 12px;
+  --cc-bar-gap: 10px;
+  --cc-row2-h: 44px;
+  --cc-tabs-h: 40px;
+  --cc-logo-h: 19px;
+  /* Back's label is capped so the logo's drift between screens stays small
+     and bounded rather than sliding with every job name. */
+  --cc-back-max: 148px;
+}
+
+/*
+ * Phone. Controls grow to the touch floor and type steps up a notch; the bar
+ * itself does not get taller, because vertical space is the scarce thing.
+ */
+@media (max-width: 719px) {
+  :root {
+    --cc-fs-ui: 14px;
+    --cc-fs-body: 17px;
+    --cc-fs-title: 20px;
+    --cc-fs-page: 24px;
+    --cc-fs-display: 28px;
+    --cc-ctl-h: 48px;
+    --cc-ctl-h-sm: 44px;
+    --cc-logo-h: 17px;
+    --cc-bar-pad-x: 8px;
+    --cc-bar-gap: 6px;
+    --cc-back-max: 104px;
+  }
+}

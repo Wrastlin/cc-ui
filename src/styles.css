@@ -1,0 +1,10 @@
+/*
+ * The one import an app needs for cc-ui's own styling.
+ *
+ *   import "cc-ui/styles.css";
+ *
+ * Order matters: tokens define the variables everything else reads.
+ */
+@import "./tokens.css";
+@import "./primitives.css";
+@import "./shell.css";

@@ -1,0 +1,24 @@
+{
+  "name": "cc-ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The shared C&C Services app shell, primitives and design tokens.",
+  "license": "UNLICENSED",
+  "repository": { "type": "git", "url": "git+https://github.com/Wrastlin/cc-ui.git" },
+  "sideEffects": ["*.css"],
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens.css": "./src/tokens.css",
+    "./styles.css": "./src/styles.css"
+  },
+  "files": ["src"],
+  "peerDependencies": {
+    "next": ">=15",
+    "react": ">=19",
+    "react-dom": ">=19"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "typescript": "^5.9.3"
+  }
+}

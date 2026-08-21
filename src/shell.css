@@ -1,0 +1,350 @@
+/*
+ * cc-ui shell
+ * ---------------------------------------------------------------------------
+ * The bar and row two. Namespaced `cc-` for the same reason the primitives are
+ * namespaced `ui-`: nothing in an app may target these classes, so no screen
+ * can quietly disagree with the shell about its own chrome.
+ *
+ * Values come from tokens.css. There is not a raw hex or a literal control
+ * height anywhere below.
+ */
+
+/* ------------------------------------------------------------------- bar */
+.cc-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-bar-gap);
+  height: var(--cc-bar-h);
+  padding: 0 var(--cc-space-4) 0 var(--cc-bar-pad-x);
+  background: var(--cc-panel);
+  border-bottom: 1px solid var(--cc-line);
+  font-family: var(--cc-font-sans);
+  color: var(--cc-text);
+  position: relative;
+  /* The bar is chrome: it must not scroll away or be pushed by page content. */
+  flex: 0 0 auto;
+}
+
+/* The notch. The bar is the topmost thing on an installed PWA, so it owns the
+   safe area; nothing below it should have to think about the inset. */
+.cc-bar {
+  padding-top: env(safe-area-inset-top, 0px);
+  height: calc(var(--cc-bar-h) + env(safe-area-inset-top, 0px));
+}
+
+.cc-bar-spacer {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cc-bar-rule {
+  width: 1px;
+  height: 22px;
+  background: var(--cc-line);
+  flex: 0 0 auto;
+}
+
+.cc-bar-logo {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--cc-space-1);
+  margin: calc(var(--cc-space-1) * -1) 0;
+  border-radius: var(--cc-radius-sm);
+  text-decoration: none;
+  flex: 0 0 auto;
+}
+.cc-bar-logo:hover {
+  background: var(--cc-sunk);
+}
+
+/*
+ * The product name shrinks before anything else does, but never below a
+ * readable stub: an ellipsis on its own ("S...") tells you nothing, which is
+ * what happened when this was allowed to collapse to zero.
+ */
+.cc-bar-product {
+  font-size: var(--cc-fs-body);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--cc-text);
+  text-decoration: none;
+  white-space: nowrap;
+  flex: 0 1 auto;
+  min-width: 7ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cc-bar-product:hover {
+  color: var(--cc-accent);
+}
+/* Below this the name cannot be shown honestly, so it is dropped rather than
+   truncated to noise. The logo still says whose app this is, and row two or
+   the page heading says which screen. */
+@media (max-width: 430px) {
+  .cc-bar-product {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------- the primary action */
+.cc-bar-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cc-space-2);
+  height: var(--cc-ctl-h-sm);
+  padding: 0 var(--cc-space-3);
+  flex: 0 0 auto;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius-sm);
+  background: var(--cc-panel);
+  color: var(--cc-text);
+  font: 500 var(--cc-fs-ui) / 1 var(--cc-font-sans);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cc-bar-action:hover {
+  background: var(--cc-sunk);
+}
+.cc-bar-action-primary {
+  background: var(--cc-accent);
+  border-color: var(--cc-accent);
+  color: var(--cc-panel);
+}
+.cc-bar-action-primary:hover {
+  background: var(--cc-accent-hover);
+  border-color: var(--cc-accent-hover);
+}
+.cc-bar-action-danger {
+  background: var(--cc-danger);
+  border-color: var(--cc-danger);
+  color: var(--cc-panel);
+}
+.cc-bar-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.cc-bar-action-glyph {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+.cc-bar-action-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*
+ * The phone. Controls are on the 44px touch floor here, and a label like
+ * "Send for signature" cannot coexist with the logo, the product name and the
+ * avatar in 390px. The label goes; it survives as the control's accessible
+ * name, which is why `icon` is required on a BarAction.
+ */
+@media (max-width: 560px) {
+  .cc-bar-action {
+    width: var(--cc-ctl-h-sm);
+    padding: 0;
+  }
+  .cc-bar-action-label {
+    display: none;
+  }
+}
+
+/* -------------------------------------------------------------- the back */
+/*
+ * Navigation, not an action, so it is never a bordered button: a border would
+ * put it in competition with the primary action on the right, which is the
+ * thing you actually want pressed.
+ */
+.cc-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cc-space-1);
+  height: var(--cc-ctl-h-sm);
+  padding: 0 11px 0 7px;
+  margin-left: -5px; /* optical: the chevron, not its box, aligns to the edge */
+  flex: 0 0 auto;
+  max-width: var(--cc-back-max);
+  border: none;
+  border-radius: var(--cc-radius-sm);
+  background: transparent;
+  color: var(--cc-accent);
+  font: 500 var(--cc-fs-ui) / 1 var(--cc-font-sans);
+  text-decoration: none;
+  cursor: pointer;
+}
+.cc-back:hover {
+  background: var(--cc-accent-bg);
+}
+.cc-back > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cc-back > svg {
+  flex: 0 0 auto;
+}
+
+/*
+ * Narrow phones. Below this the label would push the product name out, so the
+ * label goes and the destination survives in the control's title attribute.
+ */
+@media (max-width: 400px) {
+  .cc-back {
+    max-width: none;
+    width: var(--cc-ctl-h-sm);
+    padding: 0;
+    justify-content: center;
+  }
+  .cc-back > span {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- avatar */
+.cc-avatar {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  border: none;
+  border-radius: 999px;
+  background: var(--cc-accent);
+  color: var(--cc-panel);
+  font: 600 var(--cc-fs-caption) / 1 var(--cc-font-sans);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.cc-avatar:hover {
+  background: var(--cc-accent-hover);
+}
+
+/* ------------------------------------------------------- the signed-out bar */
+.cc-bar-identity {
+  justify-content: center;
+  height: calc(60px + env(safe-area-inset-top, 0px));
+}
+
+/* ------------------------------------------------------------ row two: tabs */
+.cc-tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--cc-space-5);
+  height: var(--cc-tabs-h);
+  padding: 0 var(--cc-space-4);
+  background: var(--cc-panel);
+  border-bottom: 1px solid var(--cc-line);
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex: 0 0 auto;
+}
+.cc-tabs::-webkit-scrollbar {
+  display: none;
+}
+.cc-tab {
+  font-size: var(--cc-fs-ui);
+  color: var(--cc-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0 0 11px;
+  /* the rule belongs to the row and the active tab sits ON it */
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.cc-tab:hover {
+  color: var(--cc-text);
+}
+.cc-tab-on {
+  color: var(--cc-text);
+  font-weight: 600;
+  border-bottom-color: var(--cc-accent);
+}
+.cc-tab-n {
+  color: var(--cc-faint);
+  font-weight: 500;
+  margin-left: 5px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------- row two: record */
+.cc-record {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-3);
+  height: var(--cc-row2-h);
+  padding: 0 var(--cc-space-4);
+  background: var(--cc-panel);
+  border-bottom: 1px solid var(--cc-line);
+  flex: 0 0 auto;
+}
+.cc-record-title {
+  font-size: var(--cc-fs-body);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.cc-record-sub {
+  font-size: var(--cc-fs-meta);
+  color: var(--cc-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+/* The subtitle is the first thing to go: the record's name matters more than
+   its address, and something has to give on a 390px screen. */
+@media (max-width: 560px) {
+  .cc-record-sub {
+    display: none;
+  }
+}
+.cc-record-trail {
+  flex: 0 0 auto;
+}
+
+/* ------------------------------------------------------------------ chip */
+.cc-chip {
+  display: inline-block;
+  font-size: var(--cc-fs-caption);
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.cc-chip-neutral {
+  background: var(--cc-line-2);
+  color: var(--cc-muted);
+}
+.cc-chip-accent {
+  background: var(--cc-accent-bg);
+  color: var(--cc-accent);
+}
+.cc-chip-good {
+  background: var(--cc-good-bg);
+  color: var(--cc-good);
+}
+.cc-chip-warn {
+  background: var(--cc-warn-bg);
+  color: var(--cc-warn);
+}
+.cc-chip-danger {
+  background: var(--cc-danger-bg);
+  color: var(--cc-danger);
+}
+
+/* ----------------------------------------------------------------- focus */
+/* Rule 7: tab through the screen and focus never disappears. */
+.cc-bar :focus-visible,
+.cc-tabs :focus-visible,
+.cc-record :focus-visible {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: 2px;
+  border-radius: var(--cc-radius-sm);
+}
