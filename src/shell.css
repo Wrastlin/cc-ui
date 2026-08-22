@@ -77,11 +77,14 @@
 .cc-bar-product:hover {
   color: var(--cc-accent);
 }
-/* Below this the name cannot be shown honestly, so it is dropped rather than
-   truncated to noise. The logo still says whose app this is, and row two or
-   the page heading says which screen. */
+/*
+ * The name is dropped only when a back control is competing for the same room.
+ * Back renders before it, so the sibling selector is exactly the test: at the
+ * top of an app there is no back and the name stays, which matters because a
+ * bar holding only a logo and an avatar looks broken rather than clean.
+ */
 @media (max-width: 430px) {
-  .cc-bar-product {
+  .cc-back ~ .cc-bar-product {
     display: none;
   }
 }
