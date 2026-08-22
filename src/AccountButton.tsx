@@ -40,7 +40,11 @@ export function AccountButton({
   hubHref = "/apps",
   onSignOut,
 }: {
-  email: string;
+  /**
+   * Optional because some apps only learn who is signed in after hydration,
+   * and an avatar that pops in late is worse than one that fills in late.
+   */
+  email?: string;
   /** Product-specific entries, shown above the shell's own two. */
   items?: AccountItem[];
   hubHref?: string;
@@ -77,16 +81,16 @@ export function AccountButton({
       <button
         type="button"
         className="cc-avatar"
-        aria-label={`${email}, account and menu`}
+        aria-label={email ? `${email}, account and menu` : "Account and menu"}
         aria-expanded={open}
         aria-haspopup="menu"
         onClick={() => setOpen((v) => !v)}
       >
-        {initialsFromEmail(email)}
+        {email ? initialsFromEmail(email) : <PersonGlyph />}
       </button>
       {open ? (
         <div className="cc-account-menu" role="menu">
-          <div className="cc-account-who">{email}</div>
+          {email ? <div className="cc-account-who">{email}</div> : null}
           {all.map((it) =>
             it.href ? (
               it.href.startsWith("http") ? (
@@ -130,5 +134,25 @@ export function AccountButton({
         </div>
       ) : null}
     </div>
+  );
+}
+
+function PersonGlyph() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      focusable="false"
+    >
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M5 20a7 7 0 0114 0" />
+    </svg>
   );
 }
