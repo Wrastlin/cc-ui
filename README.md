@@ -128,6 +128,7 @@ This is why `icon` is required: on a phone it is the whole control, and
 | Export | What it is |
 |---|---|
 | `AppBar`, `IdentityBar` | The bar. Signed in and signed out. |
+| `OverlayBar` | The same controls floating over a full-bleed screen, for a map or a viewer where a 52px band would eat the content. A variant, not a second bar: same order, same rules, no band. |
 | `AccountButton` | The avatar and its menu. The shell owns the avatar so it is identical everywhere; the app supplies the items, because Notetaker has a daily brief and Subcontracts does not. "All apps" and "Sign out" are appended by the shell, since those are the two that kept going missing. |
 | `TabRow`, `RecordRow`, `Chip` | Row two: tabs on a list, the record's name and status on a detail screen. Same height, so nothing jumps. |
 | `CCLogo` | The mark, the full lockup, and a single-colour lockup for dark grounds. |

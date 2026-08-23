@@ -400,3 +400,83 @@
 .cc-account-item-danger {
   color: var(--cc-danger);
 }
+
+/* ───────────────────────────────────────────────────────── overlay variant
+   For a screen that runs to the edges: a map, a photo viewer. Same controls,
+   same order, no band behind them. Pinned into the safe area because on an
+   installed PWA there is no browser chrome above this. */
+.cc-overlay {
+  position: absolute;
+  top: calc(11px + env(safe-area-inset-top, 0px));
+  left: calc(11px + env(safe-area-inset-left, 0px));
+  right: calc(11px + env(safe-area-inset-right, 0px));
+  z-index: 30;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--cc-space-2);
+  /* the bar is a frame around the content, so only its controls take taps */
+  pointer-events: none;
+}
+.cc-overlay-left,
+.cc-overlay-right {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  pointer-events: auto;
+  min-width: 0;
+}
+
+.cc-float {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(22, 32, 46, 0.09);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--cc-e2);
+  color: var(--cc-text);
+  font: 500 var(--cc-fs-ui) / 1 var(--cc-font-sans);
+  text-decoration: none;
+  cursor: pointer;
+}
+.cc-float-back {
+  color: var(--cc-accent);
+  padding: 0 13px 0 9px;
+  max-width: var(--cc-back-max);
+}
+.cc-float-back span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cc-float-logo {
+  padding: 0 11px;
+}
+/* The avatar keeps its shape here so it reads as the same control it is in a
+   banded bar, just lifted off the surface. */
+.cc-overlay .cc-avatar {
+  width: 36px;
+  height: 36px;
+  box-shadow: var(--cc-e2);
+}
+.cc-overlay .cc-account-menu {
+  /* it hangs below a floating pill, so it needs its own ground */
+  top: calc(100% + 8px);
+}
+@media (max-width: 400px) {
+  .cc-float-back span {
+    display: none;
+  }
+  .cc-float-back {
+    padding: 0;
+    width: 36px;
+  }
+}
