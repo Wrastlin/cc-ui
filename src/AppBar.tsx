@@ -46,7 +46,15 @@ export type BackTarget = {
    * point is that you can read the destination before you commit to it.
    */
   label: string;
-  href: string;
+  /** Where it goes, when going back is navigation. */
+  href?: string;
+  /**
+   * What it does, when it is not. CRMP's admin console is one route whose
+   * sections are state, so "up one screen" there is a setState, not a URL. The
+   * control has to be the same control either way, or the rule stops being a
+   * rule.
+   */
+  onClick?: () => void;
 };
 
 export type BarAction = {
@@ -96,10 +104,22 @@ export function AppBar({
     <header className={["cc-bar", className].filter(Boolean).join(" ")}>
       {back ? (
         <>
-          <Link className="cc-back" href={back.href} title={`Back to ${back.label}`}>
-            <Chevron />
-            <span>{back.label}</span>
-          </Link>
+          {back.href ? (
+            <Link className="cc-back" href={back.href} title={`Back to ${back.label}`}>
+              <Chevron />
+              <span>{back.label}</span>
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="cc-back"
+              onClick={back.onClick}
+              title={`Back to ${back.label}`}
+            >
+              <Chevron />
+              <span>{back.label}</span>
+            </button>
+          )}
           <span className="cc-bar-rule" aria-hidden />
         </>
       ) : null}
