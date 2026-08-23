@@ -99,6 +99,10 @@
   /* Back's label is capped so the logo's drift between screens stays small
      and bounded rather than sliding with every job name. */
   --cc-back-max: 148px;
+  /* How far down a full-bleed screen must start its own floating
+     content so it clears the overlay pills: the 11px inset plus a
+     36px pill plus breathing room. */
+  --cc-overlay-clear: 58px;
 }
 
 /*
