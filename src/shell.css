@@ -160,7 +160,8 @@
  * put it in competition with the primary action on the right, which is the
  * thing you actually want pressed.
  */
-.cc-back {
+.cc-back,
+.cc-bar .cc-back {
   display: inline-flex;
   align-items: center;
   gap: var(--cc-space-1);
@@ -207,7 +208,16 @@
 }
 
 /* ---------------------------------------------------------------- avatar */
-.cc-avatar {
+/*
+ * Doubled up on purpose. Every app this shell lands in has years of CSS with
+ * blanket element selectors in it, and `.somecontainer button` (0,1,1) beats
+ * `.cc-avatar` (0,1,0). Rule 3 says an app may not target `.cc-*`, and none of
+ * them do; they just reset every button inside a container and catch ours on
+ * the way past. This is cheaper than auditing four thousand lines per app.
+ */
+.cc-avatar,
+.cc-bar .cc-avatar,
+.cc-overlay .cc-avatar {
   width: 30px;
   height: 30px;
   flex: 0 0 auto;
