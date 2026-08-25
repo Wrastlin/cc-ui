@@ -490,3 +490,38 @@
     width: 36px;
   }
 }
+
+
+/* ---------------------------------------------------------------- the tap floor
+ *
+ * Three controls in the bar are sized by what they ARE rather than by a
+ * control height: the logo is the height of the mark, the avatar is a circle,
+ * and a tab is a word with a rule under it. On a 390px screen that measured
+ * 27px, 30px and 30px against a 44px floor.
+ *
+ * Growing them would change the chrome of every app to fix a problem nobody
+ * can see, so the hit area grows instead and the pixels stay where they are.
+ * Scoped to coarse pointers: a mouse is precise and gains nothing from this,
+ * and overlapping invisible boxes on a desktop bar is a way to break hover.
+ */
+@media (pointer: coarse) {
+  .cc-bar-logo,
+  .cc-avatar,
+  .cc-tab {
+    position: relative;
+  }
+  .cc-bar-logo::after,
+  .cc-avatar::after,
+  .cc-tab::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Never narrower than the control it belongs to, so a wide tab keeps its
+       whole width and a 30px avatar still gets a 44px target. */
+    min-width: var(--cc-tap);
+    width: 100%;
+    height: var(--cc-tap);
+  }
+}
