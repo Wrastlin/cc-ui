@@ -123,7 +123,7 @@ export default function DialogHost() {
             ref={inputRef}
             type="text"
             defaultValue={dialog.defaultValue ?? ""}
-            placeholder={dialog.placeholder}
+            aria-label={dialog.title}
             autoComplete="off"
             enterKeyHint="done"
             onKeyDown={(e) => {

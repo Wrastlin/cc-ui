@@ -33,7 +33,6 @@ export type DialogRequest = {
   danger?: boolean;
   /** prompt only */
   defaultValue?: string;
-  placeholder?: string;
 };
 
 type Pending = DialogRequest & {
