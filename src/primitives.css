@@ -78,6 +78,30 @@
 .ui-btn-ghost:hover {
   background: var(--cc-panel-2);
 }
+/* An icon on its own is a round target, not a box: a border around a bell or a
+   magnifier reads as a button frame with nothing in it. */
+.ui-btn-ghost.ui-btn-icon {
+  width: 40px;
+  min-height: 40px;
+  border-color: transparent;
+  border-radius: 50%;
+  background: none;
+  box-shadow: none;
+}
+.ui-btn-ghost.ui-btn-sm.ui-btn-icon {
+  width: var(--cc-ctl-h-sm);
+  min-height: var(--cc-ctl-h-sm);
+}
+.ui-btn-ghost.ui-btn-icon:hover {
+  background: var(--cc-panel-2);
+}
+@media (max-width: 719px) {
+  .ui-btn-ghost.ui-btn-icon,
+  .ui-btn-ghost.ui-btn-sm.ui-btn-icon {
+    width: 44px;
+    min-height: 44px;
+  }
+}
 /* the only red in the set, so red keeps meaning one thing */
 .ui-btn-danger {
   color: var(--cc-danger);
@@ -162,10 +186,8 @@
   min-width: 0;
 }
 .ui-field-label {
-  font-size: var(--cc-fs-caption);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: var(--cc-fs-meta);
+  font-weight: 500;
   color: var(--cc-muted);
 }
 .ui-field-help {
