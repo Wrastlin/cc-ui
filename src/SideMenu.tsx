@@ -59,7 +59,7 @@ export function MenuLinks({
           children: (
             <>
               {Icon && <Icon size={16} strokeWidth={1.75} aria-hidden />}
-              <span className="sh-label">{label}</span>
+              <span className="cc-side-label">{label}</span>
             </>
           ),
         })}
@@ -68,11 +68,11 @@ export function MenuLinks({
   };
   return (
     <>
-      <div className="sh-nav">{main.map(draw)}</div>
+      <div className="cc-side-nav">{main.map(draw)}</div>
       {bricks.length > 0 && (
         <>
-          <div className="sh-navhead">Bricks</div>
-          <div className="sh-nav">{bricks.map(draw)}</div>
+          <div className="cc-side-navhead">Bricks</div>
+          <div className="cc-side-nav">{bricks.map(draw)}</div>
         </>
       )}
     </>
@@ -95,10 +95,10 @@ export function SideMenu({
   children?: ReactNode;
 }) {
   return (
-    <nav className="sh-side">
-      <div className="sh-head">
+    <nav className="cc-side">
+      <div className="cc-side-head">
         {logo ?? (
-          <a className="sh-logo" href={logoHref}>
+          <a className="cc-side-logo" href={logoHref}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/cc-logo.svg" alt="C&C Services" />
           </a>
@@ -106,18 +106,18 @@ export function SideMenu({
         <Button
           variant="ghost"
           size="sm"
-          className="sh-fold"
+          className="cc-side-fold"
           icon={folded ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
           aria-label={folded ? "Open the menu" : "Fold the menu"}
           title={folded ? "Open the menu" : "Fold the menu"}
           onClick={() => onFold(!folded)}
         />
       </div>
-      <div className="sh-rail">
+      <div className="cc-side-rail">
         <MenuLinks apps={apps} path={path} folded={folded} renderLink={renderLink} />
       </div>
       {children}
-      <div className="sh-foot">
+      <div className="cc-side-foot">
         <b>C&amp;C Services</b>
         Wausau, WI
       </div>

@@ -2,33 +2,33 @@
  * cc-ui side menu
  * ---------------------------------------------------------------------------
  * The rail every C&C app shows on a desk (SideMenu.tsx). Moved here from the main app's shell.css on 2026-10-15 so
- * the apps served from their own deployments draw the same one. The `sh-` names are the main app's, kept so nothing
- * there changes; its shell.css still owns the frame around the rail and the phone bar.
+ * the apps served from their own deployments draw the same one. Namespaced `cc-side`: Material orders already has
+ * its own `.sh-head`. The main app's shell.css still owns the frame around the rail (.sh, .sh-folded) and the phone bar.
  */
 
-.sh-side, .sh-side * { box-sizing: border-box; }
-.sh-side {
+.cc-side, .cc-side * { box-sizing: border-box; }
+.cc-side {
   background: var(--cc-panel, #fff);
   border-right: 1px solid var(--cc-line, #e2e7ee);
   display: flex; flex-direction: column; overflow-y: auto;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.55;
 }
-.sh-head {
+.cc-side-head {
   display: flex; align-items: center; justify-content: space-between;
   gap: var(--cc-space-2, 8px);
   padding-right: var(--cc-space-2, 8px);
   border-bottom: 1px solid var(--cc-line, #e2e7ee);
 }
-.sh-logo {
+.cc-side-logo {
   display: flex; align-items: center;
   padding: var(--cc-space-4, 16px) var(--cc-space-4, 16px) var(--cc-space-3, 12px);
 }
-.sh-fold { flex: none; color: var(--cc-muted, #46566b); }
-.sh-logo img { height: 26px; width: auto; display: block; }
+.cc-side-fold { flex: none; color: var(--cc-muted, #46566b); }
+.cc-side-logo img { height: 26px; width: auto; display: block; }
 
-.sh-nav { display: flex; flex-direction: column; padding: var(--cc-space-2, 8px) 0; }
-.sh-nav a {
+.cc-side-nav { display: flex; flex-direction: column; padding: var(--cc-space-2, 8px) 0; }
+.cc-side-nav a {
   display: flex; align-items: center; gap: 10px;
   padding: 8px var(--cc-space-4, 16px);
   margin: 1px var(--cc-space-2, 8px);
@@ -37,23 +37,23 @@
   text-decoration: none;
   font-size: var(--cc-fs-ui, 13px);
 }
-.sh-nav a:hover { background: var(--cc-panel-2, #f1f4f8); }
-.sh-nav a svg { flex: none; color: var(--cc-muted, #46566b); }
-.sh-nav a[aria-current="page"] svg { color: var(--cc-accent, #1f4a9b); }
-.sh-nav a[aria-current="page"] {
+.cc-side-nav a:hover { background: var(--cc-panel-2, #f1f4f8); }
+.cc-side-nav a svg { flex: none; color: var(--cc-muted, #46566b); }
+.cc-side-nav a[aria-current="page"] svg { color: var(--cc-accent, #1f4a9b); }
+.cc-side-nav a[aria-current="page"] {
   background: var(--cc-panel-2, #f1f4f8);
   color: var(--cc-accent, #1f4a9b);
   font-weight: 600;
 }
-.sh-nav a:focus-visible { outline: 2px solid var(--cc-ring, #1f4a9b); outline-offset: -2px; }
+.cc-side-nav a:focus-visible { outline: 2px solid var(--cc-ring, #1f4a9b); outline-offset: -2px; }
 
-.sh-navhead {
+.cc-side-navhead {
   padding: var(--cc-space-3, 12px) var(--cc-space-4, 16px) var(--cc-space-1, 4px);
   font-size: var(--cc-fs-caption, 11px);
   font-weight: 600; color: var(--cc-muted, #46566b);
 }
 
-.sh-foot {
+.cc-side-foot {
   margin-top: auto;
   padding: var(--cc-space-4, 16px);
   border-top: 1px solid var(--cc-line, #e2e7ee);
@@ -61,20 +61,20 @@
   color: var(--cc-muted, #46566b);
   line-height: 1.6;
 }
-.sh-foot b {
+.cc-side-foot b {
   display: block; color: var(--cc-text, #16202e);
   font-size: var(--cc-fs-meta, 12px); font-weight: 600; margin-bottom: 2px;
 }
 
-.sh-rail { display: contents; }
+.cc-side-rail { display: contents; }
 
 /* Folded: the rail is its icons, each named on hover. */
-:is(.sh-folded, .cc-frame-folded) .sh-head { justify-content: center; padding: 10px 0; }
-:is(.sh-folded, .cc-frame-folded) .sh-logo,
-:is(.sh-folded, .cc-frame-folded) .sh-foot,
-:is(.sh-folded, .cc-frame-folded) .sh-rail .sh-label { display: none; }
-:is(.sh-folded, .cc-frame-folded) .sh-rail .sh-nav a { justify-content: center; padding: 8px 0; }
-:is(.sh-folded, .cc-frame-folded) .sh-rail .sh-navhead {
+:is(.sh-folded, .cc-frame-folded) .cc-side-head { justify-content: center; padding: 10px 0; }
+:is(.sh-folded, .cc-frame-folded) .cc-side-logo,
+:is(.sh-folded, .cc-frame-folded) .cc-side-foot,
+:is(.sh-folded, .cc-frame-folded) .cc-side-rail .cc-side-label { display: none; }
+:is(.sh-folded, .cc-frame-folded) .cc-side-rail .cc-side-nav a { justify-content: center; padding: 8px 0; }
+:is(.sh-folded, .cc-frame-folded) .cc-side-rail .cc-side-navhead {
   height: 0; padding: 0; margin: var(--cc-space-2, 8px) 12px;
   border-top: 1px solid var(--cc-line, #e2e7ee);
   overflow: hidden;
@@ -87,15 +87,15 @@
  */
 .cc-frame { display: grid; grid-template-columns: 214px minmax(0, 1fr); min-height: 100dvh; }
 .cc-frame-folded { grid-template-columns: 56px minmax(0, 1fr); }
-.cc-frame > .sh-side { position: sticky; top: 0; height: 100dvh; }
+.cc-frame > .cc-side { position: sticky; top: 0; height: 100dvh; }
 .cc-frame-main { min-width: 0; }
 .cc-frame .cc-bar-logo { display: none; }
 @media (max-width: 900px) {
   .cc-frame, .cc-frame-folded { display: block; }
-  .cc-frame > .sh-side { display: none; }
+  .cc-frame > .cc-side { display: none; }
   .cc-frame .cc-bar-logo { display: revert; }
 }
 @media print {
   .cc-frame, .cc-frame-folded { display: block; }
-  .cc-frame > .sh-side { display: none; }
+  .cc-frame > .cc-side { display: none; }
 }
