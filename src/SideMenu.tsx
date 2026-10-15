@@ -153,7 +153,9 @@ export function HubFrame({ basePath, path, children }: { basePath: string; path:
     setApps(readJSON(APPS_KEY, isApps));
     setFolded(readJSON(MENU_FOLD_KEY, isBool) ?? false);
     let live = true;
-    fetch("/api/menu", { credentials: "same-origin", cache: "no-store" })
+    // A whole URL as a string: an app that prefixes its own basePath onto "/..." fetches (Material orders'
+    // BasePathBoot) leaves it alone.
+    fetch(`${window.location.origin}/api/menu`, { credentials: "same-origin", cache: "no-store" })
       .then(async (r) => {
         const body: unknown = r.ok ? await r.json() : null;
         const next = body && typeof body === "object" && isApps((body as { apps?: unknown }).apps)

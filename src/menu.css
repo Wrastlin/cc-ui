@@ -95,3 +95,7 @@
   .cc-frame > .sh-side { display: none; }
   .cc-frame .cc-bar-logo { display: revert; }
 }
+@media print {
+  .cc-frame, .cc-frame-folded { display: block; }
+  .cc-frame > .sh-side { display: none; }
+}
