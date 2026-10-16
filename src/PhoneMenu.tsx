@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { Menu } from "lucide-react";
 import Button from "./Button";
 import Sheet from "./Sheet";
@@ -38,12 +38,12 @@ export function PhoneTabs({
   search?: ReactNode;
 }) {
   return (
-    <nav className="cc-tabs" aria-label="Main">
+    <nav className="cc-phonetabs" aria-label="Main">
       <span className="cc-pill">
         {phoneTabs(apps).map(([label, href]) => {
           const Icon = menuIcon(href);
           return (
-            <span key={href} style={{ display: "contents" }}>
+            <Fragment key={href}>
               {renderLink({
                 href, label, folded: false, current: path === href || path.startsWith(`${href}/`),
                 children: (
@@ -53,7 +53,7 @@ export function PhoneTabs({
                   </>
                 ),
               })}
-            </span>
+            </Fragment>
           );
         })}
         <button type="button" onClick={onMenu}>

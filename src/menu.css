@@ -98,7 +98,7 @@
 }
 @media print {
   .cc-frame, .cc-frame-folded { display: block; }
-  .cc-frame > .cc-side, .cc-tabs { display: none; }
+  .cc-frame > .cc-side, .cc-phonetabs { display: none; }
   .cc-frame-main { padding-bottom: 0; }
 }
 
@@ -106,14 +106,14 @@
  * Phone tabs (PhoneMenu.tsx). Drawn under 600px in the main app and under 900px beside a HubFrame, the widths where
  * --cc-phone-tabs-h is set (tokens.css).
  */
-.cc-tabs { display: none; }
+.cc-phonetabs { display: none; }
 @media (max-width: 600px) {
-  .cc-tabs { display: flex; }
+  .cc-phonetabs { display: flex; }
 }
 @media (max-width: 900px) {
-  .cc-frame > .cc-tabs { display: flex; }
+  .cc-frame > .cc-phonetabs { display: flex; }
 }
-.cc-tabs {
+.cc-phonetabs {
   align-items: center; gap: 12px; position: fixed; z-index: 30;
   left: 16px; right: 16px; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); pointer-events: none;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
