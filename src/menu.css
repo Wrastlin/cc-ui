@@ -83,7 +83,7 @@
 /*
  * HubFrame: the rail beside an app that has its own bar. The page scrolls the window as it always did, so the app's
  * sticky bar keeps working; the rail stays put beside it. The rail's logo leaves the app, so the bar's logo steps aside
- * while the rail is there. A phone keeps the app's own bar alone.
+ * while the rail is there. Where the rail does not fit, the app keeps its own bar and the phone tabs float under it.
  */
 .cc-frame { display: grid; grid-template-columns: 214px minmax(0, 1fr); min-height: 100dvh; }
 .cc-frame-folded { grid-template-columns: 56px minmax(0, 1fr); }
@@ -94,8 +94,50 @@
   .cc-frame, .cc-frame-folded { display: block; }
   .cc-frame > .cc-side { display: none; }
   .cc-frame .cc-bar-logo { display: revert; }
+  .cc-frame-main { padding-bottom: calc(var(--cc-phone-tabs-h) + 18px); }
 }
 @media print {
   .cc-frame, .cc-frame-folded { display: block; }
-  .cc-frame > .cc-side { display: none; }
+  .cc-frame > .cc-side, .cc-tabs { display: none; }
+  .cc-frame-main { padding-bottom: 0; }
 }
+
+/*
+ * Phone tabs (PhoneMenu.tsx). Drawn under 600px in the main app and under 900px beside a HubFrame, the widths where
+ * --cc-phone-tabs-h is set (tokens.css).
+ */
+.cc-tabs { display: none; }
+@media (max-width: 600px) {
+  .cc-tabs { display: flex; }
+}
+@media (max-width: 900px) {
+  .cc-frame > .cc-tabs { display: flex; }
+}
+.cc-tabs {
+  align-items: center; gap: 12px; position: fixed; z-index: 30;
+  left: 16px; right: 16px; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); pointer-events: none;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+/* No backdrop-filter on these: it makes them the box a fixed child is placed in, and the main app's search sheet
+   inside .cc-tabsearch then opened 66px wide. */
+.cc-pill, .cc-tabsearch {
+  pointer-events: auto; background: var(--cc-panel, #fff); box-shadow: 0 4px 18px rgb(16 24 40 / 0.16);
+}
+.cc-pill { flex: 1; display: flex; padding: 5px; gap: 2px; border-radius: 34px; }
+/* Not the font shorthand: `font: ... inherit` is invalid, so the whole rule dropped and the labels fell back to 17px. */
+.cc-pill > a, .cc-pill > button {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  height: 50px; border: 0; border-radius: 25px; background: none;
+  font-family: inherit; font-size: var(--cc-fs-meta, 12px); font-weight: 600; line-height: 1;
+  color: var(--cc-muted, #46566b); text-decoration: none; cursor: pointer;
+}
+.cc-pill > [aria-current="page"] { background: var(--cc-panel-2, #f1f4f8); color: var(--cc-accent, #1f4a9b); }
+.cc-pill > a:focus-visible, .cc-pill > button:focus-visible { outline: 2px solid var(--cc-ring, #1f4a9b); outline-offset: -2px; }
+.cc-tabsearch { flex: none; border-radius: 50%; }
+
+/* The rail's links in the Menu sheet. */
+.cc-sheet-menu .cc-side-nav { padding: 0; }
+.cc-sheet-menu .cc-side-nav a {
+  padding: 10px var(--cc-space-3, 12px); margin: 1px 0; font-size: var(--cc-fs-body, 15px);
+}
+.cc-sheet-menu .cc-side-navhead { padding-left: var(--cc-space-3, 12px); }
