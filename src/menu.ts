@@ -27,6 +27,8 @@ const MAIN = [
   // Aaron, 2026-09-15: "call this Sales Management".
   ["Sales Management", "/review", "sales"],
   ["Production", "/production", "production"],
+  // Each gutter job's work order, the picker on the house, ABC parts and the crew's costs (Aaron, 2026-10-16).
+  ["Gutters", "/gutters", "gutters"],
   // The paper job folders, each opened by the QR tag taped to it; the production grant opens them (Aaron, 2026-10-09).
   ["Job folders", "/folders", "production"],
   ["CRMP", "/admin", "crmp"],

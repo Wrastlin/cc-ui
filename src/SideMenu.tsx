@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import {
-  BookOpen, Briefcase, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, DollarSign, FilePen,
+  BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, DollarSign, FilePen,
   FileText, Files, FolderOpen, Gamepad2, LayoutDashboard, Layers, ListChecks, Mail, MapPin, Megaphone, Package,
   PanelLeftClose, PanelLeftOpen, QrCode, RotateCw, Ruler, Scale, Store, Users, type LucideIcon,
 } from "lucide-react";
@@ -14,7 +14,7 @@ const ICON: Record<string, LucideIcon> = {
   "/watch": LayoutDashboard, "/email": Mail, "/time": Clock, "/tasks": ListChecks, "/dashboard": LayoutDashboard,
   "/jobs": Briefcase, "/money": DollarSign, "/checks": Scale, "/contacts": Contact, "/zoho": BookOpen,
   "/forms": ClipboardList,
-  "/pdf": FileText, "/templates": Files, "/review": Users, "/production": CalendarRange, "/folders": FolderOpen,
+  "/pdf": FileText, "/templates": Files, "/review": Users, "/production": CalendarRange, "/gutters": Droplets, "/folders": FolderOpen,
   "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen,
   "/inventory/buy": Package, "/inventory/shop": QrCode, "/estimating/queue": Calculator, "/commercial": Ruler,
   "/panels": Layers, "/marketing": Megaphone, "/sim": Gamepad2, "/bricks": Store,
