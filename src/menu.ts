@@ -15,6 +15,9 @@ const MAIN = [
   ["Jobs", "/jobs", "dashboard"],
   // JobNimbus's invoices, payments, estimates, proposals and material orders, read only (parity piece 5).
   ["Money", "/money", "dashboard"],
+  // Each job's money from every system side by side, and where two records disagree (Aaron, 2026-10-15). The
+  // "checks" grant is not stored: cc-app adds it for the people who see job dollars (lib/calendar/access canSeeMoney).
+  ["Checks", "/checks", "checks"],
   ["Contacts", "/contacts", "dashboard"],
   // Bricks' Zoho Books, read only, from the watcher's copy.
   ["Zoho", "/zoho", "dashboard"],
