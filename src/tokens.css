@@ -97,7 +97,7 @@
    * invisible hit area to this instead. Anything that can read a control
    * height should still do that; this is for the ones that cannot.
    */
-  --cc-tap: 44px;
+  --cc-tap: 48px;
 
   /* ---------------------------------------------------------- the shell */
   --cc-bar-h: 52px;

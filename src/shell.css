@@ -525,3 +525,26 @@
     height: var(--cc-tap);
   }
 }
+
+/* A phone's tab row wraps instead of running off the right edge (Money's five tabs reached 625px at 390), and each
+   tab is the 48px C&C floor. */
+@media (max-width: 600px) {
+  .cc-tabs {
+    height: auto;
+    min-height: var(--cc-tabs-h);
+    flex-wrap: wrap;
+    align-items: stretch;
+    column-gap: var(--cc-space-4);
+    row-gap: 0;
+    overflow-x: visible;
+  }
+  .cc-tab {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--cc-tap);
+    padding: 0;
+  }
+}
+@media (pointer: coarse) {
+  .cc-account-item { min-height: var(--cc-tap); }
+}

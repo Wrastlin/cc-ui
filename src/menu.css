@@ -141,3 +141,6 @@
   padding: 10px var(--cc-space-3, 12px); margin: 1px 0; font-size: var(--cc-fs-body, 15px);
 }
 .cc-sheet-menu .cc-side-navhead { padding-left: var(--cc-space-3, 12px); }
+@media (pointer: coarse) {
+  .cc-sheet-menu .cc-side-nav a { min-height: var(--cc-tap); }
+}
