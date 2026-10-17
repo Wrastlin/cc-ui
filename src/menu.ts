@@ -13,8 +13,9 @@ const MAIN = [
   ["Dashboard", "/dashboard", "dashboard"],
   // Jobs has no grant of its own; the dashboard grant reveals it (cc-app lib/app-urls.ts).
   ["Jobs", "/jobs", "dashboard"],
-  // JobNimbus's invoices, payments, estimates, proposals and material orders, read only (parity piece 5).
-  ["Money", "/money", "dashboard"],
+  // JobNimbus's invoices, payments, estimates, proposals and material orders, read only (parity piece 5). The same
+  // people as Checks (Aaron, 2026-10-15: "These numbers are for Cody Lexi Marcia and I only"), not the dashboard grant.
+  ["Money", "/money", "checks"],
   // Each job's money from every system side by side, and where two records disagree (Aaron, 2026-10-15). The
   // "checks" grant is not stored: cc-app adds it for the people who see job dollars (lib/calendar/access canSeeMoney).
   ["Checks", "/checks", "checks"],
