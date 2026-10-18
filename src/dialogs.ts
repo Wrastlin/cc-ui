@@ -3,7 +3,7 @@
 // Why the native ones had to go, beyond looking like a browser and not like
 // the product: they block the whole page synchronously, they cannot be styled
 // or read in sunlight, they say "localhost:3000 says" above your copy, and on
-// iOS a native modal over a live camera can pause the video track — which is
+// iOS a native modal over a live camera can pause the video track, which is
 // how the prompt guarding an unsaved capture ended up producing the frozen
 // frame behind "Camera stopped. Tap to resume."
 //

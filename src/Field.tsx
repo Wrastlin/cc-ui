@@ -14,7 +14,7 @@ import type { ReactNode } from "react";
 
 type FieldProps = {
   label: string;
-  /** Said quietly under the control — a hint, or what went wrong. */
+  /** Said quietly under the control: a hint, or what went wrong. */
   help?: ReactNode;
   /** Marks the label and hands the control aria-invalid. */
   error?: boolean;

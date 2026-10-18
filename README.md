@@ -19,7 +19,7 @@ npm install github:Wrastlin/cc-ui
 
 Then two lines, once per app.
 
-`next.config.ts` — the package ships as TypeScript source, so Next has to
+`next.config.ts`: the package ships as TypeScript source, so Next has to
 transpile it:
 
 ```ts
@@ -28,7 +28,7 @@ const nextConfig: NextConfig = {
 };
 ```
 
-`app/layout.tsx` — one stylesheet, imported before your own so your app can
+`app/layout.tsx`: one stylesheet, imported before your own so your app can
 still override its own variables:
 
 ```tsx
@@ -100,7 +100,7 @@ import { Plus, Send } from "lucide-react";
 />
 ```
 
-**Signed out** — a sub signing an agreement, or a homeowner uploading
+**Signed out**: a sub signing an agreement, or a homeowner uploading
 paperwork, has no account, nowhere to go back to and no idea what a dashboard
 is. The bar stops being navigation and becomes identification, and it is the
 one place the full lockup belongs:

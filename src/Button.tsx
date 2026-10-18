@@ -25,7 +25,7 @@ type Common = {
   size?: ButtonSize;
   /** Leading glyph. Never becomes the whole button unless `label` is omitted. */
   icon?: ReactNode;
-  /** Trailing content — a count, a chevron. Never shrinks. */
+  /** Trailing content: a count, a chevron. Never shrinks. */
   trailing?: ReactNode;
   /** Fills its container instead of hugging its label. */
   block?: boolean;

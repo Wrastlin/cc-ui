@@ -35,7 +35,7 @@
   text-decoration: none;
   cursor: pointer;
   /* a label never wraps inside a button; if three do not fit, the LAYOUT
-     stacks them — the button does not become two lines tall */
+     stacks them: the button does not become two lines tall */
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
 }
@@ -237,7 +237,7 @@
 .ui-sheet {
   width: 100%;
   max-width: 560px;
-  /* dvh, never vh — see the header comment and scripts/check-vh.mjs */
+  /* dvh, never vh; see the header comment and scripts/check-vh.mjs */
   max-height: min(88dvh, 760px);
   display: flex;
   flex-direction: column;
@@ -264,7 +264,7 @@
   font-weight: 600;
   letter-spacing: -0.01em;
 }
-/* the ONE scroll region — never a scroller inside this */
+/* the ONE scroll region; never a scroller inside this */
 .ui-sheet-body {
   flex: 1 1 auto;
   min-height: 0;

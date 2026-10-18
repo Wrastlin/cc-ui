@@ -263,6 +263,9 @@
   color: var(--cc-muted);
   text-decoration: none;
   white-space: nowrap;
+  /* Tasks' "List" measured 23px wide, under the 24px desk floor. */
+  min-width: 24px;
+  text-align: center;
   padding: 0 0 11px;
   /* the rule belongs to the row and the active tab sits ON it */
   border-bottom: 2px solid transparent;

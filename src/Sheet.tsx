@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef, type ReactNode } from "react";
 
 // A bottom sheet.
 //
-// The app has five of these hand-rolled — the pin panel, the review panel, the
-// capture review sheet, the gallery bulk bar, the tools launcher — and every
+// The app has five of these hand-rolled (the pin panel, the review panel, the
+// capture review sheet, the gallery bulk bar, the tools launcher) and every
 // one of them re-learned the same lessons, mostly the hard way:
 //
 //   · height in dvh, never vh. On iOS vh is the LARGE viewport, so a sheet
@@ -21,7 +21,7 @@ export default function Sheet({
   open,
   onClose,
   title,
-  /** Pinned under the scroll region — actions stay reachable however long the content. */
+  /** Pinned under the scroll region, so actions stay reachable however long the content. */
   footer,
   children,
   labelledBy,

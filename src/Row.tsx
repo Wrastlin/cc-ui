@@ -5,8 +5,8 @@ import type { ReactNode } from "react";
 
 // A quiet list row: glyph · title over subtitle · trailing.
 //
-// This is the shape the app keeps re-drawing by hand — the job hub
-// destinations, the event list, the standards rail — and every hand-rolled
+// This is the shape the app keeps re-drawing by hand (the job hub
+// destinations, the event list, the standards rail) and every hand-rolled
 // copy has to remember min-width:0 or the subtitle pushes the trailing content
 // off the end. It remembers here instead.
 //
