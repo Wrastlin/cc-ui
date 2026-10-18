@@ -39,7 +39,7 @@ const MAIN = [
   ["Shop", "/inventory/shop", "inventory"],
   ["Metal panels", "/panels", "panels"],
   ["Marketing", "/marketing", "marketing"],
-  ["Sim", "/sim", "sim"],
+  // Sim came off 2026-10-17 with Live, Spanish, Cory and Assistant (the app map cleanup); /sim still answers.
   // Daily log (/tracking) is deliberately not here since 2026-09-16: no one opened it. Putting it back is one line.
   ["Estimates", "/estimating/queue", "estimating"],
   ["Commercial", "/commercial", "commercial"],
