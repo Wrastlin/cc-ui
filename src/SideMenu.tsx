@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, DollarSign, FilePen,
-  FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutDashboard, Layers, ListChecks, Mail, MapPin, Megaphone, Mic, Package,
+  FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutDashboard, Layers, ListChecks, Mail, MapPin, Megaphone, Mic, MoreHorizontal, Package,
   PanelLeftClose, PanelLeftOpen, QrCode, RotateCw, Ruler, Scale, Store, Users, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
@@ -50,7 +50,8 @@ export function MenuLinks({
   folded?: boolean;
   renderLink?: (p: MenuLinkProps) => ReactNode;
 }) {
-  const { main, bricks } = menuFor(apps);
+  const { main, more, bricks } = menuFor(apps);
+  const inMore = more.some(([, h]) => isCurrent(h, path));
   const draw = ([label, href]: MenuLink) => {
     const Icon = ICON[href];
     return (
@@ -70,6 +71,15 @@ export function MenuLinks({
   return (
     <>
       <div className="cc-side-nav">{main.map(draw)}</div>
+      {more.length > 0 && (
+        <details className="cc-side-more" open={inMore || undefined}>
+          <summary title={folded ? "More" : undefined}>
+            <MoreHorizontal size={16} strokeWidth={1.75} aria-hidden />
+            <span className="cc-side-label">More</span>
+          </summary>
+          <div className="cc-side-nav">{more.map(draw)}</div>
+        </details>
+      )}
       {bricks.length > 0 && (
         <>
           <div className="cc-side-navhead">Bricks</div>

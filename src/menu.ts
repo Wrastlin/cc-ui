@@ -45,9 +45,8 @@ const MAIN = [
   ["Commercial", "/commercial", "commercial"],
 ] as const;
 
-// Off the menu since 2026-10-18: no one but Aaron opened any of them in 30 days (activity, page.open), and his own
-// walk-through found them hard to use (Aaron: "My app is supposed to be a collection of tools"). The pages still work
-// by link and keep their data; putting one back is deleting its line here.
+// Under More since 2026-10-19 (Aaron: "hide the others in a 'more' tab so i can access them still"); off the main list
+// since 10/18, when no one but Aaron had opened them in 30 days. Putting one back on the main list is deleting its line.
 const UNUSED = new Set<string>([
   "/tasks", "/time", "/money", "/checks", "/contacts", "/zoho", "/forms", "/templates", "/marketing", "/sim",
 ]);
@@ -55,8 +54,8 @@ const UNUSED = new Set<string>([
 // Watch and /production replace these two (Aaron, 2026-09-28). Hidden only for people who hold Watch.
 const REPLACED_BY_WATCH = new Set<string>(["/dashboard", "/jobs"]);
 
-/** What a person's grants open, in rail order, and the Bricks link apart (a different company: navigation only). */
-export function menuFor(apps: readonly string[]): { main: MenuLink[]; bricks: MenuLink[] } {
+/** What a person's grants open, in rail order: the main list, the rest under More, and the Bricks link apart. */
+export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: MenuLink[]; bricks: MenuLink[] } {
   const watch = apps.includes("watch");
   const rail: MenuLink[] = [
     // Watch is the Dashboard now (Aaron, 2026-09-28); the path stays /watch so links already sent keep working.
@@ -75,7 +74,8 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; bricks: Me
     ),
   ];
   const main = rail.filter(([, h]) => !UNUSED.has(h));
-  return { main, bricks: apps.includes("bricks") ? [["Bricks Hardware", "/bricks"]] : [] };
+  const more = rail.filter(([, h]) => UNUSED.has(h));
+  return { main, more, bricks: apps.includes("bricks") ? [["Bricks Hardware", "/bricks"]] : [] };
 }
 
 /** Dashboard matches itself only; every other link also lights for the pages under it. */

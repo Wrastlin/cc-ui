@@ -89,7 +89,7 @@ export function MenuSheet({
         </Button>
       }
     >
-      <div className="cc-sheet-menu" onClick={onClose}>
+      <div className="cc-sheet-menu" onClick={(e) => (e.target as Element).closest("a") && onClose()}>
         <MenuLinks apps={apps} path={path} renderLink={renderLink} />
         {extra && <div className="cc-side-nav">{extra}</div>}
       </div>
