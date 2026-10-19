@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, DollarSign, FilePen,
-  FileText, Files, FolderOpen, Gamepad2, LayoutDashboard, Layers, ListChecks, Mail, MapPin, Megaphone, Package,
+  FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutDashboard, Layers, ListChecks, Mail, MapPin, Megaphone, Package,
   PanelLeftClose, PanelLeftOpen, QrCode, RotateCw, Ruler, Scale, Store, Users, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
@@ -17,7 +17,7 @@ const ICON: Record<string, LucideIcon> = {
   "/pdf": FileText, "/templates": Files, "/review": Users, "/production": CalendarRange, "/gutters": Droplets, "/folders": FolderOpen,
   "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen,
   "/inventory/buy": Package, "/inventory/shop": QrCode, "/estimating/queue": Calculator, "/commercial": Ruler,
-  "/panels": Layers, "/marketing": Megaphone, "/sim": Gamepad2, "/bricks": Store,
+  "/panels": Layers, "/marketing": Megaphone, "/sim": Gamepad2, "/bricks": Store, "/library/index.html": GraduationCap,
 };
 
 export function menuIcon(href: string): LucideIcon | undefined {
