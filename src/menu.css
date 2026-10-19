@@ -131,7 +131,14 @@
   font-family: inherit; font-size: var(--cc-fs-meta, 12px); font-weight: 600; line-height: 1;
   color: var(--cc-muted, #46566b); text-decoration: none; cursor: pointer;
 }
-.cc-pill > [aria-current="page"] { background: var(--cc-panel-2, #f1f4f8); color: var(--cc-accent, #1f4a9b); }
+/* The current tab's mark sits behind its icon only (Material 3's navigation bar indicator, 56x30), so a long label such
+   as Dashboard is never clipped by a pill drawn around the whole tab. */
+.cc-pill > a, .cc-pill > button { position: relative; isolation: isolate; min-width: 0; padding: 0 2px; white-space: nowrap; }
+.cc-pill > [aria-current="page"] { color: var(--cc-accent, #1f4a9b); }
+.cc-pill > [aria-current="page"]::before {
+  content: ""; position: absolute; z-index: -1; top: 3px; left: 50%; width: 56px; height: 30px; margin-left: -28px;
+  border-radius: 15px; background: var(--cc-panel-2, #f1f4f8);
+}
 .cc-pill > a:focus-visible, .cc-pill > button:focus-visible { outline: 2px solid var(--cc-ring, #1f4a9b); outline-offset: -2px; }
 .cc-tabsearch { flex: none; border-radius: 50%; }
 
