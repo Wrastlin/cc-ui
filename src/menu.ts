@@ -49,7 +49,7 @@ const MAIN = [
 // walk-through found them hard to use (Aaron: "My app is supposed to be a collection of tools"). The pages still work
 // by link and keep their data; putting one back is deleting its line here.
 const UNUSED = new Set<string>([
-  "/tasks", "/time", "/money", "/checks", "/contacts", "/zoho", "/forms", "/pdf", "/templates", "/marketing", "/sim",
+  "/tasks", "/time", "/money", "/checks", "/contacts", "/zoho", "/forms", "/templates", "/marketing", "/sim",
 ]);
 
 // Watch and /production replace these two (Aaron, 2026-09-28). Hidden only for people who hold Watch.
