@@ -45,23 +45,33 @@ const MAIN = [
   ["Commercial", "/commercial", "commercial"],
 ] as const;
 
+// Off the menu since 2026-10-18: no one but Aaron opened any of them in 30 days (activity, page.open), and his own
+// walk-through found them hard to use (Aaron: "My app is supposed to be a collection of tools"). The pages still work
+// by link and keep their data; putting one back is deleting its line here.
+const UNUSED = new Set<string>([
+  "/tasks", "/time", "/money", "/checks", "/contacts", "/zoho", "/forms", "/pdf", "/templates", "/marketing", "/sim",
+]);
+
 // Watch and /production replace these two (Aaron, 2026-09-28). Hidden only for people who hold Watch.
 const REPLACED_BY_WATCH = new Set<string>(["/dashboard", "/jobs"]);
 
 /** What a person's grants open, in rail order, and the Bricks link apart (a different company: navigation only). */
 export function menuFor(apps: readonly string[]): { main: MenuLink[]; bricks: MenuLink[] } {
   const watch = apps.includes("watch");
-  const main: MenuLink[] = [
+  const rail: MenuLink[] = [
     // Watch is the Dashboard now (Aaron, 2026-09-28); the path stays /watch so links already sent keep working.
     ...(watch ? [["Dashboard", "/watch"] as const] : []),
     // Email, Time and Tasks have no grant: everyone has mail, hours, time off and tasks.
     ["Email", "/email"],
+    // How C&C does its work, every trade and procedure with the manufacturer standards (SOP/, Aaron 10/18).
+    ["Library", "/library/index.html"],
     ["Time", "/time"],
     ["Tasks", "/tasks"],
     ...MAIN.filter(([, h, app]) => apps.includes(app) && !(watch && REPLACED_BY_WATCH.has(h))).map(
       ([l, h]) => [l, h] as const,
     ),
   ];
+  const main = rail.filter(([, h]) => !UNUSED.has(h));
   return { main, bricks: apps.includes("bricks") ? [["Bricks Hardware", "/bricks"]] : [] };
 }
 
