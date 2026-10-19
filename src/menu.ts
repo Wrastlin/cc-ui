@@ -63,8 +63,11 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; bricks: Me
     ...(watch ? [["Dashboard", "/watch"] as const] : []),
     // Email, Time and Tasks have no grant: everyone has mail, hours, time off and tasks.
     ["Email", "/email"],
-    // How C&C does its work, every trade and procedure with the manufacturer standards (SOP/, Aaron 10/18).
-    ["Library", "/library/index.html"],
+    // How C&C does its work, every trade and procedure with the manufacturer standards (SOP/, Aaron 10/18; named Academy 10/19, the path kept).
+    // Admins only while it is built (Aaron, 2026-10-19); cc-app adds the "academy" grant (lib/library/access withAcademy).
+    ...(apps.includes("academy") ? [["Academy", "/library/index.html"] as const] : []),
+    // Record a process (screen and voice, or a dropped recording) into SOP steps (cc-app /record, Aaron 10/19).
+    ...(apps.includes("academy") ? [["Record", "/record"] as const] : []),
     ["Time", "/time"],
     ["Tasks", "/tasks"],
     ...MAIN.filter(([, h, app]) => apps.includes(app) && !(watch && REPLACED_BY_WATCH.has(h))).map(
