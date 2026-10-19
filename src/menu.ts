@@ -63,6 +63,8 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; bricks: Me
     ...(watch ? [["Dashboard", "/watch"] as const] : []),
     // Email, Time and Tasks have no grant: everyone has mail, hours, time off and tasks.
     ["Email", "/email"],
+    // How C&C does its work, every trade and procedure with the manufacturer standards (SOP/, Aaron 10/18).
+    ["Library", "/library/index.html"],
     ["Time", "/time"],
     ["Tasks", "/tasks"],
     ...MAIN.filter(([, h, app]) => apps.includes(app) && !(watch && REPLACED_BY_WATCH.has(h))).map(
