@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, DollarSign, FilePen,
   FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutDashboard, Layers, ListChecks, Mail, MapPin, Megaphone, Mic, MoreHorizontal, Package,
-  PanelLeftClose, PanelLeftOpen, QrCode, RotateCw, Ruler, Scale, Store, Users, type LucideIcon,
+  PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Users, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
 import { isCurrent, menuFor, type MenuLink } from "./menu";
@@ -16,7 +16,7 @@ const ICON: Record<string, LucideIcon> = {
   "/forms": ClipboardList,
   "/pdf": FileText, "/templates": Files, "/review": Users, "/production": CalendarRange, "/gutters": Droplets, "/folders": FolderOpen,
   "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen,
-  "/inventory/buy": Package, "/inventory/shop": QrCode, "/estimating/queue": Calculator, "/commercial": Ruler,
+  "/inventory/buy": Package, "/inventory/shop": QrCode, "/inventory/shop/print": Printer, "/estimating/queue": Calculator, "/commercial": Ruler,
   "/panels": Layers, "/marketing": Megaphone, "/sim": Gamepad2, "/bricks": Store, "/library/index.html": GraduationCap, "/record": Mic,
 };
 
