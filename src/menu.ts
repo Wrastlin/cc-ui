@@ -37,6 +37,8 @@ const MAIN = [
   ["Subcontracts", "/subcontracts", "subcontracts"],
   ["Material orders", "/inventory/buy", "inventory"],
   ["Shop", "/inventory/shop", "inventory"],
+  // The Epson at the shop: the office uploads PDFs, the QR on the printer opens them to print (Aaron, 2026-10-20).
+  ["Shop printer", "/inventory/shop/print", "inventory"],
   ["Metal panels", "/panels", "panels"],
   ["Marketing", "/marketing", "marketing"],
   ["Sim", "/sim", "sim"],
@@ -98,9 +100,11 @@ export function menuLabel(path: string): string | null {
   return best;
 }
 
-/** Dashboard matches itself only; every other link also lights for the pages under it. */
+/** Dashboard matches itself only; every other link also lights for the pages under it, unless a longer link owns them. */
 export function isCurrent(href: string, path: string): boolean {
-  return href === "/dashboard" ? path === href : path === href || path.startsWith(`${href}/`);
+  const under = (h: string) => path === h || path.startsWith(`${h}/`);
+  if (href === "/dashboard") return path === href;
+  return under(href) && !MAIN.some(([, h]) => h.length > href.length && h.startsWith(`${href}/`) && under(h));
 }
 
 /** The fold is kept in this browser under one key, so it holds as you cross from one app to the next. */
