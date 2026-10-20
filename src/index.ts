@@ -43,5 +43,5 @@ export { SideMenu, MenuLinks, menuIcon } from "./SideMenu";
 export { HubFrame } from "./HubFrame";
 export { PhoneTabs, MenuSheet, phoneTabs } from "./PhoneMenu";
 export type { MenuLinkProps } from "./SideMenu";
-export { menuFor, isCurrent, MENU_FOLD_KEY } from "./menu";
+export { menuFor, menuLabel, isCurrent, MENU_FOLD_KEY } from "./menu";
 export type { MenuLink } from "./menu";
