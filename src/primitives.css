@@ -18,6 +18,8 @@
  */
 /* ---- Button ---- */
 .ui-btn {
+  box-sizing: border-box;
+  max-width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -200,8 +202,11 @@
 }
 /* an input is the same height as a button beside it, not a second guess */
 .ui-input {
+  box-sizing: border-box;
   min-height: var(--cc-ctl-h);
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   padding: 8px 12px;
   border: 1px solid var(--cc-line);
   border-radius: var(--cc-radius);
@@ -220,6 +225,16 @@
 }
 .ui-select {
   background: var(--cc-panel);
+}
+/* iOS Safari sizes a date or time field to its own text and ignores width, so it ran out of its card (Gutters Costs,
+   Files). Without its native look it takes the width it is given; the value stays on the left like every other field. */
+.ui-input:is([type="date"], [type="time"], [type="datetime-local"], [type="month"]) {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+}
+.ui-input::-webkit-date-and-time-value {
+  text-align: left;
 }
 
 /* ---- Sheet ---- */

@@ -78,6 +78,26 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
   return { main, more, bricks: apps.includes("bricks") ? [["Bricks Hardware", "/bricks"]] : [] };
 }
 
+/**
+ * The menu's own name for the screen a path sits under, grants aside, so a back link reads the way the rail does.
+ * Longest match wins: /inventory/shop is Shop, not Material orders.
+ */
+export function menuLabel(path: string): string | null {
+  const all: (readonly [string, string])[] = [
+    ["Dashboard", "/watch"], ["Email", "/email"], ["Library", "/library"], ["Time", "/time"], ["Tasks", "/tasks"],
+    ...MAIN.map(([l, h]) => [l, h] as const),
+  ];
+  let best: string | null = null;
+  let len = 0;
+  for (const [l, h] of all) {
+    if ((path === h || path.startsWith(`${h}/`)) && h.length > len) {
+      best = l;
+      len = h.length;
+    }
+  }
+  return best;
+}
+
 /** Dashboard matches itself only; every other link also lights for the pages under it. */
 export function isCurrent(href: string, path: string): boolean {
   return href === "/dashboard" ? path === href : path === href || path.startsWith(`${href}/`);
