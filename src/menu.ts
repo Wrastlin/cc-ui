@@ -19,8 +19,6 @@ const MAIN = [
   // "checks" grant is not stored: cc-app adds it for the people who see job dollars (lib/calendar/access canSeeMoney).
   ["Checks", "/checks", "checks"],
   ["Contacts", "/contacts", "dashboard"],
-  // Bricks' Zoho Books, read only, from the watcher's copy.
-  ["Zoho", "/zoho", "dashboard"],
   ["Forms", "/forms", "dashboard"],
   ["PDF editor", "/pdf", "dashboard"],
   ["Templates", "/templates", "dashboard"],
@@ -50,13 +48,17 @@ const MAIN = [
 // Under More since 2026-10-19 (Aaron: "hide the others in a 'more' tab so i can access them still"); off the main list
 // since 10/18, when no one but Aaron had opened them in 30 days. Putting one back on the main list is deleting its line.
 const UNUSED = new Set<string>([
-  "/tasks", "/time", "/money", "/checks", "/contacts", "/zoho", "/forms", "/templates", "/marketing", "/sim",
+  "/tasks", "/time", "/money", "/checks", "/contacts", "/forms", "/templates", "/marketing", "/sim",
 ]);
 
 // Watch and /production replace these two (Aaron, 2026-09-28). Hidden only for people who hold Watch.
 const REPLACED_BY_WATCH = new Set<string>(["/dashboard", "/jobs"]);
 
-/** What a person's grants open, in rail order: the main list, the rest under More, and the Bricks link apart. */
+// Bricks' Zoho Books, read only, from the watcher's copy. Under the Bricks heading (Cody and Aaron, 2026-10-22); the
+// dashboard grant still opens it.
+const ZOHO = ["Zoho", "/zoho", "dashboard"] as const;
+
+/** What a person's grants open, in rail order: the main list, the rest under More, and the Bricks links apart. */
 export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: MenuLink[]; bricks: MenuLink[] } {
   const watch = apps.includes("watch");
   const rail: MenuLink[] = [
@@ -77,7 +79,11 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
   ];
   const main = rail.filter(([, h]) => !UNUSED.has(h));
   const more = rail.filter(([, h]) => UNUSED.has(h));
-  return { main, more, bricks: apps.includes("bricks") ? [["Bricks Hardware", "/bricks"]] : [] };
+  const bricks: MenuLink[] = [
+    ...(apps.includes("bricks") ? [["Bricks Hardware", "/bricks"] as const] : []),
+    ...(apps.includes(ZOHO[2]) ? [[ZOHO[0], ZOHO[1]] as const] : []),
+  ];
+  return { main, more, bricks };
 }
 
 /**
@@ -87,7 +93,7 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
 export function menuLabel(path: string): string | null {
   const all: (readonly [string, string])[] = [
     ["Dashboard", "/watch"], ["Email", "/email"], ["Library", "/library"], ["Time", "/time"], ["Tasks", "/tasks"],
-    ...MAIN.map(([l, h]) => [l, h] as const),
+    ...MAIN.map(([l, h]) => [l, h] as const), [ZOHO[0], ZOHO[1]],
   ];
   let best: string | null = null;
   let len = 0;
