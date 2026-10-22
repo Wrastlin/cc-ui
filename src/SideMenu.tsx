@@ -4,14 +4,14 @@ import type { ReactNode } from "react";
 import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, DollarSign, FilePen,
   FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutDashboard, Layers, ListChecks, Mail, MapPin, Megaphone, Mic, MoreHorizontal, Package,
-  PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Users, type LucideIcon,
+  PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, Users, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
 import { isCurrent, menuFor, type MenuLink } from "./menu";
 
 // A folded rail is these alone, so each link keeps one beside its name.
 const ICON: Record<string, LucideIcon> = {
-  "/watch": LayoutDashboard, "/email": Mail, "/time": Clock, "/tasks": ListChecks, "/dashboard": LayoutDashboard,
+  "/watch": LayoutDashboard, "/email": Mail, "/time": Clock, "/tasks": ListChecks, "/inventory/upload": Upload, "/dashboard": LayoutDashboard,
   "/jobs": Briefcase, "/money": DollarSign, "/checks": Scale, "/contacts": Contact, "/zoho": BookOpen,
   "/forms": ClipboardList,
   "/pdf": FileText, "/templates": Files, "/review": Users, "/production": CalendarRange, "/gutters": Droplets, "/folders": FolderOpen,

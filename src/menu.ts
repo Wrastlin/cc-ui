@@ -79,6 +79,8 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
     ...(apps.includes("academy") ? [["Record", "/record"] as const] : []),
     ["Time", "/time"],
     ["Tasks", "/tasks"],
+    // Any file from a phone to the Mac Mini, for everyone (Aaron, 2026-10-22: "it should be kind of universal").
+    ["Upload", "/inventory/upload"],
     ...MAIN.filter(([, h, app]) => apps.includes(app) && !(watch && REPLACED_BY_WATCH.has(h))).map(
       ([l, h]) => [l, h] as const,
     ),
@@ -95,7 +97,7 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
  */
 export function menuLabel(path: string): string | null {
   const all: (readonly [string, string])[] = [
-    ["Dashboard", "/watch"], ["Email", "/email"], ["Library", "/library"], ["Time", "/time"], ["Tasks", "/tasks"],
+    ["Dashboard", "/watch"], ["Email", "/email"], ["Library", "/library"], ["Time", "/time"], ["Tasks", "/tasks"], ["Upload", "/inventory/upload"],
     ...ALL.map(([l, h]) => [l, h] as const),
   ];
   let best: string | null = null;
