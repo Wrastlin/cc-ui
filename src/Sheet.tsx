@@ -36,7 +36,13 @@ export default function Sheet({
   const cardRef = useRef<HTMLDivElement | null>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
 
-  const close = useCallback(() => onClose(), [onClose]);
+  // Held in a ref so a new onClose each render does not rerun the open effect, which refocused the card and dropped
+  // keystrokes in the sheet's fields.
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+  const close = useCallback(() => onCloseRef.current(), []);
 
   useEffect(() => {
     if (!open) return;
