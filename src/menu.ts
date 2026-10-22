@@ -33,10 +33,6 @@ const MAIN = [
   ["Canvass", "/canvass", "canvass"],
   ["Rotation", "/inspection-rotation", "inspection-rotation"],
   ["Subcontracts", "/subcontracts", "subcontracts"],
-  ["Material orders", "/inventory/buy", "inventory"],
-  ["Shop", "/inventory/shop", "inventory"],
-  // The Epson at the shop: the office uploads PDFs, the QR on the printer opens them to print (Aaron, 2026-10-20).
-  ["Shop printer", "/inventory/shop/print", "inventory"],
   ["Metal panels", "/panels", "panels"],
   ["Marketing", "/marketing", "marketing"],
   ["Sim", "/sim", "sim"],
@@ -54,9 +50,19 @@ const UNUSED = new Set<string>([
 // Watch and /production replace these two (Aaron, 2026-09-28). Hidden only for people who hold Watch.
 const REPLACED_BY_WATCH = new Set<string>(["/dashboard", "/jobs"]);
 
-// Bricks' Zoho Books, read only, from the watcher's copy. Under the Bricks heading (Cody and Aaron, 2026-10-22); the
-// dashboard grant still opens it.
-const ZOHO = ["Zoho", "/zoho", "dashboard"] as const;
+// Under the Bricks heading (Aaron, 2026-10-22): Bricks is the warehouse, and it is taking over the shop, the material
+// orders and Zoho from C&C. Each keeps the grant that opened it.
+const BRICKS = [
+  ["Bricks Hardware", "/bricks", "bricks"],
+  ["Shop", "/inventory/shop", "inventory"],
+  ["Material orders", "/inventory/buy", "inventory"],
+  // The Epson at the shop: the office uploads PDFs, the QR on the printer opens them to print (Aaron, 2026-10-20).
+  ["Shop printer", "/inventory/shop/print", "inventory"],
+  // Bricks' Zoho Books, read only, from the watcher's copy.
+  ["Zoho", "/zoho", "dashboard"],
+] as const;
+
+const ALL = [...MAIN, ...BRICKS];
 
 /** What a person's grants open, in rail order: the main list, the rest under More, and the Bricks links apart. */
 export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: MenuLink[]; bricks: MenuLink[] } {
@@ -79,10 +85,7 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
   ];
   const main = rail.filter(([, h]) => !UNUSED.has(h));
   const more = rail.filter(([, h]) => UNUSED.has(h));
-  const bricks: MenuLink[] = [
-    ...(apps.includes("bricks") ? [["Bricks Hardware", "/bricks"] as const] : []),
-    ...(apps.includes(ZOHO[2]) ? [[ZOHO[0], ZOHO[1]] as const] : []),
-  ];
+  const bricks = BRICKS.filter(([, , app]) => apps.includes(app)).map(([l, h]): MenuLink => [l, h]);
   return { main, more, bricks };
 }
 
@@ -93,7 +96,7 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
 export function menuLabel(path: string): string | null {
   const all: (readonly [string, string])[] = [
     ["Dashboard", "/watch"], ["Email", "/email"], ["Library", "/library"], ["Time", "/time"], ["Tasks", "/tasks"],
-    ...MAIN.map(([l, h]) => [l, h] as const), [ZOHO[0], ZOHO[1]],
+    ...ALL.map(([l, h]) => [l, h] as const),
   ];
   let best: string | null = null;
   let len = 0;
@@ -110,7 +113,7 @@ export function menuLabel(path: string): string | null {
 export function isCurrent(href: string, path: string): boolean {
   const under = (h: string) => path === h || path.startsWith(`${h}/`);
   if (href === "/dashboard") return path === href;
-  return under(href) && !MAIN.some(([, h]) => h.length > href.length && h.startsWith(`${href}/`) && under(h));
+  return under(href) && !ALL.some(([, h]) => h.length > href.length && h.startsWith(`${href}/`) && under(h));
 }
 
 /** The fold is kept in this browser under one key, so it holds as you cross from one app to the next. */
