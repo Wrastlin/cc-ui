@@ -11,7 +11,7 @@ import type { ReactNode } from "react";
 // existing rule anywhere that targets it.
 //
 // It closes the three traps at the source, so no call site has to remember:
-//   · the 44px floor comes from --ctl-h / --ctl-h-sm, never a literal
+//   · the 48px phone floor comes from --ctl-h / --ctl-h-sm, never a literal
 //   · the label sits in a min-width:0 slot, so text truncates instead of
 //     pushing out of the box (a flex item's default min-width is auto, which
 //     is what put "Cody house new test1101 Yawkey Ave" on screen)
@@ -40,6 +40,8 @@ type AsButton = Common & {
   disabled?: boolean;
   title?: string;
   "aria-label"?: string;
+  /** One of a set of choices: the picked one reads as picked without competing with the screen's primary action. */
+  pressed?: boolean;
 };
 
 type AsLink = Common & {
@@ -116,6 +118,7 @@ export default function Button(props: AsButton | AsLink) {
       disabled={p.disabled}
       title={p.title}
       aria-label={p["aria-label"]}
+      aria-pressed={p.pressed}
     >
       <Inner {...props} />
     </button>

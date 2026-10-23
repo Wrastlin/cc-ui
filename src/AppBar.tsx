@@ -33,7 +33,7 @@ import { CCLogo } from "./CCLogo";
  *
  * The bar takes the primary action as DATA rather than as a rendered node,
  * because the bar is the only thing that knows its own width budget. On a
- * phone, controls sit on the 44px touch floor and a label like "Send for
+ * phone, controls sit on the 48px touch floor and a label like "Send for
  * signature" cannot coexist with the logo, the product name and the avatar;
  * something has to give, and the shell decides what, once, instead of nine
  * apps each guessing. That is why `icon` is required: below 560px the label

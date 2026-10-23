@@ -82,7 +82,7 @@
   --cc-e3: 0 8px 24px rgba(22, 32, 46, 0.14);
 
   /*
-   * Control heights. Never write a literal height on a control: the 44px
+   * Control heights. Never write a literal height on a control: the 48px
    * touch floor below is a floor, not a suggestion, and it only holds if
    * every control reads it from here.
    */
@@ -97,7 +97,7 @@
    * invisible hit area to this instead. Anything that can read a control
    * height should still do that; this is for the ones that cannot.
    */
-  --cc-tap: 44px;
+  --cc-tap: 48px;
 
   /* ---------------------------------------------------------- the shell */
   --cc-bar-h: 52px;
@@ -142,7 +142,7 @@
     --cc-fs-page: 24px;
     --cc-fs-display: 28px;
     --cc-ctl-h: 48px;
-    --cc-ctl-h-sm: 44px;
+    --cc-ctl-h-sm: 48px;
     --cc-logo-h: 17px;
     --cc-bar-pad-x: 8px;
     --cc-bar-gap: 6px;
