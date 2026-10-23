@@ -85,7 +85,7 @@ export type Crumb = {
 
 /**
  * Where this screen sits, every level tappable. The last crumb is the current
- * screen and is not a link. Each link keeps the 44px touch floor on a phone, so
+ * screen and is not a link. Each link keeps the 48px touch floor on a phone, so
  * any level is one tap away, not only the one back reaches.
  */
 export function Breadcrumbs({ crumbs, className }: { crumbs: Crumb[]; className?: string }) {

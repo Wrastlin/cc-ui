@@ -139,7 +139,7 @@
 }
 
 /*
- * The phone. Controls are on the 44px touch floor here, and a label like
+ * The phone. Controls are on the 48px touch floor here, and a label like
  * "Send for signature" cannot coexist with the logo, the product name and the
  * avatar in 390px. The label goes; it survives as the control's accessible
  * name, which is why `icon` is required on a BarAction.
@@ -565,7 +565,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     /* Never narrower than the control it belongs to, so a wide tab keeps its
-       whole width and a 30px avatar still gets a 44px target. */
+       whole width and a 30px avatar still gets a 48px target. */
     min-width: var(--cc-tap);
     width: 100%;
     height: var(--cc-tap);
