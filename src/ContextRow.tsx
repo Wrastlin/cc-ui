@@ -76,3 +76,40 @@ export type ChipTone = "neutral" | "accent" | "good" | "warn" | "danger";
 export function Chip({ tone = "neutral", children }: { tone?: ChipTone; children: ReactNode }) {
   return <span className={`cc-chip cc-chip-${tone}`}>{children}</span>;
 }
+
+export type Crumb = {
+  label: string;
+  /** Omit on the last crumb: it is the screen you are on. */
+  href?: string;
+};
+
+/**
+ * Where this screen sits, every level tappable. The last crumb is the current
+ * screen and is not a link. Each link keeps the 44px touch floor on a phone, so
+ * any level is one tap away, not only the one back reaches.
+ */
+export function Breadcrumbs({ crumbs, className }: { crumbs: Crumb[]; className?: string }) {
+  if (crumbs.length < 2) return null;
+  return (
+    <nav aria-label="Breadcrumb" className={className ? `cc-crumbs ${className}` : "cc-crumbs"}>
+      <ol>
+        {crumbs.map((c, i) => {
+          const last = i === crumbs.length - 1;
+          return (
+            <li key={`${i}-${c.label}`}>
+              {c.href && !last ? (
+                <Link href={c.href} className="cc-crumb">
+                  {c.label}
+                </Link>
+              ) : (
+                <span className="cc-crumb cc-crumb-here" aria-current="page">
+                  {c.label}
+                </span>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}

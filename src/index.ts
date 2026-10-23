@@ -18,8 +18,8 @@ export type { BackTarget, BarAction } from "./AppBar";
 export { AccountButton, initialsFromEmail } from "./AccountButton";
 export type { AccountItem } from "./AccountButton";
 
-export { TabRow, RecordRow, Chip } from "./ContextRow";
-export type { Tab, ChipTone } from "./ContextRow";
+export { TabRow, RecordRow, Chip, Breadcrumbs } from "./ContextRow";
+export type { Tab, ChipTone, Crumb } from "./ContextRow";
 
 export { default as Button } from "./Button";
 export type { ButtonVariant, ButtonSize } from "./Button";
