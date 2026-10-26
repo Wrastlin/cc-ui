@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, DollarSign, FilePen,
   FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutDashboard, Layers, ListChecks, Mail, MapPin, Megaphone, Mic, MoreHorizontal, Package,
-  ListChecks, PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, Users, type LucideIcon,
+  PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, Users, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
 import { isCurrent, menuFor, type MenuLink } from "./menu";
