@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, DollarSign, FilePen,
-  FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutDashboard, Layers, ListChecks, Mail, MapPin, Megaphone, Mic, MoreHorizontal, Package,
+  FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutDashboard, Layers, ListChecks, ListTodo, Mail, MapPin, Megaphone, Mic, MoreHorizontal, Package,
   PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, Users, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
@@ -14,7 +14,7 @@ const ICON: Record<string, LucideIcon> = {
   "/watch": LayoutDashboard, "/email": Mail, "/time": Clock, "/tasks": ListChecks, "/inventory/upload": Upload, "/dashboard": LayoutDashboard,
   "/jobs": Briefcase, "/money": DollarSign, "/checks": Scale, "/contacts": Contact, "/zoho": BookOpen,
   "/forms": ClipboardList,
-  "/pdf": FileText, "/templates": Files, "/review": Users, "/production": CalendarRange, "/status": ListChecks, "/gutters": Droplets, "/folders": FolderOpen,
+  "/pdf": FileText, "/templates": Files, "/review": Users, "/production": CalendarRange, "/status": ListTodo, "/gutters": Droplets, "/folders": FolderOpen,
   "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen,
   "/inventory/buy": Package, "/inventory/shop": QrCode, "/inventory/shop/print": Printer, "/estimating/queue": Calculator, "/commercial": Ruler,
   "/panels": Layers, "/marketing": Megaphone, "/sim": Gamepad2, "/bricks": Store, "/library/index.html": GraduationCap, "/record": Mic,
