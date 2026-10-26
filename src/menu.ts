@@ -25,6 +25,8 @@ const MAIN = [
   // Aaron, 2026-09-15: "call this Sales Management".
   ["Sales Management", "/review", "sales"],
   ["Production", "/production", "production"],
+  // Every sold job by scope and what is left to collect, checked and corrected by hand (Aaron, 2026-10-26).
+  ["Status", "/status", "dashboard"],
   // Each gutter job's work order, the picker on the house, ABC parts and the crew's costs (Aaron, 2026-10-16).
   ["Gutters", "/gutters", "gutters"],
   // The paper job folders, each opened by the QR tag taped to it; the production grant opens them (Aaron, 2026-10-09).
@@ -45,7 +47,7 @@ const MAIN = [
 // navigate"). Picked from 30 days of opens by the team, Aaron's own left out. Everything else sits under More, still one
 // click away (2026-10-19: "hide the others in a 'more' tab so i can access them still"). Back on the rail is one line.
 const EVERYDAY = new Set<string>([
-  "/watch", "/dashboard", "/jobs", "/email", "/production", "/gutters", "/subcontracts", "/estimating/queue", "/review",
+  "/watch", "/dashboard", "/jobs", "/email", "/production", "/status", "/gutters", "/subcontracts", "/estimating/queue", "/review",
   "/canvass",
 ]);
 
