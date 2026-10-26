@@ -41,11 +41,16 @@ const MAIN = [
   ["Commercial", "/commercial", "commercial"],
 ] as const;
 
-// Under More since 2026-10-19 (Aaron: "hide the others in a 'more' tab so i can access them still"); off the main list
-// since 10/18, when no one but Aaron had opened them in 30 days. Putting one back on the main list is deleting its line.
-const UNUSED = new Set<string>([
-  "/tasks", "/time", "/money", "/checks", "/contacts", "/forms", "/templates", "/marketing", "/sim",
+// The rail is the everyday tools only (Aaron, 2026-10-26: "our app is an absolute mess ... i dont really know how to
+// navigate"). Picked from 30 days of opens by the team, Aaron's own left out. Everything else sits under More, still one
+// click away (2026-10-19: "hide the others in a 'more' tab so i can access them still"). Back on the rail is one line.
+const EVERYDAY = new Set<string>([
+  "/watch", "/dashboard", "/jobs", "/email", "/production", "/gutters", "/subcontracts", "/estimating/queue", "/review",
+  "/canvass",
 ]);
+
+// Kept on the Bricks heading; its other links go under More with the rest.
+const BRICKS_RAIL = new Set<string>(["/bricks", "/inventory/buy", "/inventory/shop"]);
 
 // Watch and /production replace these two (Aaron, 2026-09-28). Hidden only for people who hold Watch.
 const REPLACED_BY_WATCH = new Set<string>(["/dashboard", "/jobs"]);
@@ -85,9 +90,10 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
       ([l, h]) => [l, h] as const,
     ),
   ];
-  const main = rail.filter(([, h]) => !UNUSED.has(h));
-  const more = rail.filter(([, h]) => UNUSED.has(h));
-  const bricks = BRICKS.filter(([, , app]) => apps.includes(app)).map(([l, h]): MenuLink => [l, h]);
+  const held = BRICKS.filter(([, , app]) => apps.includes(app)).map(([l, h]): MenuLink => [l, h]);
+  const main = rail.filter(([, h]) => EVERYDAY.has(h));
+  const more = [...rail.filter(([, h]) => !EVERYDAY.has(h)), ...held.filter(([, h]) => !BRICKS_RAIL.has(h))];
+  const bricks = held.filter(([, h]) => BRICKS_RAIL.has(h));
   return { main, more, bricks };
 }
 
