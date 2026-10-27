@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
+import { useRef } from "react";
 import {
   Button,
   FieldError,
@@ -41,6 +42,16 @@ export default function SelectField({
   className,
 }: SelectFieldProps) {
   const invalid = Boolean(error);
+  const trigger = useRef<HTMLButtonElement>(null);
+  // Inside a Sheet, React Aria hands focus to the sheet's dialog when the list closes, not to the button (walked n64g),
+  // so a keyboard user lost their place. Put it back when it landed on the body or on something holding the button.
+  const refocus = (open: boolean) => {
+    if (open) return;
+    window.requestAnimationFrame(() => {
+      const b = trigger.current, a = document.activeElement;
+      if (b?.isConnected && a !== b && (!a || a === document.body || a.contains(b))) b.focus();
+    });
+  };
   return (
     <AriaSelect
       value={value}
@@ -51,12 +62,13 @@ export default function SelectField({
       isDisabled={isDisabled}
       isInvalid={invalid}
       validationBehavior="aria"
+      onOpenChange={refocus}
       className={["ui-field", invalid ? "ui-field-err" : "", className ?? ""]
         .filter(Boolean)
         .join(" ")}
     >
       <Label className="ui-field-label">{label}</Label>
-      <Button className="ui-input ui-select ui-select-btn">
+      <Button ref={trigger} className="ui-input ui-select ui-select-btn">
         <SelectValue className="ui-select-value" />
         <ChevronDown aria-hidden size={16} className="ui-select-chev" />
       </Button>
