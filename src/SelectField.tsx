@@ -29,6 +29,10 @@ type SelectFieldProps = {
   /** What went wrong; the field turns red and the line shows under the control. */
   error?: string | null;
   className?: string;
+  /** No label drawn; it still names the control for screen readers. For a filter row or table cell labeled beside it. */
+  hideLabel?: boolean;
+  /** "inline" sits in a filter row or table cell: as wide as its value, the small control height. */
+  size?: "inline";
 };
 
 export default function SelectField({
@@ -40,6 +44,8 @@ export default function SelectField({
   isDisabled,
   error,
   className,
+  hideLabel,
+  size,
 }: SelectFieldProps) {
   const invalid = Boolean(error);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -63,11 +69,12 @@ export default function SelectField({
       isInvalid={invalid}
       validationBehavior="aria"
       onOpenChange={refocus}
-      className={["ui-field", invalid ? "ui-field-err" : "", className ?? ""]
+      aria-label={hideLabel ? label : undefined}
+      className={["ui-field", invalid ? "ui-field-err" : "", size === "inline" ? "ui-select-inline" : "", className ?? ""]
         .filter(Boolean)
         .join(" ")}
     >
-      <Label className="ui-field-label">{label}</Label>
+      {hideLabel ? null : <Label className="ui-field-label">{label}</Label>}
       <Button ref={trigger} className="ui-input ui-select ui-select-btn">
         <SelectValue className="ui-select-value" />
         <ChevronDown aria-hidden size={16} className="ui-select-chev" />

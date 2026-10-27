@@ -284,6 +284,15 @@
   flex: none;
   color: var(--cc-muted);
 }
+.ui-select-inline {
+  display: inline-flex;
+}
+.ui-select-inline .ui-select-btn {
+  width: auto;
+  min-height: var(--cc-ctl-h-sm);
+  padding: 0 8px;
+  font-size: inherit;
+}
 .ui-select-pop {
   z-index: 5000;
   min-width: var(--trigger-width);
