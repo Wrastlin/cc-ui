@@ -255,6 +255,15 @@
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
+/* React Aria's Modal wraps the dialog; it only carries the width so .ui-sheet stays the card */
+.ui-sheet-modal {
+  display: flex;
+  width: 100%;
+  max-width: 560px;
+}
+.ui-sheet-modal:focus {
+  outline: none;
+}
 .ui-sheet {
   width: 100%;
   max-width: 560px;

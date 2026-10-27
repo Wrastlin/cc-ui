@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { Dialog, Heading, Modal, ModalOverlay } from "react-aria-components";
 
 // A bottom sheet.
 //
@@ -16,6 +17,17 @@ import { useCallback, useEffect, useRef, type ReactNode } from "react";
 //   · the safe-area inset, or the last row sits under the home indicator.
 //
 // Those live here now. A new sheet gets them by existing.
+//
+// Focus trap, focus return, Escape, outside press and the page scroll lock come
+// from React Aria (ModalOverlay, Modal, Dialog), which handles the iOS cases the
+// hand-rolled version did not: a scroll lock that holds on Safari, and the rest
+// of the page hidden from a screen reader while the sheet is open.
+
+// A confirm or prompt from DialogHost sits outside the sheet's DOM; a tap on it
+// must not count as a tap outside the sheet.
+function dismissesSheet(el: Element) {
+  return !el.closest(".dlg-scrim");
+}
 
 export default function Sheet({
   open,
@@ -33,61 +45,29 @@ export default function Sheet({
   children: ReactNode;
   labelledBy?: string;
 }) {
-  const cardRef = useRef<HTMLDivElement | null>(null);
-  const returnFocus = useRef<HTMLElement | null>(null);
-
-  // Held in a ref so a new onClose each render does not rerun the open effect, which refocused the card and dropped
-  // keystrokes in the sheet's fields.
-  const onCloseRef = useRef(onClose);
-  useEffect(() => {
-    onCloseRef.current = onClose;
-  }, [onClose]);
-  const close = useCallback(() => onCloseRef.current(), []);
-
-  useEffect(() => {
-    if (!open) return;
-    returnFocus.current =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const t = setTimeout(() => cardRef.current?.focus(), 0);
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        close();
-      }
-    };
-    document.addEventListener("keydown", onKey, true);
-    return () => {
-      clearTimeout(t);
-      document.removeEventListener("keydown", onKey, true);
-      const back = returnFocus.current;
-      returnFocus.current = null;
-      setTimeout(() => back?.focus?.(), 0);
-    };
-  }, [open, close]);
-
-  if (!open) return null;
-
   return (
-    <div
+    <ModalOverlay
       className="ui-sheet-scrim"
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) close();
+      isOpen={open}
+      onOpenChange={(next) => {
+        if (!next) onClose();
       }}
+      isDismissable
+      shouldCloseOnInteractOutside={dismissesSheet}
     >
-      <div
-        className="ui-sheet"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={labelledBy}
-        tabIndex={-1}
-        ref={cardRef}
-      >
-        <span className="ui-sheet-grab" aria-hidden />
-        {title ? <h2 className="ui-sheet-title">{title}</h2> : null}
-        {/* the ONLY scroll region in here */}
-        <div className="ui-sheet-body">{children}</div>
-        {footer ? <div className="ui-sheet-foot">{footer}</div> : null}
-      </div>
-    </div>
+      <Modal className="ui-sheet-modal">
+        <Dialog className="ui-sheet" aria-labelledby={labelledBy}>
+          <span className="ui-sheet-grab" aria-hidden />
+          {title ? (
+            <Heading slot="title" level={2} className="ui-sheet-title">
+              {title}
+            </Heading>
+          ) : null}
+          {/* the ONLY scroll region in here */}
+          <div className="ui-sheet-body">{children}</div>
+          {footer ? <div className="ui-sheet-foot">{footer}</div> : null}
+        </Dialog>
+      </Modal>
+    </ModalOverlay>
   );
 }

@@ -23,11 +23,13 @@
     "next": ">=15",
     "react": ">=19",
     "react-dom": ">=19",
-    "lucide-react": ">=1"
+    "lucide-react": ">=1",
+    "react-aria-components": ">=1.22"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
     "typescript": "^5.9.3",
-    "lucide-react": "^1.23.0"
+    "lucide-react": "^1.23.0",
+    "react-aria-components": "^1.22.1"
   }
 }
