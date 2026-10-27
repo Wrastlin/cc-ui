@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, type ReactNode } from "react";
 import { Dialog, Heading, Modal, ModalOverlay } from "react-aria-components";
 
 // A bottom sheet.
@@ -120,6 +120,24 @@ export default function Sheet({
     (el: HTMLElement | null) => (el ? dragToClose(el, onClose) : undefined),
     [onClose],
   );
+  // React Aria's own focus return missed after a drag close of a sheet its caller unmounts
+  // (time off, n64d), leaving focus on the body. Read in render, before React Aria moves
+  // focus in, so this is the opener.
+  const opener = useRef<HTMLElement | null>(null);
+  if (open && !opener.current && typeof document !== "undefined") {
+    opener.current = document.activeElement as HTMLElement | null;
+  }
+  useEffect(() => {
+    if (!open) return;
+    return () => {
+      const back = opener.current;
+      opener.current = null;
+      window.requestAnimationFrame(() => {
+        const a = document.activeElement;
+        if (back?.isConnected && (!a || a === document.body)) back.focus();
+      });
+    };
+  }, [open]);
   return (
     <ModalOverlay
       className={["ui-sheet-scrim", placement === "center" && "ui-sheet-scrim-center", className]
