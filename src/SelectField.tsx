@@ -1,0 +1,75 @@
+"use client";
+
+import { ChevronDown } from "lucide-react";
+import {
+  Button,
+  FieldError,
+  Label,
+  ListBox,
+  ListBoxItem,
+  Popover,
+  Select as AriaSelect,
+  SelectValue,
+} from "react-aria-components";
+
+// The Field + native select pair on React Aria: the label, the button and the error share ids, arrows and typing move
+// the pick, Escape closes, and focus goes back to the button. Value and onChange stay strings like a native select,
+// so a caller swaps `onChange={(e) => set(e.target.value)}` for `onChange={set}`.
+
+export type SelectOption = { value: string; label: string };
+
+type SelectFieldProps = {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: readonly SelectOption[];
+  name?: string;
+  isDisabled?: boolean;
+  /** What went wrong; the field turns red and the line shows under the control. */
+  error?: string | null;
+  className?: string;
+};
+
+export default function SelectField({
+  label,
+  value,
+  onChange,
+  options,
+  name,
+  isDisabled,
+  error,
+  className,
+}: SelectFieldProps) {
+  const invalid = Boolean(error);
+  return (
+    <AriaSelect
+      value={value}
+      onChange={(key) => {
+        if (key != null) onChange(String(key));
+      }}
+      name={name}
+      isDisabled={isDisabled}
+      isInvalid={invalid}
+      validationBehavior="aria"
+      className={["ui-field", invalid ? "ui-field-err" : "", className ?? ""]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      <Label className="ui-field-label">{label}</Label>
+      <Button className="ui-input ui-select ui-select-btn">
+        <SelectValue className="ui-select-value" />
+        <ChevronDown aria-hidden size={16} className="ui-select-chev" />
+      </Button>
+      <FieldError className="ui-field-help">{error}</FieldError>
+      <Popover className="ui-select-pop" offset={4}>
+        <ListBox className="ui-select-list" items={options.map((o) => ({ id: o.value, ...o }))}>
+          {(o) => (
+            <ListBoxItem id={o.id} textValue={o.label} className="ui-select-item">
+              {o.label}
+            </ListBoxItem>
+          )}
+        </ListBox>
+      </Popover>
+    </AriaSelect>
+  );
+}

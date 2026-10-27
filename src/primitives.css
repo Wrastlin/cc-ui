@@ -256,6 +256,66 @@
 .ui-select {
   background: var(--cc-panel);
 }
+/* SelectField: a button that reads like the native select it replaced, a list in a popover above any sheet. */
+.ui-select-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+  text-align: left;
+  cursor: pointer;
+}
+.ui-select-btn[data-focus-visible] {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: 1px;
+  border-color: var(--cc-accent);
+}
+.ui-select-btn[data-disabled] {
+  cursor: default;
+  color: var(--cc-muted);
+}
+.ui-select-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ui-select-chev {
+  flex: none;
+  color: var(--cc-muted);
+}
+.ui-select-pop {
+  z-index: 5000;
+  min-width: var(--trigger-width);
+  max-height: min(60vh, 420px);
+  overflow: auto;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  background: var(--cc-bg);
+  box-shadow: var(--cc-e2);
+  line-height: 1.55;
+}
+.ui-select-list {
+  outline: none;
+  padding: var(--cc-space-1) 0;
+}
+.ui-select-item {
+  display: flex;
+  align-items: center;
+  min-height: var(--cc-ctl-h);
+  padding: 0 12px;
+  font-size: var(--cc-fs-body);
+  color: var(--cc-text);
+  cursor: pointer;
+  outline: none;
+}
+.ui-select-item[data-focused] {
+  background: var(--cc-panel-2);
+}
+.ui-select-item[data-selected] {
+  font-weight: 600;
+  color: var(--cc-accent);
+}
 /* iOS Safari sizes a date or time field to its own text and ignores width, so it ran out of its card (Gutters Costs,
    Files). Without its native look it takes the width it is given; the value stays on the left like every other field. */
 .ui-input:is([type="date"], [type="time"], [type="datetime-local"], [type="month"]) {
