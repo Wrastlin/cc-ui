@@ -536,3 +536,57 @@
 .ui-step[data-disabled] .ui-step-input {
   color: var(--cc-muted);
 }
+
+/* ChoiceGroup and YesNo: the choices joined as one segmented control, the picked one filled. */
+.ui-seg {
+  display: inline-flex;
+  min-width: 0;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  overflow: hidden;
+  background: var(--cc-panel);
+}
+.ui-seg-wrap {
+  flex-wrap: wrap;
+}
+.ui-seg-btn {
+  min-height: var(--cc-ctl-h);
+  min-width: 64px;
+  padding: 4px 16px;
+  border: 0;
+  background: var(--cc-panel);
+  color: var(--cc-text);
+  font-family: inherit;
+  font-size: var(--cc-fs-ui);
+  line-height: 1.2;
+  cursor: pointer;
+  outline: none;
+}
+@media (pointer: coarse) {
+  .ui-seg-btn {
+    min-height: var(--cc-tap);
+  }
+}
+.ui-seg-btn + .ui-seg-btn {
+  border-left: 1px solid var(--cc-line);
+}
+@media (hover: hover) {
+  .ui-seg-btn[data-hovered]:not([data-selected]) {
+    background: color-mix(in srgb, var(--cc-accent) 5%, var(--cc-panel));
+  }
+}
+.ui-seg-btn[data-pressed]:not([data-selected]) {
+  background: color-mix(in srgb, var(--cc-accent) 10%, var(--cc-panel));
+}
+.ui-seg-btn[data-selected] {
+  background: var(--cc-accent);
+  color: #fff;
+}
+.ui-seg-btn[data-focus-visible] {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: -2px;
+}
+.ui-seg-btn[data-disabled] {
+  color: var(--cc-faint);
+  cursor: default;
+}
