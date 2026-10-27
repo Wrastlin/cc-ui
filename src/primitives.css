@@ -445,3 +445,94 @@
     display: none;
   }
 }
+
+/* NumberStepper: minus, the number with its unit inside its field, plus, joined as one control. 48 tall on a phone,
+   36 on a desk (--cc-ctl-h); the number is 16px or more so iOS does not zoom on focus. */
+.ui-step {
+  display: inline-flex;
+  min-width: 0;
+}
+.ui-step-box {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  overflow: hidden;
+  background: var(--cc-panel);
+}
+.ui-step-btn {
+  flex: none;
+  width: var(--cc-ctl-h);
+  min-height: var(--cc-ctl-h);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: var(--cc-panel-2);
+  color: var(--cc-text);
+  cursor: pointer;
+  outline: none;
+}
+.ui-step-btn[data-pressed] {
+  background: color-mix(in srgb, var(--cc-accent) 14%, var(--cc-panel));
+}
+.ui-step-btn[data-disabled] {
+  color: color-mix(in srgb, var(--cc-faint) 60%, var(--cc-panel));
+  cursor: default;
+}
+.ui-step-btn[data-focus-visible] {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: -2px;
+}
+@media (hover: hover) {
+  .ui-step-btn[data-hovered]:not([data-disabled]) {
+    background: color-mix(in srgb, var(--cc-accent) 8%, var(--cc-panel));
+  }
+}
+/* a touch screen wider than a phone (a tablet) keeps the 48px touch floor */
+@media (pointer: coarse) {
+  .ui-step-btn {
+    width: var(--cc-tap);
+    min-height: var(--cc-tap);
+  }
+}
+.ui-step-num {
+  display: flex;
+  align-items: center;
+  border-inline: 1px solid var(--cc-line);
+  background: var(--cc-panel);
+}
+.ui-step-input {
+  box-sizing: border-box;
+  width: 84px;
+  min-width: 0;
+  height: 100%;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--cc-text);
+  text-align: center;
+  font-family: inherit;
+  font-size: max(16px, var(--cc-fs-body));
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+.ui-step-num:has(.ui-step-unit) .ui-step-input {
+  width: 64px;
+  padding-right: 2px;
+  text-align: right;
+}
+.ui-step-unit {
+  padding: 0 10px 0 2px;
+  color: var(--cc-muted);
+  font-size: var(--cc-fs-meta);
+  white-space: nowrap;
+}
+.ui-step-num:has(.ui-step-input[data-focus-visible]) {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: -2px;
+}
+.ui-step[data-disabled] .ui-step-input {
+  color: var(--cc-muted);
+}
