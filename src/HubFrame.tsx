@@ -75,7 +75,7 @@ export function HubFrame({ basePath, path, children }: { basePath: string; path:
         path={here}
         open={menu}
         onClose={() => setMenu(false)}
-        extra={<a href="/apps">All apps</a>}
+        extra={[["All apps", "/apps"]]}
       />
     </div>
   );

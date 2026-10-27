@@ -4,7 +4,8 @@ import { Fragment, type ReactNode } from "react";
 import { Menu } from "lucide-react";
 import Button from "./Button";
 import Sheet from "./Sheet";
-import { MenuLinks, menuIcon, type MenuLinkProps } from "./SideMenu";
+import { ExtraLinks, MenuLinks, menuIcon, type MenuLinkProps } from "./SideMenu";
+import type { MenuLink } from "./menu";
 
 function Anchor({ href, current, children }: MenuLinkProps) {
   return (
@@ -66,6 +67,10 @@ export function PhoneTabs({
   );
 }
 
+function isLinks(x: unknown): x is readonly MenuLink[] {
+  return Array.isArray(x) && x.every((l) => Array.isArray(l) && l.length === 2);
+}
+
 /** Every link the rail shows, in a sheet. A tap on any link closes it on its way through. */
 export function MenuSheet({
   apps, path, open, onClose, renderLink, extra,
@@ -75,8 +80,8 @@ export function MenuSheet({
   open: boolean;
   onClose: () => void;
   renderLink?: (p: MenuLinkProps) => ReactNode;
-  /** Links after the menu's own, such as the main app's All apps. */
-  extra?: ReactNode;
+  /** Links after the menu's own, such as the main app's All apps. A list of links is drawn like the menu's own. */
+  extra?: ReactNode | readonly MenuLink[];
 }) {
   return (
     <Sheet
@@ -91,7 +96,11 @@ export function MenuSheet({
     >
       <div className="cc-sheet-menu" onClick={(e) => (e.target as Element).closest("a") && onClose()}>
         <MenuLinks apps={apps} path={path} renderLink={renderLink} />
-        {extra && <div className="cc-side-nav">{extra}</div>}
+        {isLinks(extra) ? (
+          <ExtraLinks links={extra} path={path} renderLink={renderLink} />
+        ) : (
+          extra && <div className="cc-side-nav">{extra}</div>
+        )}
       </div>
     </Sheet>
   );
