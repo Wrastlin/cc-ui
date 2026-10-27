@@ -590,3 +590,17 @@
   color: var(--cc-faint);
   cursor: default;
 }
+/* The same look on plain buttons that toggle with aria-pressed, for a pick-several set React Aria has no group for. */
+@media (hover: hover) {
+  .ui-seg-btn:not([data-rac]):hover:not([aria-pressed="true"]) {
+    background: color-mix(in srgb, var(--cc-accent) 5%, var(--cc-panel));
+  }
+}
+.ui-seg-btn:not([data-rac])[aria-pressed="true"] {
+  background: var(--cc-accent);
+  color: #fff;
+}
+.ui-seg-btn:not([data-rac]):focus-visible {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: -2px;
+}
