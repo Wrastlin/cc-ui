@@ -39,7 +39,7 @@ export {
 } from "./dialogs";
 export type { DialogKind, DialogRequest } from "./dialogs";
 
-export { SideMenu, MenuLinks, menuIcon } from "./SideMenu";
+export { SideMenu, MenuLinks, ExtraLinks, menuIcon } from "./SideMenu";
 export { HubFrame } from "./HubFrame";
 export { PhoneTabs, MenuSheet, phoneTabs } from "./PhoneMenu";
 export type { MenuLinkProps } from "./SideMenu";
