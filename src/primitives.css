@@ -46,6 +46,11 @@
   padding: 0 12px;
   font-size: var(--cc-fs-meta);
 }
+.ui-btn-lg {
+  min-height: var(--cc-ctl-h-lg);
+  padding: 0 22px;
+  font-size: var(--cc-fs-body);
+}
 .ui-btn-block {
   width: 100%;
 }
@@ -74,12 +79,6 @@
   border-color: transparent;
   color: #fff;
 }
-.ui-btn-primary:hover {
-  background: var(--cc-accent-hover);
-}
-.ui-btn-ghost:hover {
-  background: var(--cc-panel-2);
-}
 /* An icon on its own is a round target, not a box: a border around a bell or a
    magnifier reads as a button frame with nothing in it. */
 .ui-btn-ghost.ui-btn-icon {
@@ -93,9 +92,6 @@
 .ui-btn-ghost.ui-btn-sm.ui-btn-icon {
   width: var(--cc-ctl-h-sm);
   min-height: var(--cc-ctl-h-sm);
-}
-.ui-btn-ghost.ui-btn-icon:hover {
-  background: var(--cc-panel-2);
 }
 @media (max-width: 719px) {
   .ui-btn-ghost.ui-btn-icon,
@@ -115,14 +111,42 @@
   color: var(--cc-danger);
   border-color: color-mix(in srgb, var(--cc-danger) 34%, var(--cc-line));
 }
-.ui-btn-danger:hover {
-  background: color-mix(in srgb, var(--cc-danger) 8%, var(--cc-panel));
+/* hover only where there is a pointer that hovers: a phone never keeps one on after a tap */
+@media (hover: hover) {
+  .ui-btn-primary:is(a:hover, [data-hovered]) {
+    background: var(--cc-accent-hover);
+  }
+  .ui-btn-ghost:not([aria-pressed="true"]):is(a:hover, [data-hovered]) {
+    background: var(--cc-panel-2);
+  }
+  .ui-btn-ghost.ui-btn-icon:is(a:hover, [data-hovered]) {
+    background: var(--cc-panel-2);
+  }
+  .ui-btn-danger:is(a:hover, [data-hovered]) {
+    background: color-mix(in srgb, var(--cc-danger) 8%, var(--cc-panel));
+  }
+}
+/* Press: React Aria's data-pressed on a button (held while the finger is down,
+   dropped when it slides off), :active on a link. */
+.ui-btn:is(a:active, [data-pressed]) {
+  transform: scale(0.97);
+  filter: brightness(0.94);
+}
+.ui-btn-primary:is(a:active, [data-pressed]) {
+  background: var(--cc-accent-hover);
+}
+.ui-btn {
+  transition: transform 90ms ease-out, filter 90ms ease-out, background-color 120ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-btn { transition: none; }
+  .ui-btn:is(a:active, [data-pressed]) { transform: none; }
 }
 .ui-btn:disabled {
   opacity: 0.45;
   cursor: default;
 }
-.ui-btn:focus-visible {
+.ui-btn:is(a:focus-visible, [data-focus-visible]) {
   outline: 2px solid var(--cc-ring);
   outline-offset: 2px;
 }
@@ -232,6 +256,66 @@
 .ui-select {
   background: var(--cc-panel);
 }
+/* SelectField: a button that reads like the native select it replaced, a list in a popover above any sheet. */
+.ui-select-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+  text-align: left;
+  cursor: pointer;
+}
+.ui-select-btn[data-focus-visible] {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: 1px;
+  border-color: var(--cc-accent);
+}
+.ui-select-btn[data-disabled] {
+  cursor: default;
+  color: var(--cc-muted);
+}
+.ui-select-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ui-select-chev {
+  flex: none;
+  color: var(--cc-muted);
+}
+.ui-select-pop {
+  z-index: 5000;
+  min-width: var(--trigger-width);
+  max-height: min(60vh, 420px);
+  overflow: auto;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  background: var(--cc-bg);
+  box-shadow: var(--cc-e2);
+  line-height: 1.55;
+}
+.ui-select-list {
+  outline: none;
+  padding: var(--cc-space-1) 0;
+}
+.ui-select-item {
+  display: flex;
+  align-items: center;
+  min-height: var(--cc-ctl-h);
+  padding: 0 12px;
+  font-size: var(--cc-fs-body);
+  color: var(--cc-text);
+  cursor: pointer;
+  outline: none;
+}
+.ui-select-item[data-focused] {
+  background: var(--cc-panel-2);
+}
+.ui-select-item[data-selected] {
+  font-weight: 600;
+  color: var(--cc-accent);
+}
 /* iOS Safari sizes a date or time field to its own text and ignores width, so it ran out of its card (Gutters Costs,
    Files). Without its native look it takes the width it is given; the value stays on the left like every other field. */
 .ui-input:is([type="date"], [type="time"], [type="datetime-local"], [type="month"]) {
@@ -255,6 +339,12 @@
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
+/* React Aria's Modal wraps the dialog. It draws no box, so .ui-sheet is laid out as the scrim's own flex child and a
+   sheet narrower than 560px leaves no dead strip beside it that swallows the tap meant to close it. In the DOM it is
+   still a grandchild: a caller's rule reaches it with `.ui-sheet-scrim .ui-sheet`, never `>`. */
+.ui-sheet-modal {
+  display: contents;
+}
 .ui-sheet {
   width: 100%;
   max-width: 560px;
@@ -264,22 +354,38 @@
   flex-direction: column;
   background: var(--cc-panel);
   color: var(--cc-text);
+  /* The React Aria Modal portals to body, so the page's 1.55 no longer reaches the sheet; set it here. */
+  line-height: 1.55;
   border-radius: 20px 20px 0 0;
+  overflow: clip;
   padding: 10px 20px max(16px, env(safe-area-inset-bottom));
 }
 .ui-sheet:focus {
   outline: none;
 }
 .ui-sheet-grab {
+  position: relative;
   flex: 0 0 auto;
+  touch-action: none;
   width: 36px;
   height: 5px;
   border-radius: 999px;
   background: var(--cc-line);
   margin: 0 auto 10px;
 }
+/* the bar is 5px tall; a thumb lands on the whole strip across the top of the
+   sheet, padding and margin included (the sheet clips the overhang) */
+.ui-sheet-grab::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -300px;
+  right: -300px;
+}
 .ui-sheet-title {
   flex: 0 0 auto;
+  touch-action: none;
   margin: 0 0 10px;
   font-size: var(--cc-fs-title);
   font-weight: 600;
@@ -299,4 +405,19 @@
 }
 .ui-sheet-foot > .ui-btn {
   flex: 1 1 0;
+}
+/* placement="center": mid-screen on a computer, a phone keeps the bottom. Doubled class: callers' sheet rules load
+   later and would win a tie. */
+@media (min-width: 761px) {
+  .ui-sheet-scrim.ui-sheet-scrim-center {
+    align-items: center;
+    padding: 24px;
+  }
+  .ui-sheet-scrim-center .ui-sheet.ui-sheet {
+    border-radius: 20px;
+    padding-bottom: 20px;
+  }
+  .ui-sheet-scrim-center .ui-sheet-grab.ui-sheet-grab {
+    display: none;
+  }
 }

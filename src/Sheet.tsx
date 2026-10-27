@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
+import { Dialog, Heading, Modal, ModalOverlay } from "react-aria-components";
 
 // A bottom sheet.
 //
@@ -16,6 +17,82 @@ import { useCallback, useEffect, useRef, type ReactNode } from "react";
 //   · the safe-area inset, or the last row sits under the home indicator.
 //
 // Those live here now. A new sheet gets them by existing.
+//
+// Focus trap, focus return, Escape, outside press and the page scroll lock come
+// from React Aria (ModalOverlay, Modal, Dialog), which handles the iOS cases the
+// hand-rolled version did not: a scroll lock that holds on Safari, and the rest
+// of the page hidden from a screen reader while the sheet is open.
+
+// Drag to dismiss, the way an iOS sheet does it: the grab bar and the title
+// follow the finger down (and resist going up), and letting go past a third of
+// the sheet's height, or flicking down fast, slides it off and closes it.
+// Anything less springs back. Only the grab and the title (not a button in it)
+// start a drag, so the body scroll and every control keep their own gestures.
+const FLICK = 0.5; // px per ms, about the speed iOS treats as a throw
+const DRAG_FROM = ".ui-sheet-grab, .ui-sheet-title";
+const PRESSABLE = "button, a, input, select, textarea, [role=button]";
+
+function dragToClose(sheet: HTMLElement, close: () => void) {
+  const reduce = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const down = (e: PointerEvent) => {
+    const t = e.target as Element;
+    if (e.button !== 0 || !t.closest?.(DRAG_FROM) || t.closest(PRESSABLE)) return;
+    const from = e.target as HTMLElement;
+    const startY = e.clientY;
+    let dy = 0;
+    let lastY = startY;
+    let lastT = e.timeStamp;
+    let v = 0;
+    from.setPointerCapture?.(e.pointerId);
+    sheet.style.transition = "none";
+    const move = (m: PointerEvent) => {
+      if (m.pointerId !== e.pointerId) return;
+      const raw = m.clientY - startY;
+      dy = raw > 0 ? raw : -Math.sqrt(-raw) * 2;
+      const dt = m.timeStamp - lastT;
+      if (dt > 0) v = (m.clientY - lastY) / dt;
+      lastY = m.clientY;
+      lastT = m.timeStamp;
+      sheet.style.transform = `translateY(${dy}px)`;
+    };
+    const end = (u: PointerEvent) => {
+      if (u.pointerId !== e.pointerId) return;
+      from.removeEventListener("pointermove", move);
+      from.removeEventListener("pointerup", end);
+      from.removeEventListener("pointercancel", end);
+      // a finger held still before lifting is not a flick
+      if (u.timeStamp - lastT > 100) v = 0;
+      const h = sheet.getBoundingClientRect().height;
+      const dismiss = u.type === "pointerup" && dy > 0 && (dy > h / 3 || v > FLICK);
+      if (dismiss) {
+        sheet.style.transition = reduce() ? "none" : "transform 200ms cubic-bezier(0.3, 0, 0.8, 0.15)";
+        sheet.style.transform = `translateY(${h + 40}px)`;
+        window.setTimeout(close, reduce() ? 0 : 200);
+        // a caller that keeps it open gets it back
+        window.setTimeout(() => {
+          if (sheet.isConnected) {
+            sheet.style.transition = "";
+            sheet.style.transform = "";
+          }
+        }, 260);
+      } else {
+        sheet.style.transition = reduce() ? "none" : "transform 280ms cubic-bezier(0.2, 0.9, 0.3, 1.15)";
+        sheet.style.transform = "";
+      }
+    };
+    from.addEventListener("pointermove", move);
+    from.addEventListener("pointerup", end);
+    from.addEventListener("pointercancel", end);
+  };
+  sheet.addEventListener("pointerdown", down);
+  return () => sheet.removeEventListener("pointerdown", down);
+}
+
+// A confirm or prompt from DialogHost sits outside the sheet's DOM; a tap on it
+// must not count as a tap outside the sheet.
+function dismissesSheet(el: Element) {
+  return !el.closest(".dlg-scrim");
+}
 
 export default function Sheet({
   open,
@@ -25,6 +102,8 @@ export default function Sheet({
   footer,
   children,
   labelledBy,
+  placement = "bottom",
+  className,
 }: {
   open: boolean;
   onClose: () => void;
@@ -32,62 +111,58 @@ export default function Sheet({
   footer?: ReactNode;
   children: ReactNode;
   labelledBy?: string;
+  /** "center" opens mid-screen on a computer; a phone keeps the bottom. */
+  placement?: "bottom" | "center";
+  /** On the scrim. The sheet renders in a portal, so a caller's styles hang off this, not off a wrapper around it. */
+  className?: string;
 }) {
-  const cardRef = useRef<HTMLDivElement | null>(null);
-  const returnFocus = useRef<HTMLElement | null>(null);
-
-  // Held in a ref so a new onClose each render does not rerun the open effect, which refocused the card and dropped
-  // keystrokes in the sheet's fields.
-  const onCloseRef = useRef(onClose);
-  useEffect(() => {
-    onCloseRef.current = onClose;
-  }, [onClose]);
-  const close = useCallback(() => onCloseRef.current(), []);
-
+  const drag = useCallback(
+    (el: HTMLElement | null) => (el ? dragToClose(el, onClose) : undefined),
+    [onClose],
+  );
+  // React Aria's own focus return missed after a drag close of a sheet its caller unmounts
+  // (time off, n64d), leaving focus on the body. Read in render, before React Aria moves
+  // focus in, so this is the opener.
+  const opener = useRef<HTMLElement | null>(null);
+  if (open && !opener.current && typeof document !== "undefined") {
+    opener.current = document.activeElement as HTMLElement | null;
+  }
   useEffect(() => {
     if (!open) return;
-    returnFocus.current =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const t = setTimeout(() => cardRef.current?.focus(), 0);
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        close();
-      }
-    };
-    document.addEventListener("keydown", onKey, true);
     return () => {
-      clearTimeout(t);
-      document.removeEventListener("keydown", onKey, true);
-      const back = returnFocus.current;
-      returnFocus.current = null;
-      setTimeout(() => back?.focus?.(), 0);
+      const back = opener.current;
+      opener.current = null;
+      window.requestAnimationFrame(() => {
+        const a = document.activeElement;
+        if (back?.isConnected && (!a || a === document.body)) back.focus();
+      });
     };
-  }, [open, close]);
-
-  if (!open) return null;
-
+  }, [open]);
   return (
-    <div
-      className="ui-sheet-scrim"
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) close();
+    <ModalOverlay
+      className={["ui-sheet-scrim", placement === "center" && "ui-sheet-scrim-center", className]
+        .filter(Boolean)
+        .join(" ")}
+      isOpen={open}
+      onOpenChange={(next) => {
+        if (!next) onClose();
       }}
+      isDismissable
+      shouldCloseOnInteractOutside={dismissesSheet}
     >
-      <div
-        className="ui-sheet"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={labelledBy}
-        tabIndex={-1}
-        ref={cardRef}
-      >
-        <span className="ui-sheet-grab" aria-hidden />
-        {title ? <h2 className="ui-sheet-title">{title}</h2> : null}
-        {/* the ONLY scroll region in here */}
-        <div className="ui-sheet-body">{children}</div>
-        {footer ? <div className="ui-sheet-foot">{footer}</div> : null}
-      </div>
-    </div>
+      <Modal className="ui-sheet-modal">
+        <Dialog ref={drag} className="ui-sheet" aria-labelledby={labelledBy}>
+          <span className="ui-sheet-grab" aria-hidden />
+          {title ? (
+            <Heading slot="title" level={2} className="ui-sheet-title">
+              {title}
+            </Heading>
+          ) : null}
+          {/* the ONLY scroll region in here */}
+          <div className="ui-sheet-body">{children}</div>
+          {footer ? <div className="ui-sheet-foot">{footer}</div> : null}
+        </Dialog>
+      </Modal>
+    </ModalOverlay>
   );
 }

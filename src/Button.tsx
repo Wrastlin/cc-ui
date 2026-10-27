@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Button as AriaButton, type PressEvent } from "react-aria-components";
 
 // The one button.
 //
@@ -16,9 +17,15 @@ import type { ReactNode } from "react";
 //     pushing out of the box (a flex item's default min-width is auto, which
 //     is what put "Cody house new test1101 Yawkey Ave" on screen)
 //   · one radius, one type size, per size
+//
+// The <button> is React Aria's: press, hover and focus-visible arrive as
+// data-pressed, data-hovered and data-focus-visible, so a phone gets a press
+// state and never a hover stuck on after the finger lifts. Links stay plain
+// anchors; React Aria's press handling is for buttons.
 
 export type ButtonVariant = "primary" | "ghost" | "danger";
-export type ButtonSize = "md" | "sm";
+/** sm and md are 48px on a phone (--cc-ctl-h); lg is the 56px primary target (--cc-ctl-h-lg). */
+export type ButtonSize = "md" | "sm" | "lg";
 
 type Common = {
   variant?: ButtonVariant;
@@ -111,16 +118,26 @@ export default function Button(props: AsButton | AsLink) {
   }
   const p = props as AsButton;
   return (
-    <button
+    <AriaButton
       type={p.type ?? "button"}
       className={classes(props)}
-      onClick={p.onClick}
-      disabled={p.disabled}
-      title={p.title}
+      onPress={p.onClick ? () => p.onClick?.() : undefined}
+      onPressStart={keepBubbling}
+      onPressUp={keepBubbling}
+      onPressEnd={keepBubbling}
+      isDisabled={p.disabled}
       aria-label={p["aria-label"]}
       aria-pressed={p.pressed}
+      render={p.title ? (attrs) => <button {...attrs} title={p.title} /> : undefined}
     >
       <Inner {...props} />
-    </button>
+    </AriaButton>
   );
+}
+
+// React Aria stops press events at the button by default. A native button let
+// them bubble, and callers lean on that (a row that also listens, a menu that
+// closes on any click), so they keep bubbling.
+function keepBubbling(e: PressEvent) {
+  e.continuePropagation();
 }
