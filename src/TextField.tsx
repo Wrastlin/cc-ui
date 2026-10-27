@@ -1,5 +1,6 @@
 "use client";
 
+import type { HTMLAttributes } from "react";
 import {
   FieldError,
   Input,
@@ -22,6 +23,10 @@ type TextFieldProps = {
   type?: "text" | "email" | "tel" | "url" | "number" | "date" | "time";
   name?: string;
   maxLength?: number;
+  inputMode?: HTMLAttributes<HTMLInputElement>["inputMode"];
+  min?: number | string;
+  max?: number | string;
+  step?: number;
   isRequired?: boolean;
   isDisabled?: boolean;
   /** What went wrong; the field turns red and the line shows under the control. */
@@ -40,6 +45,10 @@ export default function TextField({
   type = "text",
   name,
   maxLength,
+  inputMode,
+  min,
+  max,
+  step,
   isRequired,
   isDisabled,
   error,
@@ -69,7 +78,7 @@ export default function TextField({
       {multiline ? (
         <TextArea className={control} rows={rows} />
       ) : (
-        <Input className={control} />
+        <Input className={control} inputMode={inputMode} min={min} max={max} step={step} />
       )}
       <FieldError className="ui-field-help">{error}</FieldError>
     </AriaTextField>

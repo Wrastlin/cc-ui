@@ -294,6 +294,8 @@
   flex-direction: column;
   background: var(--cc-panel);
   color: var(--cc-text);
+  /* The React Aria Modal portals to body, so the page's 1.55 no longer reaches the sheet; set it here. */
+  line-height: 1.55;
   border-radius: 20px 20px 0 0;
   overflow: clip;
   padding: 10px 20px max(16px, env(safe-area-inset-bottom));
