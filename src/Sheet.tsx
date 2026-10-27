@@ -102,6 +102,8 @@ export default function Sheet({
   footer,
   children,
   labelledBy,
+  placement = "bottom",
+  className,
 }: {
   open: boolean;
   onClose: () => void;
@@ -109,6 +111,10 @@ export default function Sheet({
   footer?: ReactNode;
   children: ReactNode;
   labelledBy?: string;
+  /** "center" opens mid-screen on a computer; a phone keeps the bottom. */
+  placement?: "bottom" | "center";
+  /** On the scrim. The sheet renders in a portal, so a caller's styles hang off this, not off a wrapper around it. */
+  className?: string;
 }) {
   const drag = useCallback(
     (el: HTMLElement | null) => (el ? dragToClose(el, onClose) : undefined),
@@ -116,7 +122,9 @@ export default function Sheet({
   );
   return (
     <ModalOverlay
-      className="ui-sheet-scrim"
+      className={["ui-sheet-scrim", placement === "center" && "ui-sheet-scrim-center", className]
+        .filter(Boolean)
+        .join(" ")}
       isOpen={open}
       onOpenChange={(next) => {
         if (!next) onClose();

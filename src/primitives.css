@@ -279,14 +279,11 @@
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
-/* React Aria's Modal wraps the dialog; it only carries the width so .ui-sheet stays the card */
+/* React Aria's Modal wraps the dialog. It draws no box, so .ui-sheet is laid out as the scrim's own flex child and a
+   sheet narrower than 560px leaves no dead strip beside it that swallows the tap meant to close it. In the DOM it is
+   still a grandchild: a caller's rule reaches it with `.ui-sheet-scrim .ui-sheet`, never `>`. */
 .ui-sheet-modal {
-  display: flex;
-  width: 100%;
-  max-width: 560px;
-}
-.ui-sheet-modal:focus {
-  outline: none;
+  display: contents;
 }
 .ui-sheet {
   width: 100%;
@@ -346,4 +343,19 @@
 }
 .ui-sheet-foot > .ui-btn {
   flex: 1 1 0;
+}
+/* placement="center": mid-screen on a computer, a phone keeps the bottom. Doubled class: callers' sheet rules load
+   later and would win a tie. */
+@media (min-width: 761px) {
+  .ui-sheet-scrim.ui-sheet-scrim-center {
+    align-items: center;
+    padding: 24px;
+  }
+  .ui-sheet-scrim-center .ui-sheet.ui-sheet {
+    border-radius: 20px;
+    padding-bottom: 20px;
+  }
+  .ui-sheet-scrim-center .ui-sheet-grab.ui-sheet-grab {
+    display: none;
+  }
 }
