@@ -46,6 +46,11 @@
   padding: 0 12px;
   font-size: var(--cc-fs-meta);
 }
+.ui-btn-lg {
+  min-height: var(--cc-ctl-h-lg);
+  padding: 0 22px;
+  font-size: var(--cc-fs-body);
+}
 .ui-btn-block {
   width: 100%;
 }
@@ -74,12 +79,6 @@
   border-color: transparent;
   color: #fff;
 }
-.ui-btn-primary:hover {
-  background: var(--cc-accent-hover);
-}
-.ui-btn-ghost:hover {
-  background: var(--cc-panel-2);
-}
 /* An icon on its own is a round target, not a box: a border around a bell or a
    magnifier reads as a button frame with nothing in it. */
 .ui-btn-ghost.ui-btn-icon {
@@ -93,9 +92,6 @@
 .ui-btn-ghost.ui-btn-sm.ui-btn-icon {
   width: var(--cc-ctl-h-sm);
   min-height: var(--cc-ctl-h-sm);
-}
-.ui-btn-ghost.ui-btn-icon:hover {
-  background: var(--cc-panel-2);
 }
 @media (max-width: 719px) {
   .ui-btn-ghost.ui-btn-icon,
@@ -115,14 +111,42 @@
   color: var(--cc-danger);
   border-color: color-mix(in srgb, var(--cc-danger) 34%, var(--cc-line));
 }
-.ui-btn-danger:hover {
-  background: color-mix(in srgb, var(--cc-danger) 8%, var(--cc-panel));
+/* hover only where there is a pointer that hovers: a phone never keeps one on after a tap */
+@media (hover: hover) {
+  .ui-btn-primary:is(a:hover, [data-hovered]) {
+    background: var(--cc-accent-hover);
+  }
+  .ui-btn-ghost:not([aria-pressed="true"]):is(a:hover, [data-hovered]) {
+    background: var(--cc-panel-2);
+  }
+  .ui-btn-ghost.ui-btn-icon:is(a:hover, [data-hovered]) {
+    background: var(--cc-panel-2);
+  }
+  .ui-btn-danger:is(a:hover, [data-hovered]) {
+    background: color-mix(in srgb, var(--cc-danger) 8%, var(--cc-panel));
+  }
+}
+/* Press: React Aria's data-pressed on a button (held while the finger is down,
+   dropped when it slides off), :active on a link. */
+.ui-btn:is(a:active, [data-pressed]) {
+  transform: scale(0.97);
+  filter: brightness(0.94);
+}
+.ui-btn-primary:is(a:active, [data-pressed]) {
+  background: var(--cc-accent-hover);
+}
+.ui-btn {
+  transition: transform 90ms ease-out, filter 90ms ease-out, background-color 120ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-btn { transition: none; }
+  .ui-btn:is(a:active, [data-pressed]) { transform: none; }
 }
 .ui-btn:disabled {
   opacity: 0.45;
   cursor: default;
 }
-.ui-btn:focus-visible {
+.ui-btn:is(a:focus-visible, [data-focus-visible]) {
   outline: 2px solid var(--cc-ring);
   outline-offset: 2px;
 }
@@ -274,21 +298,35 @@
   background: var(--cc-panel);
   color: var(--cc-text);
   border-radius: 20px 20px 0 0;
+  overflow: clip;
   padding: 10px 20px max(16px, env(safe-area-inset-bottom));
 }
 .ui-sheet:focus {
   outline: none;
 }
 .ui-sheet-grab {
+  position: relative;
   flex: 0 0 auto;
+  touch-action: none;
   width: 36px;
   height: 5px;
   border-radius: 999px;
   background: var(--cc-line);
   margin: 0 auto 10px;
 }
+/* the bar is 5px tall; a thumb lands on the whole strip across the top of the
+   sheet, padding and margin included (the sheet clips the overhang) */
+.ui-sheet-grab::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -300px;
+  right: -300px;
+}
 .ui-sheet-title {
   flex: 0 0 auto;
+  touch-action: none;
   margin: 0 0 10px;
   font-size: var(--cc-fs-title);
   font-weight: 600;

@@ -88,6 +88,7 @@
    */
   --cc-ctl-h: 36px;
   --cc-ctl-h-sm: 32px;
+  --cc-ctl-h-lg: 44px;
 
   /*
    * The tap floor. Three controls cannot read --cc-ctl-h-sm because their
@@ -143,6 +144,7 @@
     --cc-fs-display: 28px;
     --cc-ctl-h: 48px;
     --cc-ctl-h-sm: 48px;
+    --cc-ctl-h-lg: 56px;
     --cc-logo-h: 17px;
     --cc-bar-pad-x: 8px;
     --cc-bar-gap: 6px;
