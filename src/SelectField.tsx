@@ -94,7 +94,7 @@ export default function SelectField({
         <SelectValue className="ui-select-value" />
         <ChevronDown aria-hidden size={16} className="ui-select-chev" />
       </Button>
-      {message ? <FieldError className="ui-field-help">{message}</FieldError> : help ? <span className="ui-field-help">{help}</span> : null}
+      {message ? <FieldError className="ui-field-help"><span role="alert">{message}</span></FieldError> : help ? <span className="ui-field-help">{help}</span> : null}
       <Popover className="ui-select-pop" offset={4}>
         <ListBox className="ui-select-list" items={options.map((o) => ({ id: o.value, ...o }))}>
           {(o) => (

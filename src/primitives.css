@@ -533,6 +533,12 @@
   outline: 2px solid var(--cc-ring);
   outline-offset: -2px;
 }
+.ui-step.ui-field {
+  align-items: flex-start;
+}
+.ui-field-err .ui-step-box {
+  border-color: var(--cc-danger);
+}
 .ui-step[data-disabled] .ui-step-input {
   color: var(--cc-muted);
 }
