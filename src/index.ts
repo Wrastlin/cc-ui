@@ -30,7 +30,7 @@ export { default as SelectField, type SelectOption } from "./SelectField";
 export { default as Row, RowGroup } from "./Row";
 export { RowList, ListRow } from "./RowList";
 export { default as Sheet } from "./Sheet";
-export { default as Menu, type MenuEntry } from "./ActionMenu";
+export { default as Menu, type MenuEntry, type MenuChecks } from "./ActionMenu";
 export { default as DialogHost } from "./DialogHost";
 
 export {

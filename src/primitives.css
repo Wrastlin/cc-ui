@@ -523,6 +523,28 @@
   background: var(--cc-accent-bg);
   color: var(--cc-accent);
 }
+.ui-menu-sec {
+  display: flex;
+  flex-direction: column;
+}
+.ui-menu-check {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--cc-line);
+  border-radius: 4px;
+  color: var(--cc-panel);
+}
+.ui-menu-item[data-selected] .ui-menu-check {
+  border-color: var(--cc-accent);
+  background: var(--cc-accent);
+}
+.ui-menu-item:has(.ui-menu-check) .ui-menu-label {
+  flex: 1;
+}
 .ui-menu-sep {
   width: 100%;
   border: 0;
