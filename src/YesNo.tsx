@@ -20,6 +20,8 @@ type ChoiceGroupProps<T extends string> = {
   onPick: (value: T) => void;
   /** Lets the buttons run onto more lines instead of squeezing. */
   wrap?: boolean;
+  /** The choice a question starts on before anyone says it: outlined, never filled or checked, until a tap says it. */
+  suggested?: T;
   isDisabled?: boolean;
   className?: string;
 };
@@ -30,9 +32,11 @@ export function ChoiceGroup<T extends string>({
   options,
   onPick,
   wrap,
+  suggested,
   isDisabled,
   className,
 }: ChoiceGroupProps<T>) {
+  const shown = value ? undefined : suggested;
   return (
     <ToggleButtonGroup
       aria-label={label}
@@ -59,8 +63,15 @@ export function ChoiceGroup<T extends string>({
             </span>
           </ToggleButton>
         ) : (
-          <ToggleButton key={v} id={v} className={["ui-seg-btn", look?.className ?? ""].filter(Boolean).join(" ")}>
+          <ToggleButton
+            key={v}
+            id={v}
+            className={["ui-seg-btn", v === shown ? "ui-seg-suggested" : "", look?.className ?? ""]
+              .filter(Boolean)
+              .join(" ")}
+          >
             {text}
+            {v === shown && <span className="ui-seg-hint">, default</span>}
           </ToggleButton>
         ),
       )}
