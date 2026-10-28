@@ -253,6 +253,10 @@
 .ui-field-err .ui-input {
   border-color: var(--cc-danger);
 }
+.ui-textarea {
+  line-height: 1.4;
+  resize: vertical;
+}
 .ui-select {
   background: var(--cc-panel);
 }
@@ -342,6 +346,15 @@
   color: var(--cc-text);
   cursor: pointer;
   outline: none;
+}
+.ui-select-section + .ui-select-section {
+  border-top: 1px solid var(--cc-line);
+}
+.ui-select-header {
+  padding: 10px 12px 4px;
+  font-size: var(--cc-fs-meta);
+  font-weight: 500;
+  color: var(--cc-muted);
 }
 .ui-select-item[data-focused] {
   background: var(--cc-panel-2);
@@ -569,4 +582,197 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* NumberStepper: minus, the number with its unit inside its field, plus, joined as one control. 48 tall on a phone,
+   36 on a desk (--cc-ctl-h); the number is 16px or more so iOS does not zoom on focus. */
+.ui-step {
+  display: inline-flex;
+  min-width: 0;
+}
+.ui-step-box {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  overflow: hidden;
+  background: var(--cc-panel);
+}
+.ui-step-btn {
+  flex: none;
+  width: var(--cc-ctl-h);
+  min-height: var(--cc-ctl-h);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: var(--cc-panel-2);
+  color: var(--cc-text);
+  cursor: pointer;
+  outline: none;
+}
+.ui-step-btn[data-pressed] {
+  background: color-mix(in srgb, var(--cc-accent) 14%, var(--cc-panel));
+}
+.ui-step-btn[data-disabled] {
+  color: color-mix(in srgb, var(--cc-faint) 60%, var(--cc-panel));
+  cursor: default;
+}
+.ui-step-btn[data-focus-visible] {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: -2px;
+}
+@media (hover: hover) {
+  .ui-step-btn[data-hovered]:not([data-disabled]) {
+    background: color-mix(in srgb, var(--cc-accent) 8%, var(--cc-panel));
+  }
+}
+/* a touch screen wider than a phone (a tablet) keeps the 48px touch floor */
+@media (pointer: coarse) {
+  .ui-step-btn {
+    width: var(--cc-tap);
+    min-height: var(--cc-tap);
+  }
+}
+.ui-step-num {
+  display: flex;
+  align-items: center;
+  border-inline: 1px solid var(--cc-line);
+  background: var(--cc-panel);
+}
+.ui-step-input {
+  box-sizing: border-box;
+  width: 84px;
+  min-width: 0;
+  height: 100%;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--cc-text);
+  text-align: center;
+  font-family: inherit;
+  font-size: max(16px, var(--cc-fs-body));
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+.ui-step-num:has(.ui-step-unit) .ui-step-input {
+  width: 64px;
+  padding-right: 2px;
+  text-align: right;
+}
+.ui-step-unit {
+  padding: 0 10px 0 2px;
+  color: var(--cc-muted);
+  font-size: var(--cc-fs-meta);
+  white-space: nowrap;
+}
+.ui-step-num:has(.ui-step-input[data-focus-visible]) {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: -2px;
+}
+.ui-step.ui-field {
+  align-items: flex-start;
+}
+.ui-field-err .ui-step-box {
+  border-color: var(--cc-danger);
+}
+.ui-step[data-disabled] .ui-step-input {
+  color: var(--cc-muted);
+}
+
+/* ChoiceGroup and YesNo: the choices joined as one segmented control, the picked one filled. */
+.ui-seg {
+  display: inline-flex;
+  min-width: 0;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  overflow: hidden;
+  background: var(--cc-panel);
+}
+.ui-seg-wrap {
+  flex-wrap: wrap;
+}
+.ui-seg-btn {
+  min-height: var(--cc-ctl-h);
+  min-width: 64px;
+  padding: 4px 16px;
+  border: 0;
+  background: var(--cc-panel);
+  color: var(--cc-text);
+  font-family: inherit;
+  font-size: var(--cc-fs-ui);
+  line-height: 1.2;
+  cursor: pointer;
+  outline: none;
+}
+@media (pointer: coarse) {
+  .ui-seg-btn {
+    min-height: var(--cc-tap);
+  }
+}
+.ui-seg-icon {
+  display: inline-flex;
+  width: var(--cc-ctl-h);
+  min-width: 0;
+  padding: 0;
+}
+.ui-seg-glyph {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.ui-seg-btn + .ui-seg-btn {
+  border-left: 1px solid var(--cc-line);
+}
+@media (hover: hover) {
+  .ui-seg-btn[data-hovered]:not([data-selected]) {
+    background: color-mix(in srgb, var(--cc-accent) 5%, var(--cc-panel));
+  }
+}
+.ui-seg-btn[data-pressed]:not([data-selected]) {
+  background: color-mix(in srgb, var(--cc-accent) 10%, var(--cc-panel));
+}
+.ui-seg-btn[data-selected] {
+  background: var(--cc-accent);
+  color: #fff;
+}
+/* A default shown but not yet said: an accent ring inside the button, so it never reads as picked. The ", default"
+   words are for a screen reader only; the ring is what the eye gets. */
+.ui-seg-suggested {
+  position: relative;
+}
+.ui-seg-suggested:not([data-selected]) {
+  box-shadow: inset 0 0 0 2px var(--cc-accent);
+}
+.ui-seg-hint {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.ui-seg-btn[data-focus-visible] {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: -2px;
+}
+.ui-seg-btn[data-disabled] {
+  color: var(--cc-faint);
+  cursor: default;
+}
+/* The same look on plain buttons that toggle with aria-pressed, for a pick-several set React Aria has no group for. */
+@media (hover: hover) {
+  .ui-seg-btn:not([data-rac]):hover:not([aria-pressed="true"]) {
+    background: color-mix(in srgb, var(--cc-accent) 5%, var(--cc-panel));
+  }
+}
+.ui-seg-btn:not([data-rac])[aria-pressed="true"] {
+  background: var(--cc-accent);
+  color: #fff;
+}
+.ui-seg-btn:not([data-rac]):focus-visible {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: -2px;
 }
