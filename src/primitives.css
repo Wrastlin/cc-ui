@@ -582,6 +582,18 @@
     min-height: var(--cc-tap);
   }
 }
+.ui-seg-icon {
+  display: inline-flex;
+  width: var(--cc-ctl-h);
+  min-width: 0;
+  padding: 0;
+}
+.ui-seg-glyph {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
 .ui-seg-btn + .ui-seg-btn {
   border-left: 1px solid var(--cc-line);
 }

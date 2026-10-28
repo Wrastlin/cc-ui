@@ -1,12 +1,17 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { ToggleButton, ToggleButtonGroup, type Key } from "react-aria-components";
 
 // One of a fixed set, on React Aria's ToggleButtonGroup: the buttons joined as one control, the picked one filled.
 // A screen reader hears a radio group; arrow keys move between the choices, Space or Enter picks, Tab leaves the set.
 // A picked choice stays picked when tapped again: an answer is changed, not cleared.
 
-export type ChoiceOption<T extends string = string> = readonly [value: T, text: string];
+// An option with an icon draws the icon alone, its text the button's name and tooltip, as a tool row does (Select,
+// Box, Paint); its className reaches that one button, so a screen size can hide one choice.
+export type ChoiceOption<T extends string = string> =
+  | readonly [value: T, text: string]
+  | readonly [value: T, text: string, look: { icon?: ReactNode; className?: string }];
 
 type ChoiceGroupProps<T extends string> = {
   label: string;
@@ -41,11 +46,24 @@ export function ChoiceGroup<T extends string>({
       isDisabled={isDisabled}
       className={["ui-seg", wrap ? "ui-seg-wrap" : "", className ?? ""].filter(Boolean).join(" ")}
     >
-      {options.map(([v, text]) => (
-        <ToggleButton key={v} id={v} className="ui-seg-btn">
-          {text}
-        </ToggleButton>
-      ))}
+      {options.map(([v, text, look]) =>
+        look?.icon ? (
+          <ToggleButton
+            key={v}
+            id={v}
+            aria-label={text}
+            className={["ui-seg-btn ui-seg-icon", look.className ?? ""].filter(Boolean).join(" ")}
+          >
+            <span title={text} className="ui-seg-glyph" aria-hidden>
+              {look.icon}
+            </span>
+          </ToggleButton>
+        ) : (
+          <ToggleButton key={v} id={v} className={["ui-seg-btn", look?.className ?? ""].filter(Boolean).join(" ")}>
+            {text}
+          </ToggleButton>
+        ),
+      )}
     </ToggleButtonGroup>
   );
 }
