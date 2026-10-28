@@ -333,6 +333,15 @@
   cursor: pointer;
   outline: none;
 }
+.ui-select-section + .ui-select-section {
+  border-top: 1px solid var(--cc-line);
+}
+.ui-select-header {
+  padding: 10px 12px 4px;
+  font-size: var(--cc-fs-meta);
+  font-weight: 500;
+  color: var(--cc-muted);
+}
 .ui-select-item[data-focused] {
   background: var(--cc-panel-2);
 }

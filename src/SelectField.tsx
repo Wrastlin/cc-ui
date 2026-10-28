@@ -5,9 +5,11 @@ import { useRef, type ReactNode } from "react";
 import {
   Button,
   FieldError,
+  Header,
   Label,
   ListBox,
   ListBoxItem,
+  ListBoxSection,
   Popover,
   Select as AriaSelect,
   SelectValue,
@@ -22,6 +24,8 @@ export type SelectOption = {
   label: string;
   /** A CSS color drawn as a chip before the label, in the list and in the button when picked. */
   swatch?: string | null;
+  /** A header the option sits under, for a list past seven (HUMAN-UI 1). Options of one group are given together. */
+  group?: string;
 };
 
 type SelectFieldProps = {
@@ -62,6 +66,18 @@ export default function SelectField({
   const message = typeof error === "string" && error ? error : null;
   const chip = (color: string | null | undefined) =>
     swatches ? <span aria-hidden className="ui-select-swatch" style={{ background: color ?? undefined }} /> : null;
+  const groups = options.reduce<{ label: string; options: SelectOption[] }[]>((gs, o) => {
+    const last = gs.at(-1), label = o.group ?? "";
+    if (last && last.label === label) last.options.push(o);
+    else gs.push({ label, options: [o] });
+    return gs;
+  }, []);
+  const item = (o: SelectOption) => (
+    <ListBoxItem key={o.value} id={o.value} textValue={o.label} className="ui-select-item">
+      {chip(o.swatch)}
+      {o.label}
+    </ListBoxItem>
+  );
   const trigger = useRef<HTMLButtonElement>(null);
   // Inside a Sheet, React Aria hands focus to the sheet's dialog when the list closes, not to the button (walked n64g),
   // so a keyboard user lost their place. Put it back when it landed on the body or on something holding the button.
@@ -96,12 +112,16 @@ export default function SelectField({
       </Button>
       {message ? <FieldError className="ui-field-help"><span role="alert">{message}</span></FieldError> : help ? <span className="ui-field-help">{help}</span> : null}
       <Popover className="ui-select-pop" offset={4}>
-        <ListBox className="ui-select-list" items={options.map((o) => ({ id: o.value, ...o }))}>
-          {(o) => (
-            <ListBoxItem id={o.id} textValue={o.label} className="ui-select-item">
-              {chip(o.swatch)}
-              {o.label}
-            </ListBoxItem>
+        <ListBox className="ui-select-list">
+          {groups.map((g, i) =>
+            g.label ? (
+              <ListBoxSection key={g.label} id={g.label} className="ui-select-section">
+                <Header className="ui-select-header">{g.label}</Header>
+                {g.options.map(item)}
+              </ListBoxSection>
+            ) : (
+              <ListBoxSection key={`_${i}`} id={`_${i}`} className="ui-select-section">{g.options.map(item)}</ListBoxSection>
+            ),
           )}
         </ListBox>
       </Popover>
