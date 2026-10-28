@@ -28,6 +28,7 @@ export { default as Field, TextInput, Select } from "./Field";
 export { default as TextField } from "./TextField";
 export { default as SelectField, type SelectOption } from "./SelectField";
 export { default as Row, RowGroup } from "./Row";
+export { RowList, ListRow } from "./RowList";
 export { default as Sheet } from "./Sheet";
 export { default as DialogHost } from "./DialogHost";
 
