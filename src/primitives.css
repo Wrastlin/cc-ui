@@ -253,6 +253,10 @@
 .ui-field-err .ui-input {
   border-color: var(--cc-danger);
 }
+.ui-textarea {
+  line-height: 1.4;
+  resize: vertical;
+}
 .ui-select {
   background: var(--cc-panel);
 }
