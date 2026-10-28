@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { Button as AriaButton } from "react-aria-components";
+import Menu, { type MenuEntry } from "./ActionMenu";
 
 /*
  * The account control: who is signed in, and the way out.
@@ -51,24 +52,7 @@ export function AccountButton({
   /** Omit only if this app genuinely cannot sign anyone out. */
   onSignOut?: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    function onDoc(e: MouseEvent) {
-      if (root.current && !root.current.contains(e.target as Node)) setOpen(false);
-    }
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
-    document.addEventListener("mousedown", onDoc);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onDoc);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
+  const avatar = useRef<HTMLButtonElement>(null);
 
   const all: AccountItem[] = [
     ...items,
@@ -76,63 +60,36 @@ export function AccountButton({
     ...(onSignOut ? [{ label: "Sign out", onClick: onSignOut, danger: true }] : []),
   ];
 
+  // An action runs after the menu has closed and focus is back on the avatar, so a dialog it opens (Report a bug)
+  // captures the avatar to return to, not a menu item that is about to unmount (walk-n65a bug.afterEscape).
+  const entries: MenuEntry[] = all.map((it) => ({
+    id: it.label,
+    label: it.label,
+    href: it.href,
+    danger: it.danger,
+    onAction: it.href
+      ? undefined
+      : () =>
+          setTimeout(() => {
+            avatar.current?.focus();
+            it.onClick?.();
+          }, 0),
+  }));
+
+  const name = email ? `${email}, account and menu` : "Account and menu";
+
   return (
-    <div className="cc-account" ref={root}>
-      <button
-        type="button"
-        className="cc-avatar"
-        aria-label={email ? `${email}, account and menu` : "Account and menu"}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        onClick={() => setOpen((v) => !v)}
-      >
-        {email ? initialsFromEmail(email) : <PersonGlyph />}
-      </button>
-      {open ? (
-        <div className="cc-account-menu" role="menu">
-          {email ? <div className="cc-account-who">{email}</div> : null}
-          {all.map((it) =>
-            it.href ? (
-              it.href.startsWith("http") ? (
-                <a
-                  key={it.label}
-                  className="cc-account-item"
-                  role="menuitem"
-                  href={it.href}
-                  onClick={() => setOpen(false)}
-                >
-                  {it.label}
-                </a>
-              ) : (
-                <Link
-                  key={it.label}
-                  className="cc-account-item"
-                  role="menuitem"
-                  href={it.href}
-                  onClick={() => setOpen(false)}
-                >
-                  {it.label}
-                </Link>
-              )
-            ) : (
-              <button
-                key={it.label}
-                type="button"
-                role="menuitem"
-                className={
-                  it.danger ? "cc-account-item cc-account-item-danger" : "cc-account-item"
-                }
-                onClick={() => {
-                  setOpen(false);
-                  it.onClick?.();
-                }}
-              >
-                {it.label}
-              </button>
-            ),
-          )}
-        </div>
-      ) : null}
+    <div className="cc-account">
+      <Menu
+        items={entries}
+        aria-label={name}
+        header={email}
+        trigger={
+          <AriaButton ref={avatar} className="cc-avatar" aria-label={name}>
+            {email ? initialsFromEmail(email) : <PersonGlyph />}
+          </AriaButton>
+        }
+      />
     </div>
   );
 }

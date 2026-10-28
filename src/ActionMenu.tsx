@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import {
   Menu as AriaMenu,
@@ -32,6 +32,8 @@ export type MenuEntry =
       /** A count, a chevron. Never shrinks. */
       trailing?: ReactNode;
       disabled?: boolean;
+      /** Danger colour. For sign out, and nothing else so far. */
+      danger?: boolean;
     }
   | { id: string; separator: true };
 
@@ -52,7 +54,7 @@ function Item({ it, checkable }: { it: MenuItemEntry; checkable?: boolean }) {
       onAction={it.onAction}
       isDisabled={it.disabled}
       textValue={it.textValue ?? (typeof it.label === "string" ? it.label : undefined)}
-      className={["ui-menu-item", it.current ? "ui-menu-on" : ""].filter(Boolean).join(" ")}
+      className={["ui-menu-item", it.current ? "ui-menu-on" : "", it.danger ? "ui-menu-danger" : ""].filter(Boolean).join(" ")}
     >
       {({ isSelected }) => (
         <>
@@ -83,6 +85,8 @@ export default function Menu({
   menuClassName,
   disabled,
   checks,
+  trigger,
+  header,
   "aria-label": ariaLabel,
   "aria-describedby": describedBy,
 }: {
@@ -99,6 +103,11 @@ export default function Menu({
   /** The button cannot open the list, as while a pick is saving. */
   disabled?: boolean;
   checks?: MenuChecks;
+  /** A React Aria Button drawn in place of the cc-ui Button, as the shell's avatar. label, icon, variant and size are
+   * then unused. */
+  trigger?: ReactElement;
+  /** A line above the items that is not one, as who is signed in. */
+  header?: ReactNode;
   "aria-label"?: string;
   "aria-describedby"?: string;
 }) {
@@ -111,10 +120,13 @@ export default function Menu({
   return (
     <RouterProvider navigate={(href) => router.push(href)}>
       <MenuTrigger>
-        <Button variant={variant} size={size} icon={icon} trailing={trailing} className={className} disabled={disabled} aria-label={ariaLabel} aria-describedby={describedBy}>
-          {label}
-        </Button>
+        {trigger ?? (
+          <Button variant={variant} size={size} icon={icon} trailing={trailing} className={className} disabled={disabled} aria-label={ariaLabel} aria-describedby={describedBy}>
+            {label}
+          </Button>
+        )}
         <Popover className="ui-menu-pop" placement={`bottom ${align}`} offset={4}>
+          {header ? <div className="ui-menu-head">{header}</div> : null}
           <AriaMenu className={["ui-menu", menuClassName].filter(Boolean).join(" ")} aria-label={ariaLabel ?? (typeof label === "string" ? label : undefined)}>
             {checks ? (
               <>

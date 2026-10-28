@@ -556,3 +556,17 @@
   border-top: 1px solid var(--cc-line);
   margin: 4px 0;
 }
+.ui-menu-danger {
+  color: var(--cc-danger);
+}
+.ui-menu-head {
+  max-width: 260px;
+  padding: 6px 12px 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--cc-line-2);
+  font-size: var(--cc-fs-meta);
+  color: var(--cc-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
