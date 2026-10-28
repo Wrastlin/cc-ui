@@ -284,6 +284,21 @@
   flex: none;
   color: var(--cc-muted);
 }
+.ui-select-swatch {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--cc-line);
+  border-radius: 50%;
+  background: var(--cc-panel);
+}
+.ui-select-item .ui-select-swatch {
+  margin-right: var(--cc-space-2);
+}
+/* SelectValue repeats the picked option's content, chip included; the button draws its own chip. */
+.ui-select-value .ui-select-swatch {
+  display: none;
+}
 .ui-select-inline {
   display: inline-flex;
 }

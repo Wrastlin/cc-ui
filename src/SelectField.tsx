@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import {
   Button,
   FieldError,
@@ -17,7 +17,12 @@ import {
 // the pick, Escape closes, and focus goes back to the button. Value and onChange stay strings like a native select,
 // so a caller swaps `onChange={(e) => set(e.target.value)}` for `onChange={set}`.
 
-export type SelectOption = { value: string; label: string };
+export type SelectOption = {
+  value: string;
+  label: string;
+  /** A CSS color drawn as a chip before the label, in the list and in the button when picked. */
+  swatch?: string | null;
+};
 
 type SelectFieldProps = {
   label: string;
@@ -26,8 +31,12 @@ type SelectFieldProps = {
   options: readonly SelectOption[];
   name?: string;
   isDisabled?: boolean;
-  /** What went wrong; the field turns red and the line shows under the control. */
-  error?: string | null;
+  /** What went wrong; the field turns red and the line shows under the control. `true` turns it red with no line. */
+  error?: string | boolean | null;
+  /** Said quietly under the control when there is no error line, like Field's help. */
+  help?: ReactNode;
+  /** Draw each option's color chip; an option without one gets an empty chip so the labels line up. */
+  swatches?: boolean;
   className?: string;
   /** No label drawn; it still names the control for screen readers. For a filter row or table cell labeled beside it. */
   hideLabel?: boolean;
@@ -46,8 +55,13 @@ export default function SelectField({
   className,
   hideLabel,
   size,
+  help,
+  swatches,
 }: SelectFieldProps) {
   const invalid = Boolean(error);
+  const message = typeof error === "string" && error ? error : null;
+  const chip = (color: string | null | undefined) =>
+    swatches ? <span aria-hidden className="ui-select-swatch" style={{ background: color ?? undefined }} /> : null;
   const trigger = useRef<HTMLButtonElement>(null);
   // Inside a Sheet, React Aria hands focus to the sheet's dialog when the list closes, not to the button (walked n64g),
   // so a keyboard user lost their place. Put it back when it landed on the body or on something holding the button.
@@ -76,14 +90,16 @@ export default function SelectField({
     >
       {hideLabel ? null : <Label className="ui-field-label">{label}</Label>}
       <Button ref={trigger} className="ui-input ui-select ui-select-btn">
+        {chip(options.find((o) => o.value === value)?.swatch)}
         <SelectValue className="ui-select-value" />
         <ChevronDown aria-hidden size={16} className="ui-select-chev" />
       </Button>
-      <FieldError className="ui-field-help">{error}</FieldError>
+      {message ? <FieldError className="ui-field-help">{message}</FieldError> : help ? <span className="ui-field-help">{help}</span> : null}
       <Popover className="ui-select-pop" offset={4}>
         <ListBox className="ui-select-list" items={options.map((o) => ({ id: o.value, ...o }))}>
           {(o) => (
             <ListBoxItem id={o.id} textValue={o.label} className="ui-select-item">
+              {chip(o.swatch)}
               {o.label}
             </ListBoxItem>
           )}
