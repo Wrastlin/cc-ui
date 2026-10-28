@@ -5,7 +5,8 @@ import { ToggleButton, ToggleButtonGroup, type Key } from "react-aria-components
 
 // One of a fixed set, on React Aria's ToggleButtonGroup: the buttons joined as one control, the picked one filled.
 // A screen reader hears a radio group; arrow keys move between the choices, Space or Enter picks, Tab leaves the set.
-// A picked choice stays picked when tapped again: an answer is changed, not cleared.
+// A picked choice stays picked when tapped again: an answer is changed, not cleared. Pass onClear for a question that
+// may go back to unanswered: then tapping the picked choice again clears it.
 
 // An option with an icon draws the icon alone, its text the button's name and tooltip, as a tool row does (Select,
 // Box, Paint); its className reaches that one button, so a screen size can hide one choice.
@@ -18,6 +19,8 @@ type ChoiceGroupProps<T extends string> = {
   value: T | "" | undefined;
   options: readonly ChoiceOption<T>[];
   onPick: (value: T) => void;
+  /** Tapping the picked choice again clears it; without this a choice is changed, never cleared. */
+  onClear?: () => void;
   /** Lets the buttons run onto more lines instead of squeezing. */
   wrap?: boolean;
   /** The choice a question starts on before anyone says it: outlined, never filled or checked, until a tap says it. */
@@ -31,6 +34,7 @@ export function ChoiceGroup<T extends string>({
   value,
   options,
   onPick,
+  onClear,
   wrap,
   suggested,
   isDisabled,
@@ -41,11 +45,12 @@ export function ChoiceGroup<T extends string>({
     <ToggleButtonGroup
       aria-label={label}
       selectionMode="single"
-      disallowEmptySelection
+      disallowEmptySelection={!onClear}
       selectedKeys={value ? [value] : []}
       onSelectionChange={(keys: Set<Key>) => {
         const [k] = keys;
         if (k !== undefined) onPick(String(k) as T);
+        else onClear?.();
       }}
       isDisabled={isDisabled}
       className={["ui-seg", wrap ? "ui-seg-wrap" : "", className ?? ""].filter(Boolean).join(" ")}
