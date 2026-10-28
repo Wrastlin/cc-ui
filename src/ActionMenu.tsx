@@ -84,6 +84,7 @@ export default function Menu({
   disabled,
   checks,
   "aria-label": ariaLabel,
+  "aria-describedby": describedBy,
 }: {
   label?: ReactNode;
   items: readonly MenuEntry[];
@@ -99,6 +100,7 @@ export default function Menu({
   disabled?: boolean;
   checks?: MenuChecks;
   "aria-label"?: string;
+  "aria-describedby"?: string;
 }) {
   const router = useRouter();
   const isCheck = (it: MenuEntry): it is MenuItemEntry => !!checks && !("separator" in it) && !it.href && !it.onAction;
@@ -109,7 +111,7 @@ export default function Menu({
   return (
     <RouterProvider navigate={(href) => router.push(href)}>
       <MenuTrigger>
-        <Button variant={variant} size={size} icon={icon} trailing={trailing} className={className} disabled={disabled} aria-label={ariaLabel}>
+        <Button variant={variant} size={size} icon={icon} trailing={trailing} className={className} disabled={disabled} aria-label={ariaLabel} aria-describedby={describedBy}>
           {label}
         </Button>
         <Popover className="ui-menu-pop" placement={`bottom ${align}`} offset={4}>

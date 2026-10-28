@@ -47,6 +47,8 @@ type AsButton = Common & {
   disabled?: boolean;
   title?: string;
   "aria-label"?: string;
+  /** The error line under a field this button sets. */
+  "aria-describedby"?: string;
   /** One of a set of choices: the picked one reads as picked without competing with the screen's primary action. */
   pressed?: boolean;
 };
@@ -127,6 +129,7 @@ export default function Button(props: AsButton | AsLink) {
       onPressEnd={keepBubbling}
       isDisabled={p.disabled}
       aria-label={p["aria-label"]}
+      aria-describedby={p["aria-describedby"]}
       aria-pressed={p.pressed}
       render={p.title ? (attrs) => <button {...attrs} title={p.title} /> : undefined}
     >
