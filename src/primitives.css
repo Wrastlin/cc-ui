@@ -455,3 +455,77 @@
     display: none;
   }
 }
+
+/* ---- Menu ---- */
+/* Above a Sheet (4000) so a menu opened inside one shows, under the dialogs (5000). */
+.ui-menu-pop {
+  z-index: 4100;
+  min-width: 220px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 6px;
+  background: var(--cc-panel);
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  box-shadow: var(--cc-e3);
+  outline: none;
+}
+.ui-menu {
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+.ui-menu-item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: var(--cc-ctl-h-sm);
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--cc-radius);
+  color: var(--cc-text);
+  font-size: var(--cc-fs-meta);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.ui-menu-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ui-menu-trail {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+}
+.ui-menu-item[data-focused],
+.ui-menu-item[data-pressed] {
+  background: var(--cc-accent-bg);
+}
+.ui-menu-item[data-focus-visible] {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: -2px;
+}
+.ui-menu-item[data-disabled] {
+  opacity: 0.45;
+  cursor: default;
+}
+.ui-menu-on {
+  border-color: var(--cc-accent);
+  background: var(--cc-accent-bg);
+  color: var(--cc-accent);
+}
+.ui-menu-sep {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--cc-line);
+  margin: 4px 0;
+}
