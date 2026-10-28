@@ -44,6 +44,7 @@ export default function Menu({
   align = "end",
   className,
   menuClassName,
+  disabled,
   "aria-label": ariaLabel,
 }: {
   label?: ReactNode;
@@ -56,13 +57,15 @@ export default function Menu({
   align?: "start" | "end";
   className?: string;
   menuClassName?: string;
+  /** The button cannot open the list, as while a pick is saving. */
+  disabled?: boolean;
   "aria-label"?: string;
 }) {
   const router = useRouter();
   return (
     <RouterProvider navigate={(href) => router.push(href)}>
       <MenuTrigger>
-        <Button variant={variant} size={size} icon={icon} trailing={trailing} className={className} aria-label={ariaLabel}>
+        <Button variant={variant} size={size} icon={icon} trailing={trailing} className={className} disabled={disabled} aria-label={ariaLabel}>
           {label}
         </Button>
         <Popover className="ui-menu-pop" placement={`bottom ${align}`} offset={4}>
