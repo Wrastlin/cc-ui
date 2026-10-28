@@ -379,6 +379,11 @@
 .ui-sheet-modal {
   display: contents;
 }
+/* DialogHost's Modal, the same way: .dlg stays the scrim's flex child, so the app's .dlg-scrim and .dlg rules lay it
+   out as before. */
+.dlg-modal {
+  display: contents;
+}
 .ui-sheet {
   width: 100%;
   max-width: 560px;
