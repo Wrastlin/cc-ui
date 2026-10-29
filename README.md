@@ -133,6 +133,7 @@ This is why `icon` is required: on a phone it is the whole control, and
 | `TabRow`, `RecordRow`, `Chip` | Row two: tabs on a list, the record's name and status on a detail screen. Same height, so nothing jumps. |
 | `CCLogo` | The mark, the full lockup, and a single-colour lockup for dark grounds. |
 | `Button`, `Field`, `TextInput`, `Select`, `TextField`, `Row`, `RowGroup`, `Sheet` | The `ui-*` primitives, proved in CRMP at `/ui`. `TextField` is React Aria: label above, error under, no placeholder. |
+| `Menu` | A button that opens a list of links or actions, on React Aria: arrows, typeahead, Escape returns focus to the button. Items are data (`MenuEntry[]`), so a server page can pass them. |
 | `DialogHost`, `alertDialog`, `confirmDialog`, `promptDialog` | One in-app replacement for `window.confirm`. Mount `<DialogHost />` once at the root. |
 | `cc-ui/tokens.css` | Tokens alone, if an app wants them without the components. |
 
