@@ -163,10 +163,10 @@
 
 /* The rail's links in the Menu sheet. */
 .cc-sheet-menu .cc-side-nav { padding: 0; }
-.cc-sheet-menu .cc-side-nav a {
-  padding: 10px var(--cc-space-3, 12px); margin: 1px 0; font-size: var(--cc-fs-body, 15px);
-}
-.cc-sheet-menu .cc-side-more summary {
-  padding: 10px var(--cc-space-3, 12px); margin: 1px 0; font-size: var(--cc-fs-body, 15px);
+/* A thumb's row: 48 tall and 8 apart (HUMAN-UI touch targets), so a tap never lands on the row beside it. Margins in a
+   flex column do not collapse, so 4 above and 4 below make 8 between rows, across lists too. */
+.cc-sheet-menu .cc-side-nav a, .cc-sheet-menu .cc-side-more summary {
+  box-sizing: border-box; min-height: 48px; padding: 0 var(--cc-space-3, 12px); margin: 4px 0;
+  font-size: var(--cc-fs-body, 15px);
 }
 .cc-sheet-menu .cc-side-navhead { padding-left: var(--cc-space-3, 12px); }
