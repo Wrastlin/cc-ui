@@ -1,6 +1,6 @@
 /*
  * C&C Services shared design tokens
- * Version 2.0.0 (2026-08-20)
+ * Version 3.0.0 (2026-10-31, the visual system); 2.0.0 2026-08-20
  *
  * v1.0.0 was a file copied into each repo, which is exactly how the suite
  * drifted: Canvass hand-copied the values and renamed half of them, and
@@ -18,26 +18,34 @@
 
 :root {
   /* -------------------------------------------------------------- palette */
-  --cc-bg: #f4f6f9;
+  /* The visual system, 10/31 (outputs/ux-standards/visual-2026-10-31/VISUAL-SYSTEM.md, after Aaron's "Yuck!" at
+     gray-on-gray phone screens): white is the work surface, so --cc-bg and --cc-panel are the same white and a
+     section is separated by a line, not a gray box. --cc-panel-2 is kept for a track, a placeholder or a count. */
+  --cc-bg: #ffffff;
   --cc-panel: #ffffff;
-  --cc-panel-2: #f1f4f8;
-  --cc-sunk: #f7f9fc;
-  --cc-line: #e2e7ee;
-  --cc-line-2: #eef1f6;
-  --cc-text: #16202e;
-  --cc-muted: #46566b;
-  --cc-faint: #8494a8;
-  --cc-accent: #1f4a9b;
-  --cc-accent-hover: #24549f;
-  --cc-accent-press: #173a7d;
-  --cc-accent-bg: #eaf0fb;
-  --cc-good: #1f7a4d;
-  --cc-good-bg: #e2f2ea;
-  --cc-warn: #b57d1f;
-  --cc-warn-bg: #fbf2df;
-  --cc-danger: #b3372f;
-  --cc-danger-bg: #f9e5e3;
-  --cc-ring: #1f4a9b;
+  --cc-panel-2: #f4f6f8;
+  --cc-sunk: #f4f6f8;
+  --cc-line: #e2e6eb;
+  --cc-line-2: #eef1f4;
+  /* --cc-line is decoration only; a field or a secondary button needs an edge that reads, which is this. */
+  --cc-border: #7b8796;
+  --cc-text: #17212e;
+  --cc-muted: #526071;
+  --cc-faint: #7b8796;
+  --cc-accent: #234d91;
+  --cc-accent-hover: #1d4380;
+  --cc-accent-press: #18386b;
+  --cc-hover: color-mix(in srgb, var(--cc-accent) 4%, #ffffff);
+  --cc-selected: color-mix(in srgb, var(--cc-accent) 8%, #ffffff);
+  --cc-focus: color-mix(in srgb, var(--cc-accent) 12%, #ffffff);
+  --cc-accent-bg: var(--cc-selected);
+  --cc-good: #22653e;
+  --cc-good-bg: #edf6ef;
+  --cc-warn: #805300;
+  --cc-warn-bg: #fff4db;
+  --cc-danger: #ae302a;
+  --cc-danger-bg: #fceeeb;
+  --cc-ring: #234d91;
 
   /*
    * The logo is the one carve-out from design rule 3 (navy plus status
@@ -50,13 +58,20 @@
   --cc-logo-grey: #5f7180;
 
   /* ----------------------------------------------------------- type scale */
-  --cc-fs-caption: 11px;
-  --cc-fs-meta: 12px;
+  /* Three levels on a view (13 meta, 15 body, 20 page), 16 for what a person types, 17 for an optional group title.
+     The same on a phone: the old phone bump to 17 and 24 is what made the screens read as shouting. Nothing under
+     13; caption is kept as a name so old call sites land on the floor. */
+  --cc-fs-caption: 13px;
+  --cc-fs-meta: 13px;
   --cc-fs-ui: 13px;
   --cc-fs-body: 15px;
+  --cc-fs-input: 16px;
   --cc-fs-title: 17px;
   --cc-fs-page: 20px;
   --cc-fs-display: 24px;
+  --cc-lh-meta: 20px;
+  --cc-lh-body: 22px;
+  --cc-lh-page: 28px;
 
   --cc-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
@@ -77,9 +92,11 @@
   --cc-radius-lg: 12px;
 
   /* ----------------------------------------------------------- elevation */
-  --cc-e1: 0 1px 2px rgba(22, 32, 46, 0.06);
-  --cc-e2: 0 2px 8px rgba(22, 32, 46, 0.09);
-  --cc-e3: 0 8px 24px rgba(22, 32, 46, 0.14);
+  /* Controls and content are flat; only what floats casts a shadow (a menu e2, a dialog e3). e1 stays for old
+     call sites and is nearly nothing. */
+  --cc-e1: 0 1px 2px rgba(23, 33, 46, 0.04);
+  --cc-e2: 0 8px 24px rgba(23, 33, 46, 0.14), 0 2px 6px rgba(23, 33, 46, 0.06);
+  --cc-e3: 0 16px 48px rgba(23, 33, 46, 0.2);
 
   /*
    * Control heights. Never write a literal height on a control: the 48px
@@ -132,16 +149,11 @@
 }
 
 /*
- * Phone. Controls grow to the touch floor and type steps up a notch; the bar
+ * Phone. Controls grow to the touch floor (type stays on the same scale since 10/31); the bar
  * itself does not get taller, because vertical space is the scarce thing.
  */
 @media (max-width: 719px) {
   :root {
-    --cc-fs-ui: 14px;
-    --cc-fs-body: 17px;
-    --cc-fs-title: 20px;
-    --cc-fs-page: 24px;
-    --cc-fs-display: 28px;
     --cc-ctl-h: 48px;
     --cc-ctl-h-sm: 48px;
     --cc-ctl-h-lg: 56px;
