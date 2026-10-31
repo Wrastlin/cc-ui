@@ -259,7 +259,7 @@
   display: none;
 }
 .cc-tab {
-  font-size: var(--cc-fs-ui);
+  font-size: var(--cc-fs-body);
   color: var(--cc-muted);
   text-decoration: none;
   white-space: nowrap;
@@ -276,10 +276,19 @@
   font-weight: 600;
   border-bottom-color: var(--cc-accent);
 }
+/* A count is a quiet chip beside its label, never a blue button (visual system 10/31). */
 .cc-tab-n {
-  color: var(--cc-faint);
-  font-weight: 500;
-  margin-left: 5px;
+  display: inline-block;
+  min-width: 24px;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: var(--cc-radius-sm);
+  background: var(--cc-panel-2);
+  color: var(--cc-muted);
+  font-size: var(--cc-fs-meta);
+  font-weight: 600;
+  line-height: var(--cc-lh-meta);
+  text-align: center;
   font-variant-numeric: tabular-nums;
 }
 

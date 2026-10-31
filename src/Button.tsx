@@ -23,7 +23,8 @@ import { Button as AriaButton, type PressEvent } from "react-aria-components";
 // state and never a hover stuck on after the finger lifts. Links stay plain
 // anchors; React Aria's press handling is for buttons.
 
-export type ButtonVariant = "primary" | "ghost" | "danger";
+/** secondary is the visual system's name for ghost (a white button with a real edge); text is an action with no box. */
+export type ButtonVariant = "primary" | "secondary" | "ghost" | "text" | "danger";
 /** sm and md are 48px on a phone (--cc-ctl-h); lg is the 56px primary target (--cc-ctl-h-lg). */
 export type ButtonSize = "md" | "sm" | "lg";
 

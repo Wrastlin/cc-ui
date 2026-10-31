@@ -3,6 +3,7 @@
 import type { ReactElement, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import {
+  Header,
   Menu as AriaMenu,
   MenuItem,
   MenuSection,
@@ -20,24 +21,26 @@ import Button, { type ButtonSize, type ButtonVariant } from "./Button";
 // Links go through Next's router, so a pick is a client navigation like the <Link> it replaces.
 
 export type MenuEntry =
-  | {
-      id: string;
-      label: ReactNode;
-      /** What typeahead matches and a screen reader reads, when the label is not plain text. */
-      textValue?: string;
-      href?: string;
-      onAction?: () => void;
-      /** The view or list on screen now. */
-      current?: boolean;
-      /** A count, a chevron. Never shrinks. */
-      trailing?: ReactNode;
-      disabled?: boolean;
-      /** Danger colour. For sign out, and nothing else so far. */
-      danger?: boolean;
-    }
-  | { id: string; separator: true };
+  | MenuItemEntry
+  | { id: string; separator: true }
+  /** Items under a group label, as Views and Operations in a long tab list. The label is not an item. */
+  | { id: string; section: string; items: readonly MenuItemEntry[] };
 
-type MenuItemEntry = Exclude<MenuEntry, { separator: true }>;
+type MenuItemEntry = {
+  id: string;
+  label: ReactNode;
+  /** What typeahead matches and a screen reader reads, when the label is not plain text. */
+  textValue?: string;
+  href?: string;
+  onAction?: () => void;
+  /** The view or list on screen now. */
+  current?: boolean;
+  /** A count, a chevron. Never shrinks. */
+  trailing?: ReactNode;
+  disabled?: boolean;
+  /** Danger colour. For sign out, and nothing else so far. */
+  danger?: boolean;
+};
 
 /** Ticks items on and off, a filter: every entry with no href and no onAction is a check. A tap or Space toggles and
  * keeps the list open; Enter toggles and closes it (React Aria's checkbox menu). */
@@ -112,11 +115,23 @@ export default function Menu({
   "aria-describedby"?: string;
 }) {
   const router = useRouter();
-  const isCheck = (it: MenuEntry): it is MenuItemEntry => !!checks && !("separator" in it) && !it.href && !it.onAction;
+  const isCheck = (it: MenuEntry): it is MenuItemEntry =>
+    !!checks && !("separator" in it) && !("section" in it) && !it.href && !it.onAction;
   const checkItems = checks ? items.filter(isCheck) : [];
   const rest = checks ? items.filter((it) => !isCheck(it) && !("separator" in it)) : items;
   const list = (entries: readonly MenuEntry[]) =>
-    entries.map((it) => ("separator" in it ? <Separator key={it.id} className="ui-menu-sep" /> : <Item key={it.id} it={it} />));
+    entries.map((it) =>
+      "separator" in it ? (
+        <Separator key={it.id} className="ui-menu-sep" />
+      ) : "section" in it ? (
+        <MenuSection key={it.id} className="ui-menu-sec ui-menu-group">
+          <Header className="ui-menu-group-label">{it.section}</Header>
+          {it.items.map((x) => <Item key={x.id} it={x} />)}
+        </MenuSection>
+      ) : (
+        <Item key={it.id} it={it} />
+      ),
+    );
   return (
     <RouterProvider navigate={(href) => router.push(href)}>
       <MenuTrigger>
