@@ -805,6 +805,50 @@
   color: var(--cc-faint);
   cursor: default;
 }
+/* RadioChoice: stacked 48 px rows, a 20 px ring that fills navy when picked; the whole row is the target. */
+.ui-radio {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+@media (min-width: 600px) {
+  .ui-radio-inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: var(--cc-space-5);
+  }
+}
+.ui-radio-row {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-3);
+  min-height: var(--cc-tap);
+  color: var(--cc-text);
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+  cursor: pointer;
+  outline: none;
+}
+.ui-radio-mark {
+  flex: none;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--cc-border);
+  border-radius: 50%;
+  background: var(--cc-panel);
+}
+.ui-radio-row[data-selected] .ui-radio-mark {
+  border: 6px solid var(--cc-accent);
+}
+.ui-radio-row[data-focus-visible] .ui-radio-mark {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: 2px;
+}
+.ui-radio-row[data-disabled] {
+  color: var(--cc-faint);
+  cursor: default;
+}
 /* The same look on plain buttons that toggle with aria-pressed, for a pick-several set React Aria has no group for. */
 @media (hover: hover) {
   .ui-seg-btn:not([data-rac]):hover:not([aria-pressed="true"]) {
