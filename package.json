@@ -1,6 +1,6 @@
 {
   "name": "cc-ui",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "The shared C&C Services app shell, primitives and design tokens.",
   "license": "UNLICENSED",
@@ -15,6 +15,9 @@
     ".": "./src/index.ts",
     "./tokens.css": "./src/tokens.css",
     "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "test": "node --test src/*.test.ts"
   },
   "files": [
     "src"

@@ -10,7 +10,8 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "allowJs": false
+    "allowJs": false,
+    "allowImportingTsExtensions": true
   },
   "include": ["src"]
 }
