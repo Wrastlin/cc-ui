@@ -4,7 +4,8 @@ import { needsEdge } from "./swatch";
 type SwatchProps = {
   /** The chip's color. A hex decides the edge by itself (needsEdge); none draws the hatched "not picked" chip. */
   hex: string | null | undefined;
-  size?: number;
+  /** Pixels, or a CSS length for a chip that follows a token (a tap target's height). */
+  size?: number | string;
   /** A ring in the color with no fill: a kind switched off in a key. */
   hollow?: boolean;
   /**
@@ -26,6 +27,6 @@ export default function Swatch({ hex, size = 16, hollow, edge, label, className 
   const cls = ["ui-swatch", !hex && "ui-swatch-none", lined && "ui-swatch-edge", hollow && "ui-swatch-hollow", className]
     .filter(Boolean)
     .join(" ");
-  const style = { "--ui-swatch": `${size}px`, ...(hex ? { "--ui-swatch-color": hex } : {}) } as CSSProperties;
+  const style = { "--ui-swatch": typeof size === "number" ? `${size}px` : size, ...(hex ? { "--ui-swatch-color": hex } : {}) } as CSSProperties;
   return label ? <span className={cls} style={style} role="img" aria-label={label} /> : <span className={cls} style={style} aria-hidden />;
 }
