@@ -1,6 +1,6 @@
 {
   "name": "cc-ui",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "description": "The shared C&C Services app shell, primitives and design tokens.",
   "license": "UNLICENSED",

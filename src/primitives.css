@@ -318,16 +318,29 @@
   flex: none;
   color: var(--cc-muted);
 }
-.ui-select-swatch {
+/* ColorSwatch.tsx: every color chip. The edge is drawn inside the size, so an edged chip and a bare one line up. */
+.ui-swatch {
+  --ui-swatch: 16px;
   flex: none;
-  width: 18px;
-  height: 18px;
+  display: inline-block;
+  box-sizing: border-box;
+  width: var(--ui-swatch);
+  height: var(--ui-swatch);
   border: 1px solid transparent;
   border-radius: 50%;
-  background: var(--cc-panel);
+  background: var(--ui-swatch-color);
+  vertical-align: middle;
+}
+.ui-swatch-none {
+  background: repeating-linear-gradient(45deg, var(--cc-panel), var(--cc-panel) 4px, var(--cc-line) 4px, var(--cc-line) 6px);
+}
+.ui-swatch-hollow {
+  border-color: transparent;
+  background: none;
+  box-shadow: inset 0 0 0 1.5px var(--ui-swatch-color);
 }
 /* Colors under 3:1 on white (needsEdge) and the empty chip; a dark chip with a ring reads as noise. */
-.ui-select-swatch-edge {
+.ui-swatch-edge {
   border-color: var(--cc-border);
 }
 .ui-select-item .ui-select-swatch {

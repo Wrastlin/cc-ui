@@ -2,7 +2,7 @@
 
 import { ChevronDown } from "lucide-react";
 import { useRef, type ReactNode } from "react";
-import { needsEdge } from "./swatch";
+import Swatch from "./ColorSwatch";
 import {
   Button,
   FieldError,
@@ -65,14 +65,7 @@ export default function SelectField({
 }: SelectFieldProps) {
   const invalid = Boolean(error);
   const message = typeof error === "string" && error ? error : null;
-  const chip = (color: string | null | undefined) =>
-    swatches ? (
-      <span
-        aria-hidden
-        className={!color || needsEdge(color) ? "ui-select-swatch ui-select-swatch-edge" : "ui-select-swatch"}
-        style={{ background: color ?? undefined }}
-      />
-    ) : null;
+  const chip = (color: string | null | undefined) => (swatches ? <Swatch hex={color} size={18} className="ui-select-swatch" /> : null);
   const groups = options.reduce<{ label: string; options: SelectOption[] }[]>((gs, o) => {
     const last = gs.at(-1), label = o.group ?? "";
     if (last && last.label === label) last.options.push(o);
