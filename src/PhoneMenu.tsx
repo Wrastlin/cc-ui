@@ -15,13 +15,22 @@ function Anchor({ href, current, children }: MenuLinkProps) {
   );
 }
 
-/** The places used most, the same in every app: the Dashboard, Jobs for those who hold it, Tasks. */
+// In Aaron's order of what matters (2026-11-01: "supporting the work that's getting done, the subcontracts ... the
+// estimating queue ... material ordering"); each person gets the first three they hold. Email and Tasks need no grant.
+const TAB_ORDER: readonly (readonly [label: string, href: string, grant: string | null])[] = [
+  ["Subcontracts", "/subcontracts", "subcontracts"],
+  ["Jobs", "/jobs", "dashboard"],
+  ["Estimates", "/estimating/queue", "estimating"],
+  ["Shop", "/inventory/shop", "inventory"],
+  ["Email", "/email", null],
+  ["Tasks", "/tasks", null],
+];
+
+/** The places used most, the same in every app: the first three a person holds, in TAB_ORDER. */
 export function phoneTabs(apps: readonly string[]): [label: string, href: string][] {
-  return [
-    ["Dashboard", apps.includes("watch") ? "/watch" : "/dashboard"],
-    ...(apps.includes("dashboard") ? [["Jobs", "/jobs"] as [string, string]] : []),
-    ["Tasks", "/tasks"],
-  ];
+  return TAB_ORDER.filter(([, , g]) => g === null || apps.includes(g))
+    .slice(0, 3)
+    .map(([l, h]) => [l, h]);
 }
 
 /**

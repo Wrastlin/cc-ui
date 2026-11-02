@@ -2,6 +2,9 @@
  * The one side menu, the list behind it. Every C&C app draws its rail from here (Aaron, 2026-10-15: "Yes, one menu
  * everywhere"), so Subcontracts, Material orders and Shop show the same links as the main app, in the same order.
  *
+ * The Dashboard, Money, Status and Sales Management came off 2026-11-01 (Aaron: "apps are for tools, and these are
+ * things that we can query if we need to").
+ *
  * Each link carries the grant that opens it, and the rail shows only what the person holds (Aaron, 2026-09-29, on
  * James and Brauley: "sales management doesnt need to be shown for them, since thats admin work"). The page itself
  * still turns away anyone without the grant; this keeps a link that bounces off the rail.
@@ -10,11 +13,8 @@
 export type MenuLink = readonly [label: string, href: string];
 
 const MAIN = [
-  ["Dashboard", "/dashboard", "dashboard"],
   // Jobs has no grant of its own; the dashboard grant reveals it (cc-app lib/app-urls.ts).
   ["Jobs", "/jobs", "dashboard"],
-  // JobNimbus's invoices, payments, estimates, proposals and material orders, read only (parity piece 5).
-  ["Money", "/money", "dashboard"],
   // Each job's money from every system side by side, and where two records disagree (Aaron, 2026-10-15). The
   // "checks" grant is not stored: cc-app adds it for the people who see job dollars (lib/calendar/access canSeeMoney).
   ["Checks", "/checks", "checks"],
@@ -22,11 +22,7 @@ const MAIN = [
   ["Forms", "/forms", "dashboard"],
   ["PDF editor", "/pdf", "dashboard"],
   ["Templates", "/templates", "dashboard"],
-  // Aaron, 2026-09-15: "call this Sales Management".
-  ["Sales Management", "/review", "sales"],
   ["Production", "/production", "production"],
-  // Every sold job by scope and what is left to collect, checked and corrected by hand (Aaron, 2026-10-26).
-  ["Status", "/status", "dashboard"],
   // Each gutter job's work order, the picker on the house, ABC parts and the crew's costs (Aaron, 2026-10-16).
   ["Gutters", "/gutters", "gutters"],
   // The paper job folders, each opened by the QR tag taped to it; the production grant opens them (Aaron, 2026-10-09).
@@ -46,15 +42,11 @@ const MAIN = [
 // navigate"). Picked from 30 days of opens by the team, Aaron's own left out. Everything else sits under More, still one
 // click away (2026-10-19: "hide the others in a 'more' tab so i can access them still"). Back on the rail is one line.
 const EVERYDAY = new Set<string>([
-  "/watch", "/dashboard", "/jobs", "/email", "/production", "/status", "/gutters", "/subcontracts", "/estimating/queue", "/review",
-  "/canvass",
+  "/jobs", "/email", "/production", "/gutters", "/subcontracts", "/estimating/queue", "/canvass",
 ]);
 
 // Kept on the Bricks heading; its other links go under More with the rest.
 const BRICKS_RAIL = new Set<string>(["/bricks", "/inventory/buy", "/inventory/shop"]);
-
-// Watch and /production replace these two (Aaron, 2026-09-28). Hidden only for people who hold Watch.
-const REPLACED_BY_WATCH = new Set<string>(["/dashboard", "/jobs"]);
 
 // Under the Bricks heading (Aaron, 2026-10-22): Bricks is the warehouse, and it is taking over the shop, the material
 // orders and Zoho from C&C. Each keeps the grant that opened it.
@@ -72,10 +64,7 @@ const ALL = [...MAIN, ...BRICKS];
 
 /** What a person's grants open, in rail order: the main list, the rest under More, and the Bricks links apart. */
 export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: MenuLink[]; bricks: MenuLink[] } {
-  const watch = apps.includes("watch");
   const rail: MenuLink[] = [
-    // Watch is the Dashboard now (Aaron, 2026-09-28); the path stays /watch so links already sent keep working.
-    ...(watch ? [["Dashboard", "/watch"] as const] : []),
     // Email, Time and Tasks have no grant: everyone has mail, hours, time off and tasks.
     ["Email", "/email"],
     // How C&C does its work, every trade and procedure with the manufacturer standards (SOP/, Aaron 10/18; named Academy 10/19, the path kept).
@@ -87,7 +76,7 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
     ["Tasks", "/tasks"],
     // Any file from a phone to the Mac Mini, for everyone (Aaron, 2026-10-22: "it should be kind of universal").
     ["Upload", "/inventory/upload"],
-    ...MAIN.filter(([, h, app]) => apps.includes(app) && !(watch && REPLACED_BY_WATCH.has(h))).map(
+    ...MAIN.filter(([, , app]) => apps.includes(app)).map(
       ([l, h]) => [l, h] as const,
     ),
   ];
@@ -104,7 +93,7 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
  */
 export function menuLabel(path: string): string | null {
   const all: (readonly [string, string])[] = [
-    ["Dashboard", "/watch"], ["Email", "/email"], ["Library", "/library"], ["Time", "/time"], ["Tasks", "/tasks"], ["Upload", "/inventory/upload"],
+    ["Email", "/email"], ["Library", "/library"], ["Time", "/time"], ["Tasks", "/tasks"], ["Upload", "/inventory/upload"],
     ...ALL.map(([l, h]) => [l, h] as const),
   ];
   let best: string | null = null;
@@ -118,10 +107,9 @@ export function menuLabel(path: string): string | null {
   return best;
 }
 
-/** Dashboard matches itself only; every other link also lights for the pages under it, unless a longer link owns them. */
+/** A link lights for the pages under it too, unless a longer link owns them. */
 export function isCurrent(href: string, path: string): boolean {
   const under = (h: string) => path === h || path.startsWith(`${h}/`);
-  if (href === "/dashboard") return path === href;
   return under(href) && !ALL.some(([, h]) => h.length > href.length && h.startsWith(`${href}/`) && under(h));
 }
 
