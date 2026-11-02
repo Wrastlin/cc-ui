@@ -1,0 +1,79 @@
+/*
+ * cc-ui parts: the Tailwind side of cc-ui (src/parts, exported as "cc-ui/parts").
+ *
+ * An app that uses the parts imports this once, after Tailwind's theme and utilities:
+ *   @import "cc-ui/parts.css";
+ *
+ * @source makes Tailwind scan this package's own files, which it skips by default because they sit in
+ * node_modules. Every class a part uses is on the names below, and every name reads a --cc-* token from tokens.css,
+ * so a value changes in one place.
+ */
+@source "./parts";
+@source "../gallery";
+
+@theme inline {
+  --breakpoint-desk: 720px;
+  --breakpoint-wide: 1000px;
+
+  --color-cc-bg: var(--cc-bg);
+  --color-cc-panel-2: var(--cc-panel-2);
+  --color-cc-line: var(--cc-line);
+  --color-cc-line-2: var(--cc-line-2);
+  --color-cc-border: var(--cc-border);
+  --color-cc-text: var(--cc-text);
+  --color-cc-muted: var(--cc-muted);
+  --color-cc-faint: var(--cc-faint);
+  --color-cc-accent: var(--cc-accent);
+  --color-cc-accent-hover: var(--cc-accent-hover);
+  --color-cc-accent-press: var(--cc-accent-press);
+  --color-cc-hover: var(--cc-hover);
+  --color-cc-selected: var(--cc-selected);
+  --color-cc-focus: var(--cc-focus);
+  --color-cc-good: var(--cc-good);
+  --color-cc-good-bg: var(--cc-good-bg);
+  --color-cc-warn: var(--cc-warn);
+  --color-cc-warn-bg: var(--cc-warn-bg);
+  --color-cc-danger: var(--cc-danger);
+  --color-cc-danger-bg: var(--cc-danger-bg);
+  --color-cc-scrim: rgba(23, 33, 46, 0.4);
+
+  --text-cc-meta: var(--cc-fs-meta);
+  --text-cc-meta--line-height: var(--cc-lh-meta);
+  --text-cc-body: var(--cc-fs-body);
+  --text-cc-body--line-height: var(--cc-lh-body);
+  --text-cc-input: var(--cc-fs-input);
+  --text-cc-input--line-height: 24px;
+  --text-cc-title: var(--cc-fs-title);
+  --text-cc-title--line-height: 24px;
+  --text-cc-page: var(--cc-fs-page);
+  --text-cc-page--line-height: var(--cc-lh-page);
+
+  --font-weight-strong: 650;
+
+  --radius-cc-sm: var(--cc-radius-sm);
+  --radius-cc: var(--cc-radius);
+  --radius-cc-lg: var(--cc-radius-lg);
+
+  --shadow-cc-edge: var(--cc-e1);
+  --shadow-cc-menu: var(--cc-e2);
+  --shadow-cc-modal: var(--cc-e3);
+
+  --animate-cc-in: cc-in 150ms ease-out;
+  --animate-cc-out: cc-out 100ms ease-in;
+  --animate-cc-sheet-in: cc-sheet-in 200ms ease-out;
+  --animate-cc-sheet-out: cc-sheet-out 150ms ease-in;
+  --animate-cc-fade-in: cc-fade-in 150ms ease-out;
+  --animate-cc-fade-out: cc-fade-out 100ms ease-in;
+
+  @keyframes cc-in { from { opacity: 0; transform: translateY(-4px); } }
+  @keyframes cc-out { to { opacity: 0; transform: translateY(-4px); } }
+  @keyframes cc-sheet-in { from { transform: translateY(100%); } }
+  @keyframes cc-sheet-out { to { transform: translateY(100%); } }
+  @keyframes cc-fade-in { from { opacity: 0; } }
+  @keyframes cc-fade-out { to { opacity: 0; } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-cc-part][data-entering],
+  [data-cc-part][data-exiting] { animation-duration: 1ms; }
+}

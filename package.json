@@ -1,6 +1,6 @@
 {
   "name": "cc-ui",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "description": "The shared C&C Services app shell, primitives and design tokens.",
   "license": "UNLICENSED",
@@ -13,15 +13,21 @@
   ],
   "exports": {
     ".": "./src/index.ts",
+    "./parts": "./src/parts/index.ts",
+    "./parts.css": "./src/parts.css",
+    "./gallery": "./gallery/Gallery.tsx",
     "./swatch": "./src/swatch.ts",
     "./tokens.css": "./src/tokens.css",
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
-    "test": "node --test src/*.test.ts"
+    "test": "node --test src/*.test.ts src/parts/*.test.ts",
+    "typecheck": "tsc -p ."
   },
   "files": [
-    "src"
+    "src",
+    "gallery",
+    "LICENSES"
   ],
   "peerDependencies": {
     "next": ">=15",
