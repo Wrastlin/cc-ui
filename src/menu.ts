@@ -36,7 +36,6 @@ const MAIN = [
   ["Rotation", "/inspection-rotation", "inspection-rotation"],
   ["Subcontracts", "/subcontracts", "subcontracts"],
   ["Metal panels", "/panels", "panels"],
-  ["Marketing", "/marketing", "marketing"],
   ["Sim", "/sim", "sim"],
   // Daily log (/tracking) is deliberately not here since 2026-09-16: no one opened it. Putting it back is one line.
   ["Estimates", "/estimating/queue", "estimating"],
