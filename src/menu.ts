@@ -42,7 +42,7 @@ const MAIN = [
 // navigate"). Picked from 30 days of opens by the team, Aaron's own left out. Everything else sits under More, still one
 // click away (2026-10-19: "hide the others in a 'more' tab so i can access them still"). Back on the rail is one line.
 const EVERYDAY = new Set<string>([
-  "/jobs", "/email", "/production", "/gutters", "/subcontracts", "/estimating/queue", "/canvass",
+  "/jobs", "/production", "/gutters", "/subcontracts", "/estimating/queue", "/canvass",
 ]);
 
 // Kept on the Bricks heading; its other links go under More with the rest.
@@ -65,13 +65,12 @@ const ALL = [...MAIN, ...BRICKS];
 /** What a person's grants open, in rail order: the main list, the rest under More, and the Bricks links apart. */
 export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: MenuLink[]; bricks: MenuLink[] } {
   const rail: MenuLink[] = [
-    // Email, Time and Tasks have no grant: everyone has mail, hours, time off and tasks.
-    ["Email", "/email"],
     // How C&C does its work, every trade and procedure with the manufacturer standards (SOP/, Aaron 10/18; named Academy 10/19, the path kept).
     // Admins only while it is built (Aaron, 2026-10-19); cc-app adds the "academy" grant (lib/library/access withAcademy).
     ...(apps.includes("academy") ? [["Academy", "/library/index.html"] as const] : []),
     // Record a process (screen and voice, or a dropped recording) into SOP steps (cc-app /record, Aaron 10/19).
     ...(apps.includes("academy") ? [["Record", "/record"] as const] : []),
+    // Time and Tasks have no grant: everyone has hours, time off and tasks. Email left the app 11/1 (cc-app #490).
     ["Time", "/time"],
     ["Tasks", "/tasks"],
     // Any file from a phone to the Mac Mini, for everyone (Aaron, 2026-10-22: "it should be kind of universal").
@@ -93,7 +92,7 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
  */
 export function menuLabel(path: string): string | null {
   const all: (readonly [string, string])[] = [
-    ["Email", "/email"], ["Library", "/library"], ["Time", "/time"], ["Tasks", "/tasks"], ["Upload", "/inventory/upload"],
+    ["Library", "/library"], ["Time", "/time"], ["Tasks", "/tasks"], ["Upload", "/inventory/upload"],
     ...ALL.map(([l, h]) => [l, h] as const),
   ];
   let best: string | null = null;
