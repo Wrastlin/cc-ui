@@ -29,6 +29,7 @@ export { default as TextField } from "./TextField";
 export { default as TextArea } from "./TextArea";
 export { default as SelectField, type SelectOption } from "./SelectField";
 export { needsEdge } from "./swatch";
+export { default as Swatch } from "./ColorSwatch";
 export { default as NumberStepper } from "./NumberStepper";
 export { default as YesNo, ChoiceGroup, RadioChoice, type ChoiceOption } from "./YesNo";
 export { default as Row, RowGroup } from "./Row";
