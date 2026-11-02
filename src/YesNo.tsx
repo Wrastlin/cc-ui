@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ToggleButton, ToggleButtonGroup, type Key } from "react-aria-components";
+import { Radio, RadioGroup, ToggleButton, ToggleButtonGroup, type Key } from "react-aria-components";
 
 // One of a fixed set, on React Aria's ToggleButtonGroup: the buttons joined as one control, the picked one filled.
 // A screen reader hears a radio group; arrow keys move between the choices, Space or Enter picks, Tab leaves the set.
@@ -81,6 +81,43 @@ export function ChoiceGroup<T extends string>({
         ),
       )}
     </ToggleButtonGroup>
+  );
+}
+
+/** One of a fixed set as stacked 48 px radio rows (PATTERNS P12, ChoiceGroup / radio): for choices whose words do not
+ * fit side by side as segments on a phone. inline puts them in one row from 600 px wide, where they fit. */
+export function RadioChoice<T extends string>({
+  label,
+  value,
+  options,
+  onPick,
+  inline,
+  isDisabled,
+  className,
+}: {
+  label: string;
+  value: T | "" | undefined;
+  options: readonly (readonly [value: T, text: string])[];
+  onPick: (value: T) => void;
+  inline?: boolean;
+  isDisabled?: boolean;
+  className?: string;
+}) {
+  return (
+    <RadioGroup
+      aria-label={label}
+      value={value || null}
+      onChange={(v) => onPick(v as T)}
+      isDisabled={isDisabled}
+      className={["ui-radio", inline ? "ui-radio-inline" : "", className ?? ""].filter(Boolean).join(" ")}
+    >
+      {options.map(([v, text]) => (
+        <Radio key={v} value={v} className="ui-radio-row">
+          <span className="ui-radio-mark" aria-hidden />
+          {text}
+        </Radio>
+      ))}
+    </RadioGroup>
   );
 }
 
