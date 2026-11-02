@@ -67,7 +67,7 @@ export function HubFrame({ basePath, path, children }: { basePath: string; path:
   const here = basePath + path;
   return (
     <div className={`cc-frame${folded ? " cc-frame-folded" : ""}`}>
-      <SideMenu apps={apps} path={here} folded={folded} onFold={fold} logoHref={apps.includes("watch") ? "/watch" : "/"} />
+      <SideMenu apps={apps} path={here} folded={folded} onFold={fold} logoHref="/" />
       <div className="cc-frame-main">{children}</div>
       <PhoneTabs apps={apps} path={here} onMenu={() => setMenu(true)} />
       <MenuSheet
