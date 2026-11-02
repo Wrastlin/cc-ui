@@ -49,7 +49,23 @@ export type { DialogKind, DialogRequest } from "./dialogs";
 
 export { SideMenu, MenuLinks, ExtraLinks, menuIcon } from "./SideMenu";
 export { HubFrame } from "./HubFrame";
+export { AppFrame } from "./AppFrame";
 export { PhoneTabs, MenuSheet, phoneTabs } from "./PhoneMenu";
 export type { MenuLinkProps } from "./SideMenu";
 export { menuFor, menuLabel, isCurrent, MENU_FOLD_KEY } from "./menu";
 export type { MenuLink } from "./menu";
+
+export {
+  ListPage,
+  ListGroup,
+  NavRows,
+  RecordPage,
+  Section,
+  Facts,
+  WorkspacePage,
+  StepsPage,
+  PrimaryBar,
+  Count,
+  StateLine,
+} from "./templates";
+export type { Back, NavItem, Fact, RecordKind, Step } from "./templates";

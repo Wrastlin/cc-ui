@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { MENU_FOLD_KEY } from "./menu";
-import { MenuSheet, PhoneTabs } from "./PhoneMenu";
-import { SideMenu } from "./SideMenu";
+import { AppFrame } from "./AppFrame";
 
 const APPS_KEY = "cc-menu-apps";
 
@@ -17,7 +15,6 @@ function readJSON<T>(key: string, ok: (v: unknown) => v is T): T | null {
   }
 }
 const isApps = (v: unknown): v is string[] => Array.isArray(v) && v.every((x) => typeof x === "string");
-const isBool = (v: unknown): v is boolean => typeof v === "boolean";
 
 /**
  * The rail for an app served under ccservicesapp.com from its own deployment (Subcontracts, Material orders).
@@ -31,11 +28,8 @@ const isBool = (v: unknown): v is boolean => typeof v === "boolean";
  */
 export function HubFrame({ basePath, path, children }: { basePath: string; path: string; children: ReactNode }) {
   const [apps, setApps] = useState<string[] | null>(null);
-  const [folded, setFolded] = useState(false);
-  const [menu, setMenu] = useState(false);
   useEffect(() => {
     setApps(readJSON(APPS_KEY, isApps));
-    setFolded(readJSON(MENU_FOLD_KEY, isBool) ?? false);
     let live = true;
     // A whole URL as a string: an app that prefixes its own basePath onto "/..." fetches (Material orders'
     // BasePathBoot) leaves it alone.
@@ -57,26 +51,10 @@ export function HubFrame({ basePath, path, children }: { basePath: string; path:
       live = false;
     };
   }, []);
-  const fold = (v: boolean) => {
-    setFolded(v);
-    try {
-      localStorage.setItem(MENU_FOLD_KEY, JSON.stringify(v));
-    } catch {}
-  };
   if (!apps) return <>{children}</>;
-  const here = basePath + path;
   return (
-    <div className={`cc-frame${folded ? " cc-frame-folded" : ""}`}>
-      <SideMenu apps={apps} path={here} folded={folded} onFold={fold} logoHref="/" />
-      <div className="cc-frame-main">{children}</div>
-      <PhoneTabs apps={apps} path={here} onMenu={() => setMenu(true)} />
-      <MenuSheet
-        apps={apps}
-        path={here}
-        open={menu}
-        onClose={() => setMenu(false)}
-        extra={[["All apps", "/apps"]]}
-      />
-    </div>
+    <AppFrame apps={apps} path={basePath + path} logoHref="/" extra={[["All apps", "/apps"]]}>
+      {children}
+    </AppFrame>
   );
 }
