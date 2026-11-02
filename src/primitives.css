@@ -319,9 +319,13 @@
   flex: none;
   width: 18px;
   height: 18px;
-  border: 1px solid var(--cc-line);
+  border: 1px solid transparent;
   border-radius: 50%;
   background: var(--cc-panel);
+}
+/* Colors under 3:1 on white (needsEdge) and the empty chip; a dark chip with a ring reads as noise. */
+.ui-select-swatch-edge {
+  border-color: var(--cc-border);
 }
 .ui-select-item .ui-select-swatch {
   margin-right: var(--cc-space-2);
