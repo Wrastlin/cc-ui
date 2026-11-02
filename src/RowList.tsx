@@ -27,16 +27,27 @@ export function ListRow({
   id,
   textValue,
   className,
+  onAction,
+  isDisabled,
   children,
 }: {
   id: string;
   /** What typeahead matches and a screen reader reads first. */
   textValue: string;
   className?: string;
+  /** The whole row is the target (a tap, Enter): no button nested inside it to carry the action. */
+  onAction?: () => void;
+  isDisabled?: boolean;
   children: ReactNode;
 }) {
   return (
-    <GridListItem id={id} textValue={textValue} className={["ui-listrow", className].filter(Boolean).join(" ")}>
+    <GridListItem
+      id={id}
+      textValue={textValue}
+      onAction={onAction}
+      isDisabled={isDisabled}
+      className={["ui-listrow", className].filter(Boolean).join(" ")}
+    >
       {children}
     </GridListItem>
   );
