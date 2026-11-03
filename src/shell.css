@@ -165,7 +165,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--cc-space-1);
-  height: var(--cc-ctl-h-sm);
+  height: max(var(--cc-ctl-h-sm), 36px); /* the desk floor; ctl-h-sm is 32 on a desk */
   padding: 0 11px 0 7px;
   margin-left: -5px; /* optical: the chevron, not its box, aligns to the edge */
   flex: 0 0 auto;
