@@ -78,6 +78,42 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
 }
 
 /**
+ * The rail by category, the same five the home page opens (Aaron, 2026-11-04: "if estimating is its own category, it can
+ * still have kind of like a section homepage, but then it should have tabs for all those items ... in the sidebar, we
+ * have those options available to us"). Each heading opens its section page in the main app; the links open the tools.
+ */
+export type MenuSection = { id: string; title: string; href: string; links: MenuLink[] };
+
+const SECTIONS: readonly { id: string; title: string; hrefs: readonly string[] }[] = [
+  { id: "bricks", title: "Bricks", hrefs: ["/bricks", "/inventory/buy", "/inventory/shop", "/inventory/shop/print"] },
+  { id: "trades", title: "Trades", hrefs: ["/gutters"] },
+  { id: "jobs", title: "Jobs", hrefs: ["/jobs", "/production", "/folders", "/subcontracts", "/checks", "/time"] },
+  { id: "estimating", title: "Estimating", hrefs: ["/estimating/queue", "/commercial"] },
+  { id: "sales", title: "Sales and service", hrefs: ["/admin", "/canvass"] },
+  { id: "academy", title: "Academy", hrefs: ["/library/index.html", "/record"] },
+];
+
+/** What a person's grants open, by category, in rail order; a category with nothing held is left out. */
+export function menuSections(apps: readonly string[]): MenuSection[] {
+  const { main, more, bricks } = menuFor(apps);
+  const held = new Map([...bricks, ...main, ...more].map((l) => [l[1], l] as const));
+  return SECTIONS.map((s) => ({
+    id: s.id,
+    title: s.title,
+    href: `/apps/${s.id}`,
+    links: s.hrefs.flatMap((h): MenuLink[] => {
+      const l = held.get(h);
+      return l ? [l] : [];
+    }),
+  })).filter((s) => s.links.length);
+}
+
+/** The category a path sits under, for the tabs across the top of its tools. */
+export function sectionFor(apps: readonly string[], path: string): MenuSection | null {
+  return menuSections(apps).find((s) => path === s.href || s.links.some(([, h]) => isCurrent(h, path))) ?? null;
+}
+
+/**
  * The menu's own name for the screen a path sits under, grants aside, so a back link reads the way the rail does.
  * Longest match wins: /inventory/shop is Shop, not Material orders.
  */

@@ -3,11 +3,11 @@
 import type { ReactNode } from "react";
 import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, FilePen,
-  FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutGrid, Layers, ListChecks, MapPin, Mic, MoreHorizontal, Package,
+  FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutGrid, Layers, ListChecks, MapPin, Mic, Package,
   PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
-import { isCurrent, menuFor, type MenuLink } from "./menu";
+import { isCurrent, menuSections, type MenuLink } from "./menu";
 
 // A folded rail is these alone, so each link keeps one beside its name.
 const ICON: Record<string, LucideIcon> = {
@@ -81,29 +81,23 @@ export function MenuLinks({
   folded?: boolean;
   renderLink?: (p: MenuLinkProps) => ReactNode;
 }) {
-  const { main, more, bricks } = menuFor(apps);
-  const inMore = more.some(([, h]) => isCurrent(h, path));
+  const sections = menuSections(apps);
   const draw = drawLink(path, folded, renderLink);
+  // A category heading opens its section page; its tools sit under it, so every one is a tap from anywhere.
   return (
     <>
-      {/* Bricks is its own company, so it leads the menu under its own heading (Aaron, 2026-11-03). */}
-      {bricks.length > 0 && (
-        <>
-          <div className="cc-side-navhead">Bricks</div>
-          <div className="cc-side-nav">{bricks.map(draw)}</div>
-        </>
-      )}
-      {bricks.length > 0 && <div className="cc-side-navhead">C&amp;C</div>}
-      <div className="cc-side-nav">{main.map(draw)}</div>
-      {more.length > 0 && (
-        <details className="cc-side-more" open={inMore || undefined}>
-          <summary title={folded ? "More" : undefined}>
-            <MoreHorizontal size={16} strokeWidth={1.75} aria-hidden />
-            <span className="cc-side-label">More</span>
-          </summary>
-          <div className="cc-side-nav">{more.map(draw)}</div>
-        </details>
-      )}
+      {sections.map((s) => (
+        <div key={s.id} className="cc-side-section">
+          {renderLink({
+            href: s.href,
+            label: s.title,
+            folded,
+            current: path === s.href,
+            children: <span className="cc-side-navhead">{s.title}</span>,
+          })}
+          <div className="cc-side-nav">{s.links.map(draw)}</div>
+        </div>
+      ))}
     </>
   );
 }
