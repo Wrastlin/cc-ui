@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { BackTarget } from "./AppBar";
+import type { MouseEvent } from "react";
 
 /*
  * The way back from a record to its list. One control for every app, in the bar or at the top of a page.
@@ -10,7 +10,19 @@ import type { BackTarget } from "./AppBar";
  * on the tap floor, chevron first, and it names where it lands. Bricks made the same fix first (#58); this is that
  * fix, shared, so fixing it here fixes it everywhere.
  */
-export function BackButton({ label, href, onClick, className }: BackTarget & { className?: string }) {
+export function BackButton({
+  label,
+  href,
+  onClick,
+  className,
+}: {
+  /** Where back lands, named ("Customers", "26268 Wallace"), never "Back". */
+  label: string;
+  href?: string;
+  /** With href, runs before the link navigates and may prevent it (a list kept in state). */
+  onClick?: (e: MouseEvent<HTMLElement>) => void;
+  className?: string;
+}) {
   const cls = ["cc-back", className].filter(Boolean).join(" ");
   const inner = (
     <>
