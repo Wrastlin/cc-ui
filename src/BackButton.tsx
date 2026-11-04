@@ -19,7 +19,7 @@ export function BackButton({ label, href, onClick, className }: BackTarget & { c
     </>
   );
   return href ? (
-    <Link className={cls} href={href} title={`Back to ${label}`}>
+    <Link className={cls} href={href} onClick={onClick} title={`Back to ${label}`}>
       {inner}
     </Link>
   ) : (
