@@ -20,8 +20,11 @@
   border-bottom: 1px solid var(--cc-line);
   font-family: var(--cc-font-sans);
   color: var(--cc-text);
-  position: relative;
-  /* The bar is chrome: it must not scroll away or be pushed by page content. */
+  /* The bar is chrome: it must not scroll away or be pushed by page content. Sticky, so a long list never takes the
+     way back and the menu off screen (Aaron 11/3, Bricks #60). */
+  position: sticky;
+  top: 0;
+  z-index: 30;
   flex: 0 0 auto;
 }
 
@@ -156,30 +159,37 @@
 
 /* -------------------------------------------------------------- the back */
 /*
- * Navigation, not an action, so it is never a bordered button: a border would
- * put it in competition with the primary action on the right, which is the
- * thing you actually want pressed.
+ * A real button, not accent text (Aaron 11/3: "awkward small text that says
+ * Customers", Bricks #58). Bordered and neutral so it reads as a control at a
+ * glance yet never outranks the filled primary on the right. The same class
+ * draws BackButton on a page and the back in the bar.
  */
 .cc-back,
 .cc-bar .cc-back {
   display: inline-flex;
   align-items: center;
-  gap: var(--cc-space-1);
-  height: max(var(--cc-ctl-h-sm), 36px); /* the desk floor; ctl-h-sm is 32 on a desk */
-  padding: 0 11px 0 7px;
-  margin-left: -5px; /* optical: the chevron, not its box, aligns to the edge */
+  gap: 6px;
+  height: max(var(--cc-ctl-h-sm), 40px);
+  padding: 0 14px 0 10px;
   flex: 0 0 auto;
-  max-width: var(--cc-back-max);
-  border: none;
-  border-radius: var(--cc-radius-sm);
-  background: transparent;
-  color: var(--cc-accent);
-  font: 500 var(--cc-fs-ui) / 1 var(--cc-font-sans);
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+  background: var(--cc-panel);
+  color: var(--cc-text);
+  font: 600 15px / 20px var(--cc-font-sans);
   text-decoration: none;
   cursor: pointer;
 }
+.cc-bar .cc-back {
+  max-width: var(--cc-back-max);
+}
 .cc-back:hover {
-  background: var(--cc-accent-bg);
+  border-color: var(--cc-accent);
+  color: var(--cc-accent);
+}
+.cc-back:focus-visible {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: 2px;
 }
 .cc-back > span {
   min-width: 0;
@@ -190,13 +200,20 @@
 .cc-back > svg {
   flex: 0 0 auto;
 }
+@media (max-width: 719px) {
+  .cc-back {
+    font-size: 16px;
+  }
+}
 
 /*
- * Narrow phones. Below this the label would push the product name out, so the
- * label goes and the destination survives in the control's title attribute.
+ * The narrowest phones. Below this the label would push the product name out,
+ * so the label goes and the destination survives in the title attribute. A
+ * 390 phone keeps the word.
  */
-@media (max-width: 400px) {
-  .cc-back {
+@media (max-width: 359px) {
+  .cc-back,
+  .cc-bar .cc-back {
     max-width: none;
     width: var(--cc-ctl-h-sm);
     padding: 0;

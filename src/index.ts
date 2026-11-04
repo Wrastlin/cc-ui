@@ -13,6 +13,7 @@ export type { LogoVariant } from "./CCLogo";
 
 export { AppBar, IdentityBar } from "./AppBar";
 export { OverlayBar } from "./OverlayBar";
+export { BackButton } from "./BackButton";
 export type { BackTarget, BarAction } from "./AppBar";
 
 export { AccountButton, initialsFromEmail } from "./AccountButton";
