@@ -78,39 +78,101 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
 }
 
 /**
- * The rail by category, the same five the home page opens (Aaron, 2026-11-04: "if estimating is its own category, it can
- * still have kind of like a section homepage, but then it should have tabs for all those items ... in the sidebar, we
- * have those options available to us"). Each heading opens its section page in the main app; the links open the tools.
+ * The one map of the app (Design-Lead/PATTERNS.md P15). Home, the side menu, the phone menu and the tabs across every
+ * page draw from this list and nothing else (Aaron, 2026-11-04: "Estimating itself should be its own kind of major
+ * section ... Residential, insurance, commercial, Swiderski, gutters, all that stuff can be baked into estimating").
+ * A section's heading opens its home; its tabs are the kinds of work inside it; `under` is every path it owns, so a
+ * tool reached from a row (the queue, the roof markup) still shows its section's tabs.
  */
+export type SectionTab = { label: string; href: string; grant?: string };
 export type MenuSection = { id: string; title: string; href: string; links: MenuLink[] };
+export type SectionTabs = { section: MenuSection; tabs: { label: string; href: string; current: boolean }[] };
 
-const SECTIONS: readonly { id: string; title: string; hrefs: readonly string[] }[] = [
-  { id: "bricks", title: "Bricks", hrefs: ["/bricks", "/inventory/buy", "/inventory/shop", "/inventory/shop/print"] },
-  { id: "trades", title: "Trades", hrefs: ["/gutters"] },
-  { id: "jobs", title: "Jobs", hrefs: ["/jobs", "/production", "/folders", "/subcontracts", "/checks", "/time"] },
-  { id: "estimating", title: "Estimating", hrefs: ["/estimating/queue", "/commercial"] },
-  { id: "sales", title: "Sales and service", hrefs: ["/admin", "/canvass"] },
-  { id: "academy", title: "Academy", hrefs: ["/library/index.html", "/record"] },
+type SectionDef = { id: string; title: string; home: string; tabs: readonly SectionTab[]; under?: readonly string[] };
+
+const SECTIONS: readonly SectionDef[] = [
+  {
+    id: "bricks", title: "Bricks", home: "/apps/bricks",
+    tabs: [
+      { label: "Bricks Hardware", href: "/bricks", grant: "bricks" },
+      { label: "Material orders", href: "/inventory/buy", grant: "inventory" },
+      { label: "Shop", href: "/inventory/shop", grant: "inventory" },
+      { label: "Shop printer", href: "/inventory/shop/print", grant: "inventory" },
+    ],
+  },
+  {
+    id: "jobs", title: "Jobs", home: "/apps/jobs",
+    tabs: [
+      { label: "Jobs", href: "/jobs", grant: "dashboard" },
+      { label: "Production", href: "/production", grant: "production" },
+      { label: "Job folders", href: "/folders", grant: "production" },
+      { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
+      { label: "Checks", href: "/checks", grant: "checks" },
+      { label: "Time", href: "/time" },
+    ],
+  },
+  {
+    id: "estimating", title: "Estimating", home: "/core/estimating",
+    tabs: [
+      { label: "Residential", href: "/core/estimating?p=residential", grant: "estimating" },
+      { label: "Insurance", href: "/core/estimating?p=insurance", grant: "estimating" },
+      { label: "Commercial", href: "/core/estimating?p=commercial", grant: "commercial" },
+      { label: "Plan bids", href: "/core/estimating?p=plan_bid", grant: "estimating" },
+      { label: "Gutters", href: "/gutters", grant: "gutters" },
+    ],
+    under: ["/estimating", "/commercial", "/core/estimating"],
+  },
+  {
+    id: "sales", title: "Sales and service", home: "/apps/sales",
+    tabs: [
+      { label: "CRMP", href: "/admin", grant: "crmp" },
+      { label: "Canvass", href: "/canvass", grant: "canvass" },
+    ],
+  },
+  {
+    id: "academy", title: "Academy", home: "/apps/academy",
+    tabs: [
+      { label: "Academy", href: "/library/index.html", grant: "academy" },
+      { label: "Record", href: "/record", grant: "academy" },
+    ],
+  },
 ];
 
-/** What a person's grants open, by category, in rail order; a category with nothing held is left out. */
+/** Every destination the map names, for the check that each sits in exactly one section. */
+export const SECTION_HREFS: readonly string[] = SECTIONS.flatMap((s) => s.tabs.map((t) => t.href));
+
+const pathOf = (href: string) => href.split("?")[0];
+const under = (h: string, path: string) => path === h || path.startsWith(`${h}/`);
+
+/** The sections a person's grants open, in order; a section with no tab held is left out. */
 export function menuSections(apps: readonly string[]): MenuSection[] {
-  const { main, more, bricks } = menuFor(apps);
-  const held = new Map([...bricks, ...main, ...more].map((l) => [l[1], l] as const));
   return SECTIONS.map((s) => ({
     id: s.id,
     title: s.title,
-    href: `/apps/${s.id}`,
-    links: s.hrefs.flatMap((h): MenuLink[] => {
-      const l = held.get(h);
-      return l ? [l] : [];
-    }),
+    href: s.home,
+    links: s.tabs.filter((t) => !t.grant || apps.includes(t.grant)).map((t): MenuLink => [t.label, t.href]),
   })).filter((s) => s.links.length);
 }
 
-/** The category a path sits under, for the tabs across the top of its tools. */
-export function sectionFor(apps: readonly string[], path: string): MenuSection | null {
-  return menuSections(apps).find((s) => path === s.href || s.links.some(([, h]) => isCurrent(h, path))) ?? null;
+/**
+ * The section a page sits in and its tabs, the current one marked. A tab with a query is current only when the page's
+ * query matches it, so the Estimating home shows every estimate with no tab lit.
+ */
+export function sectionTabs(apps: readonly string[], path: string, search = ""): SectionTabs | null {
+  const q = new URLSearchParams(search);
+  const def = SECTIONS.find(
+    (s) => path === s.home || s.tabs.some((t) => under(pathOf(t.href), path)) || (s.under ?? []).some((h) => under(h, path)),
+  );
+  const section = def && menuSections(apps).find((m) => m.id === def.id);
+  if (!def || !section) return null;
+  const tabs = section.links.map(([label, href]) => {
+    const [p, query] = href.split("?");
+    const current = query
+      ? path === p && [...new URLSearchParams(query)].every(([k, v]) => q.get(k) === v)
+      : under(p, path);
+    return { label, href, current };
+  });
+  return { section, tabs };
 }
 
 /**

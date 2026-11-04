@@ -1,5 +1,6 @@
 "use client";
 
+import { SectionTabRow } from "./ContextRow";
 import { useEffect, useState, type ReactNode } from "react";
 import { MENU_FOLD_KEY } from "./menu";
 import { MenuSheet, PhoneTabs } from "./PhoneMenu";
@@ -68,7 +69,10 @@ export function HubFrame({ basePath, path, children }: { basePath: string; path:
   return (
     <div className={`cc-frame${folded ? " cc-frame-folded" : ""}`}>
       <SideMenu apps={apps} path={here} folded={folded} onFold={fold} logoHref="/" />
-      <div className="cc-frame-main">{children}</div>
+      <div className="cc-frame-main">
+        <SectionTabRow apps={apps} path={here} />
+        {children}
+      </div>
       <PhoneTabs apps={apps} path={here} onMenu={() => setMenu(true)} />
       <MenuSheet
         apps={apps}

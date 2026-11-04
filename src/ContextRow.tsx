@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { sectionTabs } from "./menu";
 
 /*
  * Row two: never empty, never guessing.
@@ -42,6 +43,16 @@ export function TabRow({ tabs, label = "Sections" }: { tabs: Tab[]; label?: stri
       ))}
     </nav>
   );
+}
+
+/**
+ * Row two on every page inside a section: the section's tabs, from the one map (menu.ts, PATTERNS P15). Each frame
+ * mounts this once, so a page never draws its own copy of where things are. Nothing outside a section.
+ */
+export function SectionTabRow({ apps, path, search }: { apps: readonly string[]; path: string; search?: string }) {
+  const here = sectionTabs(apps, path, search);
+  if (!here) return null;
+  return <TabRow label={here.section.title} tabs={here.tabs} />;
 }
 
 /**
