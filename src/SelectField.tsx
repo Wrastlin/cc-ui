@@ -107,7 +107,10 @@ export default function SelectField({
       {hideLabel ? null : <Label className="ui-field-label">{label}</Label>}
       <Button ref={trigger} className="ui-input ui-select ui-select-btn">
         {chip(options.find((o) => o.value === value)?.swatch)}
-        <SelectValue className="ui-select-value" />
+        {/* React Aria's default placeholder reads "Select an item" in every empty field; an empty field shows nothing. */}
+        <SelectValue className="ui-select-value">
+          {({ isPlaceholder, defaultChildren }) => (isPlaceholder ? null : defaultChildren)}
+        </SelectValue>
         <ChevronDown aria-hidden size={16} className="ui-select-chev" />
       </Button>
       {message ? <FieldError className="ui-field-help"><span role="alert">{message}</span></FieldError> : help ? <span className="ui-field-help">{help}</span> : null}
