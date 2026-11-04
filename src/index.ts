@@ -19,7 +19,7 @@ export type { BackTarget, BarAction } from "./AppBar";
 export { AccountButton, initialsFromEmail } from "./AccountButton";
 export type { AccountItem } from "./AccountButton";
 
-export { TabRow, RecordRow, Chip, Breadcrumbs } from "./ContextRow";
+export { TabRow, SectionTabRow, RecordRow, Chip, Breadcrumbs } from "./ContextRow";
 export type { Tab, ChipTone, Crumb } from "./ContextRow";
 
 export { default as Button } from "./Button";
@@ -53,5 +53,5 @@ export { SideMenu, MenuLinks, ExtraLinks, menuIcon } from "./SideMenu";
 export { HubFrame } from "./HubFrame";
 export { PhoneTabs, MenuSheet, phoneTabs } from "./PhoneMenu";
 export type { MenuLinkProps } from "./SideMenu";
-export { menuFor, menuSections, sectionFor, menuLabel, isCurrent, MENU_FOLD_KEY } from "./menu";
-export type { MenuLink, MenuSection } from "./menu";
+export { menuFor, menuSections, sectionTabs, SECTION_HREFS, menuLabel, isCurrent, MENU_FOLD_KEY } from "./menu";
+export type { MenuLink, MenuSection, SectionTabs } from "./menu";
