@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { BackButton } from "./BackButton";
 import { CCLogo } from "./CCLogo";
 
 /*
@@ -104,22 +105,7 @@ export function AppBar({
     <header className={["cc-bar", className].filter(Boolean).join(" ")}>
       {back ? (
         <>
-          {back.href ? (
-            <Link className="cc-back" href={back.href} title={`Back to ${back.label}`}>
-              <Chevron />
-              <span>{back.label}</span>
-            </Link>
-          ) : (
-            <button
-              type="button"
-              className="cc-back"
-              onClick={back.onClick}
-              title={`Back to ${back.label}`}
-            >
-              <Chevron />
-              <span>{back.label}</span>
-            </button>
-          )}
+          <BackButton {...back} />
           <span className="cc-bar-rule" aria-hidden />
         </>
       ) : null}
@@ -191,24 +177,5 @@ export function IdentityBar({ className }: { className?: string }) {
     <header className={["cc-bar cc-bar-identity", className].filter(Boolean).join(" ")}>
       <CCLogo variant="lockup" height={34} title="C&C Services Group" />
     </header>
-  );
-}
-
-function Chevron() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.1"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-      focusable="false"
-    >
-      <path d="M15 18l-6-6 6-6" />
-    </svg>
   );
 }
