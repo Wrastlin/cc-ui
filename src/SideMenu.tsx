@@ -86,6 +86,14 @@ export function MenuLinks({
   const draw = drawLink(path, folded, renderLink);
   return (
     <>
+      {/* Bricks is its own company, so it leads the menu under its own heading (Aaron, 2026-11-03). */}
+      {bricks.length > 0 && (
+        <>
+          <div className="cc-side-navhead">Bricks</div>
+          <div className="cc-side-nav">{bricks.map(draw)}</div>
+        </>
+      )}
+      {bricks.length > 0 && <div className="cc-side-navhead">C&amp;C</div>}
       <div className="cc-side-nav">{main.map(draw)}</div>
       {more.length > 0 && (
         <details className="cc-side-more" open={inMore || undefined}>
@@ -95,12 +103,6 @@ export function MenuLinks({
           </summary>
           <div className="cc-side-nav">{more.map(draw)}</div>
         </details>
-      )}
-      {bricks.length > 0 && (
-        <>
-          <div className="cc-side-navhead">Bricks</div>
-          <div className="cc-side-nav">{bricks.map(draw)}</div>
-        </>
       )}
     </>
   );
