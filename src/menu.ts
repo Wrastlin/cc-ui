@@ -12,16 +12,15 @@
 
 export type MenuLink = readonly [label: string, href: string];
 
+// Off the menu 11/4 (Aaron: "remove all those so it's easier to share"), by 30 days of team opens: Contacts, Forms, PDF
+// editor, Templates, Tasks, Upload and Metal panels 0, Rotation 1; Sim is off; Zoho opens from Bricks' own menu. Every
+// route still answers. Back on the menu is one line.
 const MAIN = [
   // Jobs has no grant of its own; the dashboard grant reveals it (cc-app lib/app-urls.ts).
   ["Jobs", "/jobs", "dashboard"],
   // Each job's money from every system side by side, and where two records disagree (Aaron, 2026-10-15). The
   // "checks" grant is not stored: cc-app adds it for the people who see job dollars (lib/calendar/access canSeeMoney).
   ["Checks", "/checks", "checks"],
-  ["Contacts", "/contacts", "dashboard"],
-  ["Forms", "/forms", "dashboard"],
-  ["PDF editor", "/pdf", "dashboard"],
-  ["Templates", "/templates", "dashboard"],
   ["Production", "/production", "production"],
   // Each gutter job's work order, the picker on the house, ABC parts and the crew's costs (Aaron, 2026-10-16).
   ["Gutters", "/gutters", "gutters"],
@@ -29,10 +28,7 @@ const MAIN = [
   ["Job folders", "/folders", "production"],
   ["CRMP", "/admin", "crmp"],
   ["Canvass", "/canvass", "canvass"],
-  ["Rotation", "/inspection-rotation", "inspection-rotation"],
   ["Subcontracts", "/subcontracts", "subcontracts"],
-  ["Metal panels", "/panels", "panels"],
-  ["Sim", "/sim", "sim"],
   // Daily log (/tracking) is deliberately not here since 2026-09-16: no one opened it. Putting it back is one line.
   ["Estimates", "/estimating/queue", "estimating"],
   ["Commercial", "/commercial", "commercial"],
@@ -56,8 +52,6 @@ const BRICKS = [
   ["Material orders", "/inventory/buy", "inventory"],
   // The Epson at the shop: the office uploads PDFs, the QR on the printer opens them to print (Aaron, 2026-10-20).
   ["Shop printer", "/inventory/shop/print", "inventory"],
-  // Bricks' Zoho Books, read only, from the watcher's copy.
-  ["Zoho", "/zoho", "dashboard"],
 ] as const;
 
 const ALL = [...MAIN, ...BRICKS];
@@ -70,11 +64,8 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
     ...(apps.includes("academy") ? [["Academy", "/library/index.html"] as const] : []),
     // Record a process (screen and voice, or a dropped recording) into SOP steps (cc-app /record, Aaron 10/19).
     ...(apps.includes("academy") ? [["Record", "/record"] as const] : []),
-    // Time and Tasks have no grant: everyone has hours, time off and tasks. Email left the app 11/1 (cc-app #490).
+    // Time has no grant: everyone has hours and time off. Email left the app 11/1 (cc-app #490).
     ["Time", "/time"],
-    ["Tasks", "/tasks"],
-    // Any file from a phone to the Mac Mini, for everyone (Aaron, 2026-10-22: "it should be kind of universal").
-    ["Upload", "/inventory/upload"],
     ...MAIN.filter(([, , app]) => apps.includes(app)).map(
       ([l, h]) => [l, h] as const,
     ),
