@@ -12,9 +12,9 @@
 
 export type MenuLink = readonly [label: string, href: string];
 
-// Off the menu 11/4 (Aaron: "remove all those so it's easier to share"), by 30 days of team opens: Contacts, Forms, PDF
-// editor, Templates, Tasks, Upload and Metal panels 0, Rotation 1; Sim is off; Zoho opens from Bricks' own menu. Every
-// route still answers. Back on the menu is one line.
+// Off the menu 11/4 (Aaron: "remove all those so it's easier to share"): Contacts, Forms, Templates, Tasks, Upload, Sim;
+// Zoho opens from Bricks' own menu. Back 11/5 (Aaron: "PDF editor should be part of the app! Same as rotation"): PDF
+// editor and Rotation; Metal panels moved into Estimating ("put it in the estimation system").
 const MAIN = [
   // Jobs has no grant of its own; the dashboard grant reveals it (cc-app lib/app-urls.ts).
   ["Jobs", "/jobs", "dashboard"],
@@ -32,6 +32,9 @@ const MAIN = [
   // Daily log (/tracking) is deliberately not here since 2026-09-16: no one opened it. Putting it back is one line.
   ["Estimates", "/estimating/queue", "estimating"],
   ["Commercial", "/commercial", "commercial"],
+  ["Metal panels", "/panels", "panels"],
+  ["PDF editor", "/pdf", "dashboard"],
+  ["Rotation", "/inspection-rotation", "inspection-rotation"],
 ] as const;
 
 // The rail is the everyday tools only (Aaron, 2026-10-26: "our app is an absolute mess ... i dont really know how to
@@ -108,6 +111,7 @@ const SECTIONS: readonly SectionDef[] = [
       { label: "Job folders", href: "/folders", grant: "production" },
       { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
       { label: "Checks", href: "/checks", grant: "checks" },
+      { label: "PDF editor", href: "/pdf", grant: "dashboard" },
       { label: "Time", href: "/time" },
     ],
   },
@@ -119,14 +123,16 @@ const SECTIONS: readonly SectionDef[] = [
       { label: "Commercial", href: "/core/estimating?p=commercial", grant: "commercial" },
       { label: "Plan bids", href: "/core/estimating?p=plan_bid", grant: "estimating" },
       { label: "Gutters", href: "/gutters", grant: "gutters" },
+      { label: "Metal panels", href: "/panels", grant: "panels" },
     ],
-    under: ["/estimating", "/commercial", "/core/estimating"],
+    under: ["/estimating", "/commercial", "/core/estimating", "/panels"],
   },
   {
     id: "sales", title: "Sales and service", home: "/apps/sales",
     tabs: [
       { label: "CRMP", href: "/admin", grant: "crmp" },
       { label: "Canvass", href: "/canvass", grant: "canvass" },
+      { label: "Rotation", href: "/inspection-rotation", grant: "inspection-rotation" },
     ],
   },
   {
