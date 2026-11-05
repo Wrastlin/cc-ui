@@ -400,6 +400,10 @@
   font-weight: 600;
   color: var(--cc-accent);
 }
+.ui-select-item[data-disabled] {
+  color: var(--cc-muted);
+  cursor: default;
+}
 /* iOS Safari sizes a date or time field to its own text and ignores width, so it ran out of its card (Gutters Costs,
    Files). Without its native look it takes the width it is given; the value stays on the left like every other field. */
 .ui-input:is([type="date"], [type="time"], [type="datetime-local"], [type="month"]) {
