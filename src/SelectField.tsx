@@ -27,6 +27,8 @@ export type SelectOption = {
   swatch?: string | null;
   /** A header the option sits under, for a list past seven (HUMAN-UI 1). Options of one group are given together. */
   group?: string;
+  /** Listed but not pickable, like a filter value no product has under the other picks. */
+  disabled?: boolean;
 };
 
 type SelectFieldProps = {
@@ -73,7 +75,7 @@ export default function SelectField({
     return gs;
   }, []);
   const item = (o: SelectOption) => (
-    <ListBoxItem key={o.value} id={o.value} textValue={o.label} className="ui-select-item">
+    <ListBoxItem key={o.value} id={o.value} textValue={o.label} isDisabled={o.disabled} className="ui-select-item">
       {chip(o.swatch)}
       {o.label}
     </ListBoxItem>
