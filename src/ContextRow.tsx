@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { sectionTabs } from "./menu";
 
 /*
@@ -26,8 +26,18 @@ export type Tab = {
 };
 
 export function TabRow({ tabs, label = "Sections" }: { tabs: Tab[]; label?: string }) {
+  // One row that scrolls sideways on a phone (Aaron 11/6, the two-row tab bar: "a huge mess"); the open tab is scrolled
+  // into sight so a tab past the edge never hides where you are.
+  const row = useRef<HTMLElement>(null);
+  const on = tabs.find((t) => t.current)?.href;
+  useEffect(() => {
+    const el = row.current?.querySelector<HTMLElement>('[aria-current="page"]');
+    const box = row.current;
+    if (!el || !box || box.scrollWidth <= box.clientWidth) return;
+    box.scrollLeft = el.offsetLeft - (box.clientWidth - el.offsetWidth) / 2;
+  }, [on]);
   return (
-    <nav className="cc-tabs" aria-label={label}>
+    <nav ref={row} className="cc-tabs" aria-label={label}>
       {tabs.map((t) => (
         <Link
           key={t.href}

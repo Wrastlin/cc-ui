@@ -275,6 +275,14 @@
 .cc-tabs::-webkit-scrollbar {
   display: none;
 }
+/* Tabs past a phone's edge fade out there, so the row reads as one that scrolls; the end padding lets the last tab
+   scroll clear of the fade. */
+@media (max-width: 600px) {
+  .cc-tabs {
+    padding-right: var(--cc-space-6, 32px);
+    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  }
+}
 .cc-tab {
   font-size: var(--cc-fs-body);
   color: var(--cc-muted);
