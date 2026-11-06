@@ -21,6 +21,15 @@ test("every menu link is reached from a section", () => {
   }
 });
 
+test("subcontractor pay sits under Jobs beside Subcontracts, for the subcontracts grant only", () => {
+  const jobs = menuSections(ALL).find((s) => s.id === "jobs");
+  const labels = jobs?.links.map(([l]) => l) ?? [];
+  assert.equal(labels.indexOf("Subcontractor pay"), labels.indexOf("Subcontracts") + 1);
+  assert.deepEqual(sectionTabs(ALL, "/core/crew-pay")?.tabs.filter((t) => t.current).map((t) => t.label), ["Subcontractor pay"]);
+  const noGrant = menuSections(ALL.filter((g) => g !== "subcontracts")).find((s) => s.id === "jobs");
+  assert.ok(!noGrant?.links.some(([l]) => l === "Subcontractor pay"));
+});
+
 test("estimating holds every kind of estimate, and its tools show its tabs", () => {
   const est = menuSections(ALL).find((s) => s.id === "estimating");
   assert.deepEqual(est?.links.map(([l]) => l), ["Queue", "Residential", "Insurance", "Commercial", "Plan bids", "Gutters"]);

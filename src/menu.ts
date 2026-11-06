@@ -110,6 +110,8 @@ const SECTIONS: readonly SectionDef[] = [
       { label: "Production", href: "/production", grant: "production" },
       { label: "Job folders", href: "/folders", grant: "production" },
       { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
+      // Every job a crew did and what it was paid, printable for the crew (Aaron 11/06, Miguel asked for all his work).
+      { label: "Subcontractor pay", href: "/core/crew-pay", grant: "subcontracts" },
       { label: "Checks", href: "/checks", grant: "checks" },
       { label: "PDF editor", href: "/pdf", grant: "dashboard" },
       { label: "Time", href: "/time" },
