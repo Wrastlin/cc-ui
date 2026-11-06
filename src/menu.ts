@@ -118,6 +118,8 @@ const SECTIONS: readonly SectionDef[] = [
   {
     id: "estimating", title: "Estimating", home: "/core/estimating",
     tabs: [
+      // The team's most opened page (cc-app lib/menu-order.ts); with no tab it was off every menu once the rail became sections.
+      { label: "Queue", href: "/estimating/queue", grant: "estimating" },
       { label: "Residential", href: "/core/estimating?p=residential", grant: "estimating" },
       { label: "Insurance", href: "/core/estimating?p=insurance", grant: "estimating" },
       { label: "Commercial", href: "/core/estimating?p=commercial", grant: "commercial" },
