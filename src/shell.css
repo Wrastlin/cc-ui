@@ -283,6 +283,13 @@
     mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
   }
 }
+/* A phone shows only the page's own views in row two; the section's other tools are in the menu (Aaron 11/6, Production
+   on a phone: "no reason ... there was a multi select header for other side apps"). */
+@media (max-width: 600px) {
+  .cc-tabs.cc-section-tabs {
+    display: none;
+  }
+}
 .cc-tab {
   font-size: var(--cc-fs-body);
   color: var(--cc-muted);

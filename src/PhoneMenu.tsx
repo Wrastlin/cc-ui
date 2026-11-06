@@ -18,7 +18,6 @@ function Anchor({ href, current, children }: MenuLinkProps) {
 // In Aaron's order of what matters (2026-11-01: "supporting the work that's getting done, the subcontracts ... the
 // estimating queue ... material ordering"); each person gets the first three they hold. Tasks needs no grant.
 const TAB_ORDER: readonly (readonly [label: string, href: string, grant: string | null])[] = [
-  ["Jobs", "/jobs", "dashboard"],
   ["Estimating", "/core/estimating", "estimating"],
   ["Production", "/production", "production"],
   ["Subcontracts", "/subcontracts", "subcontracts"],
