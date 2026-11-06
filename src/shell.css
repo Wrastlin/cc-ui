@@ -283,6 +283,21 @@
     mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
   }
 }
+/* On a phone the tab itself is the thumb's target, not just its ::after: a 40px row left each tab 30px tall and the
+   walk (HUMAN-UI 7) failed it on Bricks Stock 11/6. The row grows to the tap size and every tab fills it. */
+@media (max-width: 600px) {
+  .cc-tabs {
+    height: var(--cc-tap);
+  }
+  .cc-tab {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    align-self: stretch;
+    min-width: var(--cc-tap);
+    box-sizing: border-box;
+  }
+}
 /* A phone shows only the page's own views in row two; the section's other tools are in the menu (Aaron 11/6, Production
    on a phone: "no reason ... there was a multi select header for other side apps"). */
 @media (max-width: 600px) {
