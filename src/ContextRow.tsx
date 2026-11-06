@@ -25,7 +25,7 @@ export type Tab = {
   current?: boolean;
 };
 
-export function TabRow({ tabs, label = "Sections" }: { tabs: Tab[]; label?: string }) {
+export function TabRow({ tabs, label = "Sections", className }: { tabs: Tab[]; label?: string; className?: string }) {
   // One row that scrolls sideways on a phone (Aaron 11/6, the two-row tab bar: "a huge mess"); the open tab is scrolled
   // into sight so a tab past the edge never hides where you are.
   const row = useRef<HTMLElement>(null);
@@ -37,7 +37,7 @@ export function TabRow({ tabs, label = "Sections" }: { tabs: Tab[]; label?: stri
     box.scrollLeft = el.offsetLeft - (box.clientWidth - el.offsetWidth) / 2;
   }, [on]);
   return (
-    <nav ref={row} className="cc-tabs" aria-label={label}>
+    <nav ref={row} className={className ? `cc-tabs ${className}` : "cc-tabs"} aria-label={label}>
       {tabs.map((t) => (
         <Link
           key={t.href}
@@ -57,12 +57,13 @@ export function TabRow({ tabs, label = "Sections" }: { tabs: Tab[]; label?: stri
 
 /**
  * Row two on every page inside a section: the section's tabs, from the one map (menu.ts, PATTERNS P15). Each frame
- * mounts this once, so a page never draws its own copy of where things are. Nothing outside a section.
+ * mounts this once, so a page never draws its own copy of where things are. Nothing outside a section. A phone hides
+ * a row of separate tools (shell.css): the menu already holds them, and the row read as a header of other apps (Aaron 11/6).
  */
 export function SectionTabRow({ apps, path, search }: { apps: readonly string[]; path: string; search?: string }) {
   const here = sectionTabs(apps, path, search);
   if (!here) return null;
-  return <TabRow label={here.section.title} tabs={here.tabs} />;
+  return <TabRow label={here.section.title} tabs={here.tabs} className={here.views ? undefined : "cc-section-tabs"} />;
 }
 
 /**

@@ -16,8 +16,8 @@ export type MenuLink = readonly [label: string, href: string];
 // Zoho opens from Bricks' own menu. Back 11/5 (Aaron: "PDF editor should be part of the app! Same as rotation"): PDF
 // editor and Rotation; Metal panels moved into Estimating ("put it in the estimation system").
 const MAIN = [
-  // Jobs has no grant of its own; the dashboard grant reveals it (cc-app lib/app-urls.ts).
-  ["Jobs", "/jobs", "dashboard"],
+  // The Jobs list (score, attention, board) is off every menu since 11/6 (Aaron: "that whole job section is a mess that
+  // we're not currently using"); the page stays at /jobs until he says to delete it.
   // Each job's money from every system side by side, and where two records disagree (Aaron, 2026-10-15). The
   // "checks" grant is not stored: cc-app adds it for the people who see job dollars (lib/calendar/access canSeeMoney).
   ["Checks", "/checks", "checks"],
@@ -41,7 +41,7 @@ const MAIN = [
 // navigate"). Picked from 30 days of opens by the team, Aaron's own left out. Everything else sits under More, still one
 // click away (2026-10-19: "hide the others in a 'more' tab so i can access them still"). Back on the rail is one line.
 const EVERYDAY = new Set<string>([
-  "/jobs", "/production", "/gutters", "/subcontracts", "/estimating/queue", "/canvass",
+  "/production", "/gutters", "/subcontracts", "/estimating/queue", "/canvass",
 ]);
 
 // Kept on the Bricks heading; its other links go under More with the rest.
@@ -89,9 +89,14 @@ export function menuFor(apps: readonly string[]): { main: MenuLink[]; more: Menu
  */
 export type SectionTab = { label: string; href: string; grant?: string };
 export type MenuSection = { id: string; title: string; href: string; links: MenuLink[] };
-export type SectionTabs = { section: MenuSection; tabs: { label: string; href: string; current: boolean }[] };
+export type SectionTabs = {
+  section: MenuSection;
+  tabs: { label: string; href: string; current: boolean }[];
+  /** The tabs are kinds of one piece of work (Estimating), so a phone keeps them; otherwise they are separate tools. */
+  views: boolean;
+};
 
-type SectionDef = { id: string; title: string; home: string; tabs: readonly SectionTab[]; under?: readonly string[] };
+type SectionDef = { id: string; title: string; home: string; tabs: readonly SectionTab[]; under?: readonly string[]; views?: true };
 
 const SECTIONS: readonly SectionDef[] = [
   {
@@ -106,7 +111,6 @@ const SECTIONS: readonly SectionDef[] = [
   {
     id: "jobs", title: "Jobs", home: "/apps/jobs",
     tabs: [
-      { label: "Jobs", href: "/jobs", grant: "dashboard" },
       { label: "Production", href: "/production", grant: "production" },
       { label: "Job folders", href: "/folders", grant: "production" },
       { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
@@ -116,7 +120,7 @@ const SECTIONS: readonly SectionDef[] = [
     ],
   },
   {
-    id: "estimating", title: "Estimating", home: "/core/estimating",
+    id: "estimating", title: "Estimating", home: "/core/estimating", views: true,
     tabs: [
       // The team's most opened page (cc-app lib/menu-order.ts); with no tab it was off every menu once the rail became sections.
       { label: "Queue", href: "/estimating/queue", grant: "estimating" },
@@ -180,7 +184,7 @@ export function sectionTabs(apps: readonly string[], path: string, search = ""):
       : under(p, path);
     return { label, href, current };
   });
-  return { section, tabs };
+  return { section, tabs, views: def.views === true };
 }
 
 /**
