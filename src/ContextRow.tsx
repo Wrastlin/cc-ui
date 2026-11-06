@@ -37,7 +37,7 @@ export function TabRow({ tabs, label = "Sections" }: { tabs: Tab[]; label?: stri
         >
           {t.label}
           {typeof t.count === "number" ? (
-            <span className="cc-tab-n">{t.count}</span>
+            <span className="cc-tab-n">{t.count.toLocaleString("en-US")}</span>
           ) : null}
         </Link>
       ))}
