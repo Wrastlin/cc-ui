@@ -21,6 +21,8 @@ const MAIN = [
   // Each job's money from every system side by side, and where two records disagree (Aaron, 2026-10-15). The
   // "checks" grant is not stored: cc-app adds it for the people who see job dollars (lib/calendar/access canSeeMoney).
   ["Checks", "/checks", "checks"],
+  // Done work not yet paid (cc-app /money/unpaid, 11/7); the same money gate as Checks.
+  ["Unpaid work", "/money/unpaid", "checks"],
   ["Production", "/production", "production"],
   // Each gutter job's work order, the picker on the house, ABC parts and the crew's costs (Aaron, 2026-10-16).
   ["Gutters", "/gutters", "gutters"],
@@ -115,6 +117,7 @@ const SECTIONS: readonly SectionDef[] = [
       { label: "Job folders", href: "/folders", grant: "production" },
       { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
       { label: "Checks", href: "/checks", grant: "checks" },
+      { label: "Unpaid work", href: "/money/unpaid", grant: "checks" },
       { label: "PDF editor", href: "/pdf", grant: "dashboard" },
       { label: "Time", href: "/time" },
     ],
