@@ -374,6 +374,38 @@
   outline: none;
   padding: var(--cc-space-1) 0;
 }
+/* A searched list (P1, 16 options or more): the box stays put at the top while only the options scroll. */
+.ui-select-pop-search {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ui-select-pop-search .ui-select-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+.ui-select-search {
+  position: relative;
+  flex: none;
+  padding: var(--cc-space-2);
+  border-bottom: 1px solid var(--cc-line);
+}
+.ui-select-search .ui-input {
+  padding-left: 40px;
+  font-size: max(16px, var(--cc-fs-body));
+}
+.ui-select-search .ui-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+.ui-select-search-icon {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--cc-space-2) + 12px);
+  transform: translateY(-50%);
+  color: var(--cc-muted);
+  pointer-events: none;
+}
 .ui-select-item {
   display: flex;
   align-items: center;
