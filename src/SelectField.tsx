@@ -1,20 +1,27 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import { useRef, type ReactNode } from "react";
 import Swatch from "./ColorSwatch";
 import {
+  Autocomplete,
   Button,
   FieldError,
   Header,
+  Input,
   Label,
   ListBox,
   ListBoxItem,
   ListBoxSection,
   Popover,
+  SearchField,
   Select as AriaSelect,
   SelectValue,
+  useFilter,
 } from "react-aria-components";
+
+/** P1: a list this long is searched, not scrolled. Every long select in every app gets the box from here. */
+export const SEARCH_FROM = 16;
 
 // The Field + native select pair on React Aria: the label, the button and the error share ids, arrows and typing move
 // the pick, Escape closes, and focus goes back to the button. Value and onChange stay strings like a native select,
@@ -81,6 +88,8 @@ export default function SelectField({
     </ListBoxItem>
   );
   const trigger = useRef<HTMLButtonElement>(null);
+  const { contains } = useFilter({ sensitivity: "base" });
+  const searched = options.length >= SEARCH_FROM;
   // Inside a Sheet, React Aria hands focus to the sheet's dialog when the list closes, not to the button (walked n64g),
   // so a keyboard user lost their place. Put it back when it landed on the body or on something holding the button.
   const refocus = (open: boolean) => {
@@ -90,6 +99,20 @@ export default function SelectField({
       if (b?.isConnected && a !== b && (!a || a === document.body || a.contains(b))) b.focus();
     });
   };
+  const list = (
+    <ListBox className="ui-select-list">
+      {groups.map((g, i) =>
+        g.label ? (
+          <ListBoxSection key={g.label} id={g.label} className="ui-select-section">
+            <Header className="ui-select-header">{g.label}</Header>
+            {g.options.map(item)}
+          </ListBoxSection>
+        ) : (
+          <ListBoxSection key={`_${i}`} id={`_${i}`} className="ui-select-section">{g.options.map(item)}</ListBoxSection>
+        ),
+      )}
+    </ListBox>
+  );
   return (
     <AriaSelect
       value={value}
@@ -116,19 +139,16 @@ export default function SelectField({
         <ChevronDown aria-hidden size={16} className="ui-select-chev" />
       </Button>
       {message ? <FieldError className="ui-field-help"><span role="alert">{message}</span></FieldError> : help ? <span className="ui-field-help">{help}</span> : null}
-      <Popover className="ui-select-pop" offset={4}>
-        <ListBox className="ui-select-list">
-          {groups.map((g, i) =>
-            g.label ? (
-              <ListBoxSection key={g.label} id={g.label} className="ui-select-section">
-                <Header className="ui-select-header">{g.label}</Header>
-                {g.options.map(item)}
-              </ListBoxSection>
-            ) : (
-              <ListBoxSection key={`_${i}`} id={`_${i}`} className="ui-select-section">{g.options.map(item)}</ListBoxSection>
-            ),
-          )}
-        </ListBox>
+      <Popover className={"ui-select-pop" + (searched ? " ui-select-pop-search" : "")} offset={4}>
+        {searched ? (
+          <Autocomplete filter={contains}>
+            <SearchField aria-label={`Search ${label}`} autoFocus className="ui-select-search">
+              <Search aria-hidden size={18} className="ui-select-search-icon" />
+              <Input className="ui-input" />
+            </SearchField>
+            {list}
+          </Autocomplete>
+        ) : list}
       </Popover>
     </AriaSelect>
   );
