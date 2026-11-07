@@ -5,7 +5,7 @@ import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, FilePen,
   FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutGrid, Layers, ListChecks, MapPin, Mic, Package,
   PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, Home, ShieldCheck, Building2,
-  FileStack, type LucideIcon,
+  FileStack, HandCoins, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
 import { isCurrent, menuSections, type MenuLink } from "./menu";
@@ -13,7 +13,7 @@ import { isCurrent, menuSections, type MenuLink } from "./menu";
 // A folded rail is these alone, so each link keeps one beside its name.
 const ICON: Record<string, LucideIcon> = {
   "/time": Clock, "/tasks": ListChecks, "/inventory/upload": Upload,
-  "/jobs": Briefcase, "/checks": Scale, "/contacts": Contact, "/zoho": BookOpen,
+  "/jobs": Briefcase, "/checks": Scale, "/money/unpaid": HandCoins,"/contacts": Contact, "/zoho": BookOpen,
   "/forms": ClipboardList,
   "/pdf": FileText, "/templates": Files, "/production": CalendarRange, "/gutters": Droplets, "/folders": FolderOpen,
   "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen,
