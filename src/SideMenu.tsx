@@ -5,7 +5,7 @@ import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, FilePen,
   FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutGrid, Layers, ListChecks, MapPin, Mic, Package,
   PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, Home, ShieldCheck, Building2,
-  FileStack, type LucideIcon,
+  FileStack, Presentation, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
 import { isCurrent, menuSections, type MenuLink } from "./menu";
@@ -19,7 +19,7 @@ const ICON: Record<string, LucideIcon> = {
   "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen,
   "/inventory/buy": Package, "/inventory/shop": QrCode, "/inventory/shop/print": Printer, "/estimating/queue": Calculator, "/commercial": Ruler,
   "/panels": Layers, "/sim": Gamepad2, "/bricks": Store, "/library/index.html": GraduationCap, "/record": Mic,
-  "/apps": LayoutGrid,
+  "/apps": LayoutGrid, "/whiteboard": Presentation,
   "/core/estimating": Calculator, "/core/estimating?p=residential": Home, "/core/estimating?p=insurance": ShieldCheck,
   "/core/estimating?p=commercial": Building2, "/core/estimating?p=plan_bid": FileStack,
 };

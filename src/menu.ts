@@ -35,6 +35,7 @@ const MAIN = [
   ["Metal panels", "/panels", "panels"],
   ["PDF editor", "/pdf", "dashboard"],
   ["Rotation", "/inspection-rotation", "inspection-rotation"],
+  ["Whiteboard", "/whiteboard", "whiteboard"],
 ] as const;
 
 // The rail is the everyday tools only (Aaron, 2026-10-26: "our app is an absolute mess ... i dont really know how to
@@ -99,6 +100,11 @@ export type SectionTabs = {
 type SectionDef = { id: string; title: string; home: string; tabs: readonly SectionTab[]; under?: readonly string[]; views?: true };
 
 const SECTIONS: readonly SectionDef[] = [
+  // The company drawn by hand, one page per subject; Aaron and Cody hold the grant (Aaron, 2026-11-07).
+  {
+    id: "whiteboard", title: "Whiteboard", home: "/whiteboard",
+    tabs: [{ label: "Whiteboard", href: "/whiteboard", grant: "whiteboard" }],
+  },
   {
     id: "bricks", title: "Bricks", home: "/apps/bricks",
     tabs: [
