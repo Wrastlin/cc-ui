@@ -36,6 +36,8 @@ export type SelectOption = {
   group?: string;
   /** Listed but not pickable, like a filter value no product has under the other picks. */
   disabled?: boolean;
+  /** Steps in from the left in the list, for a tree such as pages under pages; the button shows the label alone. */
+  depth?: number;
 };
 
 type SelectFieldProps = {
@@ -82,7 +84,8 @@ export default function SelectField({
     return gs;
   }, []);
   const item = (o: SelectOption) => (
-    <ListBoxItem key={o.value} id={o.value} textValue={o.label} isDisabled={o.disabled} className="ui-select-item">
+    <ListBoxItem key={o.value} id={o.value} textValue={o.label} isDisabled={o.disabled} className="ui-select-item"
+      style={o.depth ? { paddingInlineStart: 12 + 20 * o.depth } : undefined}>
       {chip(o.swatch)}
       {o.label}
     </ListBoxItem>
