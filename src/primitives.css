@@ -294,7 +294,7 @@
 /* The row under the pointer is the one a click opens (Aaron 11/8: "highlight what i am hovering over"). React Aria sets
    data-hovered only for a mouse on a row that does something, so a phone tap never leaves a row stuck lit. */
 .ui-listrow[data-hovered] {
-  background: var(--cc-panel-2, #f1f4f8);
+  background: var(--cc-selected);
   cursor: pointer;
 }
 .ui-listrow[data-disabled] {
