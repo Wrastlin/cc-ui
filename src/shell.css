@@ -298,6 +298,13 @@
     box-sizing: border-box;
   }
 }
+/* A desk tab is at least the 36px desk floor wide, its word centered (B15: "Jobs" measured 34). */
+@media (min-width: 601px) {
+  .cc-tab {
+    min-width: var(--cc-ctl-h);
+    text-align: center;
+  }
+}
 /* A phone shows only the page's own views in row two; the section's other tools are in the menu (Aaron 11/6, Production
    on a phone: "no reason ... there was a multi select header for other side apps"). */
 @media (max-width: 600px) {
