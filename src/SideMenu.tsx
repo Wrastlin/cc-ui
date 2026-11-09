@@ -131,7 +131,6 @@ export function SideMenu({
         )}
         <Button
           variant="ghost"
-          size="sm"
           className="cc-side-fold"
           icon={folded ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
           aria-label={folded ? "Open the menu" : "Fold the menu"}
