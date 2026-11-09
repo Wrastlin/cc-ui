@@ -305,13 +305,6 @@
     text-align: center;
   }
 }
-/* A phone shows only the page's own views in row two; the section's other tools are in the menu (Aaron 11/6, Production
-   on a phone: "no reason ... there was a multi select header for other side apps"). */
-@media (max-width: 600px) {
-  .cc-tabs.cc-section-tabs {
-    display: none;
-  }
-}
 /* A tab never shrinks: the phone's min-width replaces flex's min-content floor, so a shrinkable tab squeezed to 48px
    and its label ran into the next one ("ResidentiaInsuranceCommercia", Aaron 11/6). The row scrolls instead. */
 .cc-tab {
