@@ -193,6 +193,12 @@ export function sectionTabs(apps: readonly string[], path: string, search = ""):
   return { section, tabs, views: def.views === true };
 }
 
+/** Row two for a page: its section's tabs when they are views of one work, nothing when they are separate tools. */
+export function rowTwo(apps: readonly string[], path: string, search = ""): SectionTabs | null {
+  const here = sectionTabs(apps, path, search);
+  return here?.views ? here : null;
+}
+
 /**
  * The menu's own name for the screen a path sits under, grants aside, so a back link reads the way the rail does.
  * Longest match wins: /inventory/shop is Shop, not Material orders.
