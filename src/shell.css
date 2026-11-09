@@ -305,7 +305,10 @@
     display: none;
   }
 }
+/* A tab never shrinks: the phone's min-width replaces flex's min-content floor, so a shrinkable tab squeezed to 48px
+   and its label ran into the next one ("ResidentiaInsuranceCommercia", Aaron 11/6). The row scrolls instead. */
 .cc-tab {
+  flex: 0 0 auto;
   font-size: var(--cc-fs-body);
   color: var(--cc-muted);
   text-decoration: none;
