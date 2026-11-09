@@ -298,6 +298,13 @@
     box-sizing: border-box;
   }
 }
+/* A desk tab is at least the 36px desk floor wide, its word centered (B15: "Jobs" measured 34). */
+@media (min-width: 601px) {
+  .cc-tab {
+    min-width: var(--cc-ctl-h);
+    text-align: center;
+  }
+}
 /* A tab never shrinks: the phone's min-width replaces flex's min-content floor, so a shrinkable tab squeezed to 48px
    and its label ran into the next one ("ResidentiaInsuranceCommercia", Aaron 11/6). The row scrolls instead. */
 .cc-tab {
