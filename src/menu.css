@@ -72,7 +72,11 @@
 }
 
 /* A category heading is its section page's link: quiet like a heading, lit when that page is open. */
-.cc-side-section > a { display: block; text-decoration: none; border-radius: var(--cc-radius-sm, 6px); }
+/* At least the desk control height (36px), its text at the bottom where the heading sat: 23px failed B15 (shell-targets). */
+.cc-side-section > a {
+  display: flex; flex-direction: column; justify-content: flex-end; min-height: var(--cc-ctl-h, 36px);
+  text-decoration: none; border-radius: var(--cc-radius-sm, 6px);
+}
 .cc-side-section > a:hover .cc-side-navhead { color: var(--cc-text, #0f1b2d); }
 .cc-side-section > a[aria-current="page"] .cc-side-navhead { color: var(--cc-accent, #1f4a9b); }
 .cc-side-section > a:focus-visible { outline: 2px solid var(--cc-ring, #1f4a9b); outline-offset: -2px; }
