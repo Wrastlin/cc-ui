@@ -18,6 +18,7 @@ export type { BackTarget, BarAction } from "./AppBar";
 
 export { AccountButton, initialsFromEmail } from "./AccountButton";
 export type { AccountItem } from "./AccountButton";
+export { ReportButton, openReport, noteTrail } from "./ReportProblem";
 
 export { TabRow, SectionTabRow, RecordRow, Chip, Breadcrumbs } from "./ContextRow";
 export type { Tab, ChipTone, Crumb } from "./ContextRow";

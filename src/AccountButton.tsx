@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { Button as AriaButton } from "react-aria-components";
 import Menu, { type MenuEntry } from "./ActionMenu";
+import { ReportButton } from "./ReportProblem";
 
 /*
  * The account control: who is signed in, and the way out.
@@ -40,6 +41,7 @@ export function AccountButton({
   items = [],
   hubHref = "/apps",
   onSignOut,
+  report = true,
 }: {
   /**
    * Optional because some apps only learn who is signed in after hydration,
@@ -51,6 +53,8 @@ export function AccountButton({
   hubHref?: string;
   /** Omit only if this app genuinely cannot sign anyone out. */
   onSignOut?: () => void;
+  /** Report a problem beside the avatar, on by default so every app has it (ReportProblem.tsx). */
+  report?: boolean | { app?: string; endpoint?: string };
 }) {
   const avatar = useRef<HTMLButtonElement>(null);
 
@@ -80,6 +84,7 @@ export function AccountButton({
 
   return (
     <div className="cc-account">
+      {report && <ReportButton {...(typeof report === "object" ? report : {})} />}
       <Menu
         items={entries}
         aria-label={name}
