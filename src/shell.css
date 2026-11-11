@@ -467,6 +467,53 @@
 .cc-account {
   position: relative;
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cc-space-1);
+}
+
+/* Report a problem (ReportProblem.tsx): a quiet glyph beside the avatar, 40px to hit, doubled selectors for the same
+   reason as .cc-avatar above. */
+.cc-report,
+.cc-bar .cc-report,
+.cc-overlay .cc-report {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--cc-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.cc-report[data-hovered],
+.cc-report[data-pressed] {
+  background: var(--cc-hover);
+  color: var(--cc-text);
+}
+.cc-report[data-focus-visible] {
+  outline: 2px solid var(--cc-focus);
+  outline-offset: 1px;
+}
+.cc-report-body {
+  display: grid;
+  gap: var(--cc-space-3);
+}
+.cc-report-shot {
+  width: 100%;
+  max-height: 40dvh;
+  object-fit: contain;
+  object-position: left top;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius);
+}
+.cc-report-sent {
+  margin: 0;
+  font-size: var(--cc-fs-body);
 }
 .cc-account-menu {
   position: absolute;
