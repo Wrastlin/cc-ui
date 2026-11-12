@@ -291,6 +291,11 @@
 .ui-listrow {
   outline: none;
 }
+.ui-rowlist-more {
+  display: flex;
+  justify-content: center;
+  padding: var(--cc-space-3) 0;
+}
 /* The row under the pointer is the one a click opens (Aaron 11/8: "highlight what i am hovering over"). React Aria sets
    data-hovered only for a mouse on a row that does something, so a phone tap never leaves a row stuck lit. */
 .ui-listrow[data-hovered] {
