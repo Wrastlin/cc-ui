@@ -226,6 +226,71 @@
   color: var(--cc-muted);
   font-size: var(--cc-fs-ui);
 }
+/* A row with an action slot: the target fills the row, the action and More sit at its end, outside the link. */
+.ui-row-split {
+  cursor: default;
+  padding-right: var(--cc-space-2);
+}
+.ui-row-hit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: stretch;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+}
+a.ui-row-hit,
+button.ui-row-hit {
+  cursor: pointer;
+}
+
+/* ---- Action slot and Card ---- */
+.ui-acts {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--cc-space-2);
+}
+.ui-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-3);
+  min-width: 0;
+  padding: var(--cc-space-4);
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius-lg);
+  background: var(--cc-panel);
+}
+.ui-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cc-space-3);
+}
+.ui-card-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ui-card-title {
+  margin: 0;
+  font-size: var(--cc-fs-body);
+  font-weight: 600;
+  line-height: var(--cc-lh-body);
+  overflow-wrap: anywhere;
+}
+.ui-card-sub {
+  margin: 0;
+  font-size: var(--cc-fs-meta);
+  line-height: var(--cc-lh-meta);
+  color: var(--cc-muted);
+  overflow-wrap: anywhere;
+}
 
 /* ---- Field ---- */
 .ui-field {

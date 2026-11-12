@@ -35,6 +35,7 @@ export { default as Swatch } from "./ColorSwatch";
 export { default as NumberStepper } from "./NumberStepper";
 export { default as YesNo, ChoiceGroup, RadioChoice, type ChoiceOption } from "./YesNo";
 export { default as Row, RowGroup } from "./Row";
+export { default as Card, Actions, useOneAction } from "./Card";
 export { RowList, ListRow, usePaging, SHORT } from "./RowList";
 export type { Paging } from "./RowList";
 export { default as Sheet } from "./Sheet";
