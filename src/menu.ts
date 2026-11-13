@@ -34,6 +34,8 @@ const MAIN = [
   ["Commercial", "/commercial", "commercial"],
   ["Metal panels", "/panels", "panels"],
   ["PDF editor", "/pdf", "dashboard"],
+  // The drone flight setup per job (cc-app /drone, 11/13); the remote opens it too, from Pilot 2's fixed address.
+  ["Drone", "/drone", "dashboard"],
   ["Rotation", "/inspection-rotation", "inspection-rotation"],
   ["Whiteboard", "/whiteboard", "whiteboard"],
 ] as const;
@@ -122,6 +124,7 @@ const SECTIONS: readonly SectionDef[] = [
       { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
       { label: "Checks", href: "/checks", grant: "checks" },
       { label: "PDF editor", href: "/pdf", grant: "dashboard" },
+      { label: "Drone", href: "/drone", grant: "dashboard" },
       { label: "Time", href: "/time" },
     ],
   },
