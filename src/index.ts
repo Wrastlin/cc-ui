@@ -45,6 +45,7 @@ export { default as DialogHost } from "./DialogHost";
 export {
   alertDialog,
   confirmDialog,
+  choiceDialog,
   promptDialog,
   subscribeDialogs,
   currentDialog,

@@ -117,9 +117,9 @@ export default function DialogHost() {
               <button
                 type="button"
                 className="btn ghost"
-                onClick={() => close(cancelValue)}
+                onClick={() => close(dialog.altLabel ? "alt" : cancelValue)}
               >
-                {dialog.cancelLabel ?? "Cancel"}
+                {dialog.altLabel ?? dialog.cancelLabel ?? "Cancel"}
               </button>
             )}
             <button
