@@ -5,7 +5,7 @@ import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, FilePen,
   FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutGrid, Layers, ListChecks, MapPin, Mic, Package,
   PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, Home, ShieldCheck, Building2,
-  FileStack, HandCoins, type LucideIcon,
+  FileStack, HandCoins, Presentation, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
 import { isCurrent, menuSections, type MenuLink } from "./menu";
@@ -13,13 +13,13 @@ import { isCurrent, menuSections, type MenuLink } from "./menu";
 // A folded rail is these alone, so each link keeps one beside its name.
 const ICON: Record<string, LucideIcon> = {
   "/time": Clock, "/tasks": ListChecks, "/inventory/upload": Upload,
-  "/jobs": Briefcase, "/checks": Scale, "/money/unpaid": HandCoins,"/contacts": Contact, "/zoho": BookOpen,
+  "/jobs": Briefcase, "/checks": Scale, "/money/unpaid": HandCoins, "/contacts": Contact, "/zoho": BookOpen,
   "/forms": ClipboardList,
   "/pdf": FileText, "/templates": Files, "/production": CalendarRange, "/gutters": Droplets, "/folders": FolderOpen,
   "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen,
   "/inventory/buy": Package, "/inventory/shop": QrCode, "/inventory/shop/print": Printer, "/estimating/queue": Calculator, "/commercial": Ruler,
   "/panels": Layers, "/sim": Gamepad2, "/bricks": Store, "/library/index.html": GraduationCap, "/record": Mic,
-  "/apps": LayoutGrid,
+  "/apps": LayoutGrid, "/whiteboard": Presentation,
   "/core/estimating": Calculator, "/core/estimating?p=residential": Home, "/core/estimating?p=insurance": ShieldCheck,
   "/core/estimating?p=commercial": Building2, "/core/estimating?p=plan_bid": FileStack,
 };
@@ -131,7 +131,6 @@ export function SideMenu({
         )}
         <Button
           variant="ghost"
-          size="sm"
           className="cc-side-fold"
           icon={folded ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
           aria-label={folded ? "Open the menu" : "Fold the menu"}

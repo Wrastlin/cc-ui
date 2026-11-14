@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useRef, type ReactElement, type ReactNode } from "react";
+import type { MenuEntry } from "./ActionMenu";
+import { Actions, useOneAction } from "./Card";
 
 // A quiet list row: glyph · title over subtitle · trailing.
 //
@@ -24,10 +26,13 @@ type Common = {
   className?: string;
 };
 
-type RowProps = Common &
+// The row's own target (href, onClick) is its one action, so `action` is only for a row that is not one; `more` is the
+// one More menu beside either (P3). A third control cannot be passed.
+type RowProps = Common & { more?: readonly MenuEntry[] } &
   (
-    | { href: string; external?: boolean; onClick?: never }
-    | { href?: undefined; external?: never; onClick?: () => void }
+    | { href: string; external?: boolean; onClick?: never; action?: never }
+    | { href?: undefined; external?: never; onClick?: () => void; action?: never }
+    | { href?: undefined; external?: never; onClick?: undefined; action: ReactElement }
   );
 
 function Body({ icon, title, sub, trailing }: Common) {
@@ -48,6 +53,7 @@ function Body({ icon, title, sub, trailing }: Common) {
 }
 
 export default function Row(props: RowProps) {
+  if (props.action || props.more?.length) return <SplitRow {...props} />;
   const cls = ["ui-row", props.className ?? ""].filter(Boolean).join(" ");
   if (props.href && props.external) {
     return (
@@ -70,7 +76,30 @@ export default function Row(props: RowProps) {
   );
 }
 
-/** Groups rows into one hairline-separated block. */
+/** A row with an action slot: the row's own target, then its action or More beside it, never nested in the link. */
+function SplitRow(props: RowProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const name = typeof props.title === "string" ? props.title : "row";
+  useOneAction(ref, name);
+  const body = <Body {...props} />;
+  const hit = props.href && props.external ? (
+    <a className="ui-row-hit" href={props.href} target="_blank" rel="noreferrer">{body}</a>
+  ) : props.href ? (
+    <Link className="ui-row-hit" href={props.href}>{body}</Link>
+  ) : props.onClick ? (
+    <button type="button" className="ui-row-hit" onClick={props.onClick}>{body}</button>
+  ) : (
+    <div className="ui-row-hit">{body}</div>
+  );
+  return (
+    <div ref={ref} className={["ui-row ui-row-split", props.className ?? ""].filter(Boolean).join(" ")}>
+      {hit}
+      <Actions name={name} action={props.action} more={props.more} />
+    </div>
+  );
+}
+
+/** Groups rows into one hairline-separated block. A group, not a nav landmark: a page holds many of them. */
 export function RowGroup({
   children,
   label,
@@ -79,8 +108,8 @@ export function RowGroup({
   label?: string;
 }) {
   return (
-    <nav className="ui-rows" aria-label={label}>
+    <div className="ui-rows" role="group" aria-label={label}>
       {children}
-    </nav>
+    </div>
   );
 }

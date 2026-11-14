@@ -36,7 +36,10 @@ const MAIN = [
   ["Commercial", "/commercial", "commercial"],
   ["Metal panels", "/panels", "panels"],
   ["PDF editor", "/pdf", "dashboard"],
+  // The drone flight setup per job (cc-app /drone, 11/13); the remote opens it too, from Pilot 2's fixed address.
+  ["Drone", "/drone", "dashboard"],
   ["Rotation", "/inspection-rotation", "inspection-rotation"],
+  ["Whiteboard", "/whiteboard", "whiteboard"],
 ] as const;
 
 // The rail is the everyday tools only (Aaron, 2026-10-26: "our app is an absolute mess ... i dont really know how to
@@ -101,6 +104,11 @@ export type SectionTabs = {
 type SectionDef = { id: string; title: string; home: string; tabs: readonly SectionTab[]; under?: readonly string[]; views?: true };
 
 const SECTIONS: readonly SectionDef[] = [
+  // The company drawn by hand, one page per subject; Aaron and Cody hold the grant (Aaron, 2026-11-07).
+  {
+    id: "whiteboard", title: "Whiteboard", home: "/whiteboard",
+    tabs: [{ label: "Whiteboard", href: "/whiteboard", grant: "whiteboard" }],
+  },
   {
     id: "bricks", title: "Bricks", home: "/apps/bricks",
     tabs: [
@@ -119,6 +127,7 @@ const SECTIONS: readonly SectionDef[] = [
       { label: "Checks", href: "/checks", grant: "checks" },
       { label: "Unpaid work", href: "/money/unpaid", grant: "checks" },
       { label: "PDF editor", href: "/pdf", grant: "dashboard" },
+      { label: "Drone", href: "/drone", grant: "dashboard" },
       { label: "Time", href: "/time" },
     ],
   },
@@ -188,6 +197,12 @@ export function sectionTabs(apps: readonly string[], path: string, search = ""):
     return { label, href, current };
   });
   return { section, tabs, views: def.views === true };
+}
+
+/** Row two for a page: its section's tabs when they are views of one work, nothing when they are separate tools. */
+export function rowTwo(apps: readonly string[], path: string, search = ""): SectionTabs | null {
+  const here = sectionTabs(apps, path, search);
+  return here?.views ? here : null;
 }
 
 /**

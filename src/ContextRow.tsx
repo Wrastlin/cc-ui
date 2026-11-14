@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
-import { sectionTabs } from "./menu";
+import { rowTwo } from "./menu";
 
 /*
  * Row two: never empty, never guessing.
@@ -56,14 +56,15 @@ export function TabRow({ tabs, label = "Sections", className }: { tabs: Tab[]; l
 }
 
 /**
- * Row two on every page inside a section: the section's tabs, from the one map (menu.ts, PATTERNS P15). Each frame
- * mounts this once, so a page never draws its own copy of where things are. Nothing outside a section. A phone hides
- * a row of separate tools (shell.css): the menu already holds them, and the row read as a header of other apps (Aaron 11/6).
+ * Row two inside a section whose tabs are kinds of one piece of work (Estimating), from the one map (menu.ts, PATTERNS
+ * P15). Each frame mounts this once, so a page never draws its own copy of where things are. A section of separate
+ * tools (Jobs, Bricks, Sales) draws nothing at any width: the side menu already lists them, and the row read as a
+ * header of other apps (Aaron 11/6 on a phone, 11/9 at the desk on Time).
  */
 export function SectionTabRow({ apps, path, search }: { apps: readonly string[]; path: string; search?: string }) {
-  const here = sectionTabs(apps, path, search);
+  const here = rowTwo(apps, path, search);
   if (!here) return null;
-  return <TabRow label={here.section.title} tabs={here.tabs} className={here.views ? undefined : "cc-section-tabs"} />;
+  return <TabRow label={here.section.title} tabs={here.tabs} />;
 }
 
 /**
