@@ -29,6 +29,8 @@ export type DialogRequest = {
   /** Label for the action that proceeds. Default: OK / Continue. */
   confirmLabel?: string;
   cancelLabel?: string;
+  /** A second way forward (choiceDialog): replaces Cancel, so a dismiss is the only no. */
+  altLabel?: string;
   /** Destructive actions get the danger treatment and never autofocus. */
   danger?: boolean;
   /** prompt only */
@@ -85,6 +87,15 @@ export async function confirmDialog(
   req: Omit<DialogRequest, "id" | "kind">,
 ): Promise<boolean> {
   return (await open({ ...req, kind: "confirm" })) === true;
+}
+
+// Two ways forward and a dismiss: "confirm", "alt", or null when closed (Escape, outside tap). A confirm's Cancel
+// cannot carry a second action, because Escape resolves the same as Cancel.
+export async function choiceDialog(
+  req: Omit<DialogRequest, "id" | "kind"> & { altLabel: string },
+): Promise<"confirm" | "alt" | null> {
+  const v = await open({ ...req, kind: "confirm" });
+  return v === true ? "confirm" : v === "alt" ? "alt" : null;
 }
 
 export async function promptDialog(
