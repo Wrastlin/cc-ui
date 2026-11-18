@@ -354,8 +354,12 @@ button.ui-row-hit {
   background-size: 12px 8px;
   cursor: pointer;
 }
-/* SelectField: a button that reads like the native select it replaced, a list in a popover above any sheet. */
+/* SelectField: a button that reads like the native select it replaced, a list in a popover above any sheet. It carries
+   .ui-select for the look but draws its own ChevronDown, so the background arrow and its room are taken back here, or
+   two arrows show side by side. Its chevron then sits 14px from the edge like the native one. */
 .ui-select-btn {
+  background-image: none;
+  padding-right: 14px;
   display: flex;
   align-items: center;
   gap: var(--cc-space-2);
