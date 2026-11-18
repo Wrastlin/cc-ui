@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { SECTION_HREFS, menuFor, menuSections, sectionTabs } from "./menu.ts";
 
 // Every grant there is, so the check sees the whole menu.
@@ -41,5 +42,13 @@ test("grants still decide what shows", () => {
 test("no heading holds a single link when every grant is held", () => {
   for (const s of menuSections([...ALL, "whiteboard", "panels", "inspection-rotation"])) {
     assert.ok(s.links.length > 1, `${s.title} holds one link`);
+  }
+});
+
+test("every menu link keeps an icon, so a folded rail never shows a blank row", () => {
+  // SideMenu.tsx is JSX, which node --test cannot load; its ICON keys are read as text instead.
+  const src = readFileSync(new URL("./SideMenu.tsx", import.meta.url), "utf8");
+  for (const s of menuSections([...ALL, "whiteboard", "panels", "inspection-rotation"])) {
+    for (const [label, href] of s.links) assert.ok(src.includes(`"${href}":`), `${label} has no icon`);
   }
 });
