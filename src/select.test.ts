@@ -16,3 +16,10 @@ test("a select draws its own arrow, inset from the edge, with room for it", () =
   assert.ok(inset >= 12, `arrow ${inset}px from the edge`);
   assert.ok(room >= inset + 20, `text kept ${room}px from the edge`);
 });
+
+test("SelectField's button draws one arrow, its own chevron, with room on the right", () => {
+  const r = rule(".ui-select-btn");
+  assert.match(r, /background-image:\s*none/);
+  const room = Number(r.match(/padding-right:\s*(\d+)px/)?.[1] ?? 0);
+  assert.ok(room >= 12, `chevron ${room}px from the edge`);
+});
