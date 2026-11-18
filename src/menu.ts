@@ -103,32 +103,18 @@ export type SectionTabs = {
 
 type SectionDef = { id: string; title: string; home: string; tabs: readonly SectionTab[]; under?: readonly string[]; views?: true };
 
+// Grouped by the work, not by when each tool was built (Aaron, 2026-11-18: "a hodgepodge one at a time placement of
+// components as they were built"). Order follows outputs/end-app/APP-MAP.md: daily work, operations, the rest. No
+// heading holds one link, and nothing is off the menu; each tool moved, none removed.
 const SECTIONS: readonly SectionDef[] = [
-  // The company drawn by hand, one page per subject; Aaron and Cody hold the grant (Aaron, 2026-11-07).
-  {
-    id: "whiteboard", title: "Whiteboard", home: "/whiteboard",
-    tabs: [{ label: "Whiteboard", href: "/whiteboard", grant: "whiteboard" }],
-  },
-  {
-    id: "bricks", title: "Bricks", home: "/apps/bricks",
-    tabs: [
-      { label: "Bricks Hardware", href: "/bricks", grant: "bricks" },
-      { label: "Material orders", href: "/inventory/buy", grant: "inventory" },
-      { label: "Shop", href: "/inventory/shop", grant: "inventory" },
-      { label: "Shop printer", href: "/inventory/shop/print", grant: "inventory" },
-    ],
-  },
   {
     id: "jobs", title: "Jobs", home: "/apps/jobs",
     tabs: [
       { label: "Production", href: "/production", grant: "production" },
       { label: "Job folders", href: "/folders", grant: "production" },
-      { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
+      // Each job's money from every system side by side; "checks" is added by cc-app for the people who see job dollars.
       { label: "Checks", href: "/checks", grant: "checks" },
       { label: "Unpaid work", href: "/money/unpaid", grant: "checks" },
-      { label: "PDF editor", href: "/pdf", grant: "dashboard" },
-      { label: "Drone", href: "/drone", grant: "dashboard" },
-      { label: "Time", href: "/time" },
     ],
   },
   {
@@ -146,6 +132,23 @@ const SECTIONS: readonly SectionDef[] = [
     under: ["/estimating", "/commercial", "/core/estimating", "/panels"],
   },
   {
+    id: "crews", title: "Crews", home: "/apps/crews",
+    tabs: [
+      { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
+      { label: "Time", href: "/time" },
+    ],
+  },
+  // The id stays "bricks" so /apps/bricks keeps opening it: Bricks is the warehouse taking over the shop (Aaron 11/3).
+  {
+    id: "bricks", title: "Shop and materials", home: "/apps/bricks",
+    tabs: [
+      { label: "Material orders", href: "/inventory/buy", grant: "inventory" },
+      { label: "Shop", href: "/inventory/shop", grant: "inventory" },
+      { label: "Shop printer", href: "/inventory/shop/print", grant: "inventory" },
+      { label: "Bricks Hardware", href: "/bricks", grant: "bricks" },
+    ],
+  },
+  {
     id: "sales", title: "Sales and service", home: "/apps/sales",
     tabs: [
       { label: "CRMP", href: "/admin", grant: "crmp" },
@@ -154,8 +157,11 @@ const SECTIONS: readonly SectionDef[] = [
     ],
   },
   {
-    id: "academy", title: "Academy", home: "/apps/academy",
+    id: "tools", title: "Tools", home: "/apps/tools",
     tabs: [
+      { label: "Whiteboard", href: "/whiteboard", grant: "whiteboard" },
+      { label: "PDF editor", href: "/pdf", grant: "dashboard" },
+      { label: "Drone", href: "/drone", grant: "dashboard" },
       { label: "Academy", href: "/library/index.html", grant: "academy" },
       { label: "Record", href: "/record", grant: "academy" },
     ],
