@@ -33,7 +33,13 @@ test("estimating holds every kind of estimate, and its tools show its tabs", () 
 });
 
 test("grants still decide what shows", () => {
-  // Time has no grant, so Jobs is always there; the rest follow what the person holds.
-  assert.deepEqual(menuSections(["crmp"]).map((s) => s.id), ["jobs", "sales"]);
+  // Time has no grant, so Crews is always there; the rest follow what the person holds.
+  assert.deepEqual(menuSections(["crmp"]).map((s) => s.id), ["crews", "sales"]);
   assert.deepEqual(menuSections(["crmp"])[0].links.map(([l]) => l), ["Time"]);
+});
+
+test("no heading holds a single link when every grant is held", () => {
+  for (const s of menuSections([...ALL, "whiteboard", "panels", "inspection-rotation"])) {
+    assert.ok(s.links.length > 1, `${s.title} holds one link`);
+  }
 });
