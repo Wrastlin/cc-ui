@@ -339,8 +339,20 @@ button.ui-row-hit {
   line-height: 1.4;
   resize: vertical;
 }
+/* A native select draws its own arrow, and Safari puts it hard against the right edge whatever the padding (Aaron
+   11/18: "arrows so pressed against these sides"). So the arrow is ours: drawn 14px in from the edge, with room kept
+   for it so a long value never runs under it. src/select.test.ts holds these numbers. */
 .ui-select {
-  background: var(--cc-panel);
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 40px;
+  text-overflow: ellipsis;
+  background-color: var(--cc-panel);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236b6e70' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  cursor: pointer;
 }
 /* SelectField: a button that reads like the native select it replaced, a list in a popover above any sheet. */
 .ui-select-btn {
