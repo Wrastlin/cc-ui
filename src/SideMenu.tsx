@@ -5,7 +5,7 @@ import {
   BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, FilePen,
   FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutGrid, Layers, ListChecks, MapPin, Mic, Package,
   PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, Home, ShieldCheck, Building2,
-  FileStack, HandCoins, Presentation, Plane, type LucideIcon,
+  FileStack, HandCoins, Presentation, Plane, UserPlus, type LucideIcon,
 } from "lucide-react";
 import Button from "./Button";
 import { isCurrent, menuSections, type MenuLink } from "./menu";
@@ -16,7 +16,7 @@ const ICON: Record<string, LucideIcon> = {
   "/jobs": Briefcase, "/checks": Scale, "/money/unpaid": HandCoins, "/contacts": Contact, "/zoho": BookOpen,
   "/forms": ClipboardList,
   "/pdf": FileText, "/templates": Files, "/production": CalendarRange, "/gutters": Droplets, "/folders": FolderOpen,
-  "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen,
+  "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen, "/core/hiring": UserPlus,
   "/inventory/buy": Package, "/inventory/shop": QrCode, "/inventory/shop/print": Printer, "/estimating/queue": Calculator, "/commercial": Ruler,
   "/panels": Layers, "/sim": Gamepad2, "/bricks": Store, "/library/index.html": GraduationCap, "/record": Mic,
   "/apps": LayoutGrid, "/whiteboard": Presentation, "/drone": Plane,
