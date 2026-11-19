@@ -1041,3 +1041,13 @@ a.ui-seg-btn[aria-current] {
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
+
+/* Older phones (iOS before 15.4, Chrome before 108) drop a dvh declaration whole, which left sheets, menus and
+   dialogs with no height cap at all. vh only where dvh is not understood, so the rule above still holds elsewhere. */
+@supports not (height: 1dvh) {
+  .ui-sheet { max-height: min(88vh, 760px); }
+  .ui-menu-pop { max-height: calc(100vh - 32px); }
+  .cc-frame { min-height: 100vh; }
+  .cc-frame > .cc-side { height: 100vh; }
+  .cc-report-shot { max-height: 40vh; }
+}

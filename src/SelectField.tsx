@@ -78,7 +78,7 @@ export default function SelectField({
   const message = typeof error === "string" && error ? error : null;
   const chip = (color: string | null | undefined) => (swatches ? <Swatch hex={color} size={18} className="ui-select-swatch" /> : null);
   const groups = options.reduce<{ label: string; options: SelectOption[] }[]>((gs, o) => {
-    const last = gs.at(-1), label = o.group ?? "";
+    const last = gs[gs.length - 1], label = o.group ?? "";
     if (last && last.label === label) last.options.push(o);
     else gs.push({ label, options: [o] });
     return gs;
