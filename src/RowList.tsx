@@ -76,7 +76,8 @@ export function RowList({
       {left > 0 && paging !== "short" ? (
         <div className="ui-rowlist-more">
           <Button variant="secondary" onClick={paging.more}>
-            Show {Math.min(left, paging.step)} more of {left.toLocaleString("en-US")}
+            {/* "Show 6 more of 6" says the count twice; the total only helps when one tap will not show them all. */}
+            {left > paging.step ? `Show ${paging.step} more of ${left.toLocaleString("en-US")}` : `Show ${left} more`}
           </Button>
         </div>
       ) : null}
