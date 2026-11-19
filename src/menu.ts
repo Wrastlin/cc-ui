@@ -135,6 +135,8 @@ const SECTIONS: readonly SectionDef[] = [
     id: "crews", title: "Crews", home: "/apps/crews",
     tabs: [
       { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
+      // Every applicant in one list (cc-app /core/hiring); the phone's More tab reads this same menu.
+      { label: "Applicants", href: "/core/hiring", grant: "production" },
       { label: "Time", href: "/time" },
     ],
   },
