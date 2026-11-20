@@ -124,7 +124,7 @@ export function SideMenu({
     <nav className="cc-side">
       <div className="cc-side-head">
         {logo ?? (
-          <a className="cc-side-logo" href={logoHref}>
+          <a className="cc-side-logo" href={logoHref} aria-label="C&C Services home">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/cc-logo.svg" alt="C&C Services" />
           </a>
