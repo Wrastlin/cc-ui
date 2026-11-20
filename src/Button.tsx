@@ -61,6 +61,11 @@ type AsLink = Common & {
   "aria-label"?: string;
 };
 
+/** The shared button's classes, for a plain <button> that needs a ref (DialogHost focuses its confirm button). */
+export function buttonClass(variant: ButtonVariant = "secondary", size: ButtonSize = "md"): string {
+  return classes({ variant, size });
+}
+
 function classes({
   variant = "ghost",
   size = "md",
