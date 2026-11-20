@@ -2,6 +2,9 @@
 
 import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { Dialog, Heading, Modal, ModalOverlay } from "react-aria-components";
+// The shared button classes, not the old crmp `btn`: an app without its own .btn rules drew browser-gray buttons
+// (subcontracts, 11/20).
+import { buttonClass } from "./Button";
 import {
   currentDialog,
   resolveDialog,
@@ -116,7 +119,7 @@ export default function DialogHost() {
             {dialog.kind !== "alert" && (
               <button
                 type="button"
-                className="btn ghost"
+                className={buttonClass("secondary")}
                 onClick={() => close(dialog.altLabel ? "alt" : cancelValue)}
               >
                 {dialog.altLabel ?? dialog.cancelLabel ?? "Cancel"}
@@ -124,7 +127,7 @@ export default function DialogHost() {
             )}
             <button
               type="button"
-              className={`btn${dialog.danger ? " danger" : ""}`}
+              className={buttonClass(dialog.danger ? "danger" : "primary")}
               ref={confirmRef}
               onClick={() =>
                 close(
