@@ -115,6 +115,9 @@ const SECTIONS: readonly SectionDef[] = [
       // Each job's money from every system side by side; "checks" is added by cc-app for the people who see job dollars.
       { label: "Checks", href: "/checks", grant: "checks" },
       { label: "Unpaid work", href: "/money/unpaid", grant: "checks" },
+      // A disputed customer, supplier or crew number as a ticket (cc-app /admin/resolutions, 11/19). Admins only;
+      // cc-app adds the "admin" grant for them (lib/menu-grants.ts). It shipped with no menu link and nobody found it.
+      { label: "Resolutions", href: "/admin/resolutions", grant: "admin" },
     ],
   },
   {
@@ -164,6 +167,8 @@ const SECTIONS: readonly SectionDef[] = [
       { label: "Drone", href: "/drone", grant: "dashboard" },
       { label: "Academy", href: "/library/index.html", grant: "academy" },
       { label: "Record", href: "/record", grant: "academy" },
+      // Every job's media in one place, the drive Resolutions files from (cc-app /admin/drive). Admins only.
+      { label: "Drive", href: "/admin/drive", grant: "admin" },
     ],
   },
 ];
