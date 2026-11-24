@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
+// Not every app has @types/react-dom (Bricks did not, 11/23), and the Helper must not fail their type check for it.
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { createPortal } from "react-dom";
 import { Button as AriaButton } from "react-aria-components";
 import { MessageCircleQuestion, MessageSquareWarning, X } from "lucide-react";
