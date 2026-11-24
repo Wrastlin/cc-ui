@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useId, useState, useSyncExternalStore } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { Button as AriaButton } from "react-aria-components";
-import { MessageSquareWarning } from "lucide-react";
-import Sheet from "./Sheet";
+import { MessageCircleQuestion, MessageSquareWarning, X } from "lucide-react";
 import TextArea from "./TextArea";
 import Button from "./Button";
 
@@ -21,6 +21,14 @@ import Button from "./Button";
  *
  * The shell can mount the account control twice (the desk bar and the phone bar, one hidden), so the first button
  * mounted draws the sheet and the rest only open it.
+ *
+ * Since 11/23 it is the Helper (Aaron: "a more responsive debug tool ... so he can interact live while he's working
+ * ... always present with us. Like clippy used to be"). Decided: a round button floats in the lower right of every
+ * page, over P15's "never floating", because Aaron asked for it always present; the glyph beside the avatar stays.
+ * Either opens a panel docked in the corner that leaves the page usable, so the person keeps working while they talk.
+ * The first message carries the screen and the trail; each later one is a reply on the same thread (cc-app
+ * /api/app/helper, the Report a problem row and its replies, what /issues shows). Answers arrive in the panel every
+ * few seconds while it is open, and as a speech bubble by the button when it is closed.
  */
 
 const TRAIL_CAP = 40;
@@ -131,90 +139,181 @@ export function ReportButton({ app, endpoint }: { app?: string; endpoint?: strin
 
   return (
     <>
-      <AriaButton className="cc-report" aria-label="Report a problem" onPress={() => void start()}>
+      <AriaButton className="cc-report" aria-label="Helper" onPress={() => void start()}>
         <MessageSquareWarning size={18} strokeWidth={1.75} aria-hidden />
       </AriaButton>
-      {host && <ReportSheet app={app} endpoint={endpoint} />}
+      {host && <Helper app={app} endpoint={endpoint} />}
     </>
   );
 }
 
-function ReportSheet({ app, endpoint }: { app?: string; endpoint?: string }) {
+type Message = { mine: boolean; name: string; text: string; at: string };
+type Thread = { thread: string | null; status: string; messages: Message[] };
+
+const KEY = "cc-helper-thread";
+const SEEN = "cc-helper-seen";
+
+function Helper({ app, endpoint }: { app?: string; endpoint?: string }) {
   const s = useSyncExternalStore(subscribe, () => state, () => closed);
-  const [note, setNote] = useState("");
+  const origin = endpoint ? new URL(endpoint, location.href).origin : location.origin;
+  const [t, setT] = useState<Thread>({ thread: null, status: "open", messages: [] });
+  const [unseen, setUnseen] = useState<Message | null>(null);
+  const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const list = useRef<HTMLOListElement>(null);
+  const fresh = !t.thread || t.status !== "open";
+
+  const refresh = async () => {
+    const id = localStorage.getItem(KEY);
+    try {
+      const r = await fetch(`${origin}/api/app/helper${id ? `?id=${encodeURIComponent(id)}` : ""}`, { credentials: "include" });
+      if (!r.ok) return;
+      const j = (await r.json()) as Thread;
+      if (j.thread) localStorage.setItem(KEY, j.thread);
+      else localStorage.removeItem(KEY);
+      setT(j);
+      const last = j.messages[j.messages.length - 1];
+      if (last && !last.mine && last.at > (localStorage.getItem(SEEN) ?? "")) {
+        if (state.open) localStorage.setItem(SEEN, last.at);
+        else setUnseen(last);
+      }
+    } catch {
+      /* the next tick tries again */
+    }
+  };
 
   useEffect(() => {
-    if (s.open) {
-      setNote("");
-      setSent(false);
-      setError(null);
-    }
+    setMounted(true);
+    void refresh();
+  }, []);
+  // While open, every 3 seconds so an answer reads as live; closed, every 20 for the speech bubble.
+  useEffect(() => {
+    const every = s.open ? 3000 : 20000;
+    const h = setInterval(() => {
+      if (document.visibilityState === "visible") void refresh();
+    }, every);
+    return () => clearInterval(h);
+  }, [s.open]);
+  useEffect(() => {
+    if (!s.open) return;
+    setUnseen(null);
+    setError(null);
+    const last = t.messages[t.messages.length - 1];
+    if (last) localStorage.setItem(SEEN, last.at);
+    void refresh();
   }, [s.open, s.at]);
+  useEffect(() => {
+    list.current?.lastElementChild?.scrollIntoView({ block: "end" });
+  }, [t.messages.length, s.open]);
 
   const close = () => set({ open: false, shot: null });
+  const startOver = () => {
+    localStorage.removeItem(KEY);
+    setT({ thread: null, status: "open", messages: [] });
+  };
 
   async function send() {
-    if (!note.trim()) {
-      setError("Say what is wrong.");
-      return;
-    }
+    const words = text.trim();
+    if (!words) return setError("Write a message.");
     setSending(true);
     setError(null);
-    const body = JSON.stringify({
-      path: location.pathname,
-      search: location.search,
-      title: document.title.slice(0, 120),
-      app,
-      note: note.trim(),
-      viewport: { w: innerWidth, h: innerHeight },
-      trail: trail.filter((t) => t.at <= s.at).map((t) => ({ ago: Math.round((s.at - t.at) / 1000), what: t.what })),
-      shot: s.shot,
-    });
     let ok = false;
     try {
-      ok = (await fetch(endpoint ?? location.origin + "/api/activity/bug", { method: "POST", body, credentials: "include" })).ok;
+      if (!fresh && t.thread) {
+        ok = (await fetch(`${origin}/api/app/helper`, { method: "POST", credentials: "include", body: JSON.stringify({ id: t.thread, text: words }) })).ok;
+      } else {
+        const body = JSON.stringify({
+          path: location.pathname,
+          search: location.search,
+          title: document.title.slice(0, 120),
+          app,
+          note: words,
+          viewport: { w: innerWidth, h: innerHeight },
+          trail: trail.filter((x) => x.at <= s.at).map((x) => ({ ago: Math.round((s.at - x.at) / 1000), what: x.what })),
+          shot: s.shot,
+        });
+        const r = await fetch(endpoint ?? origin + "/api/activity/bug", { method: "POST", body, credentials: "include" });
+        ok = r.ok;
+        const j = (await r.json().catch(() => ({}))) as { id?: string | null };
+        if (j.id) localStorage.setItem(KEY, j.id);
+      }
     } catch {
       /* the error line below says it */
     }
     setSending(false);
-    if (ok) setSent(true);
-    else setError("Could not send it. Try again.");
+    if (!ok) return setError("Could not send it. Try again.");
+    setText("");
+    await refresh();
   }
 
-  return (
-    <Sheet
-      open={s.open}
-      onClose={close}
-      title={sent ? "Sent" : "Report a problem"}
-      className="cc-report-sheet"
-      footer={
-        sent ? (
-          <Button variant="secondary" block onClick={close}>
-            Done
-          </Button>
-        ) : (
-          <Button variant="primary" block onClick={() => void send()} disabled={sending}>
-            {sending ? "Sending" : "Send"}
-          </Button>
-        )
-      }
-    >
-      {sent ? (
-        <p className="cc-report-sent">
-          <a href={`${location.origin}/issues`}>Issues</a>
-        </p>
-      ) : (
-        <div className="cc-report-body">
-          <TextArea label="What is wrong?" value={note} onChange={setNote} rows={4} maxLength={600} autoFocus error={error} />
-          {s.shot && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img className="cc-report-shot" src={s.shot} alt="Screenshot that goes with it" />
+  if (!mounted) return null;
+  return createPortal(
+    <>
+      {!s.open && (
+        <div className="cc-helper-float">
+          {unseen && (
+            <button type="button" className="cc-helper-say" onClick={() => void start()}>
+              {unseen.text}
+            </button>
           )}
+          <AriaButton className="cc-helper-fab" aria-label="Helper" onPress={() => void start()}>
+            <MessageCircleQuestion size={24} strokeWidth={2} aria-hidden />
+            {unseen && <span className="cc-helper-dot" aria-hidden />}
+          </AriaButton>
         </div>
       )}
-    </Sheet>
+      {s.open && (
+        <section className="cc-helper cc-report-sheet" role="dialog" aria-label="Helper">
+          <header className="cc-helper-head">
+            <h2>Helper</h2>
+            {!fresh && (
+              <Button variant="text" onClick={startOver}>
+                New
+              </Button>
+            )}
+            <Button variant="text" aria-label="Close" icon={<X size={18} />} onClick={close} />
+          </header>
+          <div className="cc-helper-body">
+            {fresh && s.shot && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="cc-report-shot" src={s.shot} alt="Screenshot that goes with it" />
+            )}
+            {!fresh && (
+              <ol className="cc-helper-msgs" ref={list}>
+                {t.messages.map((m, k) => (
+                  <li key={k} className={m.mine ? "mine" : "theirs"}>
+                    {!m.mine && <span className="cc-helper-who">{m.name}</span>}
+                    <p>{m.text}</p>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+          <footer className="cc-helper-foot">
+            <TextArea
+              label={fresh ? "What's going on?" : "Reply"}
+              value={text}
+              onChange={setText}
+              rows={2}
+              maxLength={2000}
+              autoFocus
+              error={error}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  void send();
+                }
+              }}
+            />
+            <Button variant="primary" block onClick={() => void send()} disabled={sending}>
+              {sending ? "Sending" : "Send"}
+            </Button>
+          </footer>
+        </section>
+      )}
+    </>,
+    document.body,
   );
 }

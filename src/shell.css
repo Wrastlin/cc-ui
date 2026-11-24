@@ -683,3 +683,129 @@
     height: var(--cc-tap);
   }
 }
+
+/* The Helper (ReportProblem.tsx, Aaron 11/23 "always present ... like clippy"): a round button in the lower right of
+   every page, its newest answer as a speech bubble beside it, and a panel docked in that corner that leaves the page
+   usable. On a phone the panel takes the bottom of the screen. */
+.cc-helper-float {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--cc-space-2);
+}
+.cc-helper-fab {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 999px;
+  background: var(--cc-accent);
+  color: var(--cc-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.22);
+}
+.cc-helper-fab[data-hovered] { background: var(--cc-accent-hover); }
+.cc-helper-fab[data-pressed] { background: var(--cc-accent-press); }
+.cc-helper-fab[data-focus-visible] { outline: 2px solid var(--cc-ring); outline-offset: 2px; }
+.cc-helper-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--cc-danger);
+  border: 2px solid var(--cc-bg);
+}
+.cc-helper-say {
+  max-width: 280px;
+  padding: var(--cc-space-3);
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius-lg);
+  background: var(--cc-panel);
+  color: var(--cc-text);
+  font: inherit;
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.16);
+}
+.cc-helper {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 60;
+  width: min(400px, calc(100vw - 32px));
+  max-height: min(600px, calc(100dvh - 32px));
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius-lg);
+  background: var(--cc-panel);
+  box-shadow: 0 8px 28px rgb(0 0 0 / 0.2);
+}
+.cc-helper-head {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+  padding: var(--cc-space-2) var(--cc-space-2) var(--cc-space-2) var(--cc-space-4);
+  border-bottom: 1px solid var(--cc-line);
+}
+.cc-helper-head h2 {
+  flex: 1;
+  margin: 0;
+  font-size: var(--cc-fs-title);
+  font-weight: 600;
+}
+.cc-helper-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--cc-space-3) var(--cc-space-4);
+}
+.cc-helper-msgs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--cc-space-2);
+}
+.cc-helper-msgs li { display: grid; gap: 2px; max-width: 85%; }
+.cc-helper-msgs li.mine { justify-self: end; }
+.cc-helper-msgs p {
+  margin: 0;
+  padding: var(--cc-space-2) var(--cc-space-3);
+  border-radius: var(--cc-radius-lg);
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.cc-helper-msgs li.mine p { background: var(--cc-accent); color: var(--cc-bg); }
+.cc-helper-msgs li.theirs p { background: var(--cc-sunk); color: var(--cc-text); }
+.cc-helper-who { font-size: var(--cc-fs-caption); color: var(--cc-muted); }
+.cc-helper-foot {
+  display: grid;
+  gap: var(--cc-space-2);
+  padding: var(--cc-space-3) var(--cc-space-4);
+  border-top: 1px solid var(--cc-line);
+}
+@media (max-width: 719px) {
+  .cc-helper {
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 75dvh;
+    border-radius: var(--cc-radius-lg) var(--cc-radius-lg) 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+@media print { .cc-helper-float, .cc-helper { display: none; } }
