@@ -1,5 +1,6 @@
 "use client";
 
+import type React from "react";
 import { FieldError, Label, TextArea as AriaTextArea, TextField as AriaTextField } from "react-aria-components";
 
 // A note box at TextField's field size (16 px or more on a phone, so iOS does not zoom on focus), its label wired to it
@@ -19,6 +20,8 @@ type TextAreaProps = {
   error?: string | null;
   autoFocus?: boolean;
   className?: string;
+  /** Keys on the box itself (the Helper sends on Enter, Shift+Enter breaks the line). */
+  onKeyDown?: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 };
 
 export default function TextArea({
@@ -34,6 +37,7 @@ export default function TextArea({
   error,
   autoFocus,
   className,
+  onKeyDown,
 }: TextAreaProps) {
   const invalid = Boolean(error);
   return (
@@ -51,7 +55,7 @@ export default function TextArea({
       className={["ui-field", invalid ? "ui-field-err" : "", className ?? ""].filter(Boolean).join(" ")}
     >
       {!hideLabel && <Label className="ui-field-label">{label}</Label>}
-      <AriaTextArea className="ui-input ui-textarea" rows={rows} />
+      <AriaTextArea className="ui-input ui-textarea" rows={rows} onKeyDown={onKeyDown} />
       <FieldError className="ui-field-help">{error}</FieldError>
     </AriaTextField>
   );
