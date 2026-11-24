@@ -40,6 +40,8 @@ const MAIN = [
   ["PDF editor", "/pdf", "dashboard"],
   // The drone flight setup per job (cc-app /drone, 11/13); the remote opens it too, from Pilot 2's fixed address.
   ["Drone", "/drone", "dashboard"],
+  // The walkable office: paint a wall, walk the rooms, open a door (cc-app /office, Aaron 11/23 ~11:20 PM).
+  ["Office", "/office", "dashboard"],
   ["Rotation", "/inspection-rotation", "inspection-rotation"],
   ["Whiteboard", "/whiteboard", "whiteboard"],
 ] as const;
@@ -168,6 +170,7 @@ const SECTIONS: readonly SectionDef[] = [
       { label: "Whiteboard", href: "/whiteboard", grant: "whiteboard" },
       { label: "PDF editor", href: "/pdf", grant: "dashboard" },
       { label: "Drone", href: "/drone", grant: "dashboard" },
+      { label: "Office", href: "/office", grant: "dashboard" },
       { label: "Academy", href: "/library/index.html", grant: "academy" },
       { label: "Record", href: "/record", grant: "academy" },
       // Every job's media in one place, the drive Resolutions files from (cc-app /admin/drive). Admins only.
