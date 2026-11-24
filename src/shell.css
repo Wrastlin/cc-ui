@@ -809,3 +809,4 @@
   }
 }
 @media print { .cc-helper-float, .cc-helper { display: none; } }
+.cc-helper .cc-report-shot { max-height: 160px; }
