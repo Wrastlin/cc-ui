@@ -43,6 +43,59 @@ export function noteTrail(what: string) {
   if (trail.length > TRAIL_CAP) trail.shift();
 }
 
+/*
+ * The live trail (Aaron 11/23: "track the device people are on and live actions of all of their clicks and types and
+ * keystrokes etc so i know what they're looking around for"). Every tap, page open, what was typed into a field once
+ * it settles, special keys, scroll stops and errors go to cc-app /api/activity/live every 4 seconds with the device.
+ * Never a password, card, code or token field: those are left out whole, not masked.
+ */
+type Live = { at: number; kind: string; path: string; target?: string; value?: string };
+const live: Live[] = [];
+let liveOrigin = "";
+let liveApp = "";
+function sessionId() {
+  try {
+    let id = sessionStorage.getItem("cc-live-session");
+    if (!id) sessionStorage.setItem("cc-live-session", (id = Math.random().toString(36).slice(2) + Date.now().toString(36)));
+    return id;
+  } catch {
+    return "nostorage";
+  }
+}
+function device() {
+  const touch = navigator.maxTouchPoints > 0 ? "touch" : "mouse";
+  return `${navigator.userAgent} | screen ${screen.width}x${screen.height} @${devicePixelRatio} | window ${innerWidth}x${innerHeight} | ${touch}`;
+}
+function note(kind: string, target = "", value = "") {
+  live.push({ at: Date.now(), kind, path: location.pathname + location.search, target: target.slice(0, 160), value: value.slice(0, 500) });
+  if (live.length > 600) live.shift();
+}
+function flush(leaving = false) {
+  if (!live.length || !liveOrigin) return;
+  const events = live.splice(0, 300);
+  const body = JSON.stringify({ session: sessionId(), device: device(), app: liveApp, events });
+  try {
+    if (leaving && navigator.sendBeacon) navigator.sendBeacon(`${liveOrigin}/api/activity/live`, new Blob([body], { type: "application/json" }));
+    else void fetch(`${liveOrigin}/api/activity/live`, { method: "POST", body, credentials: "include", keepalive: true }).catch(() => {});
+  } catch {
+    /* a lost batch is fine */
+  }
+}
+const SECRET = /pass|card|cvv|cvc|ssn|secret|token|otp|pin\b|routing|account.?num/i;
+function secret(el: HTMLInputElement | HTMLTextAreaElement) {
+  const type = (el.getAttribute("type") ?? "").toLowerCase();
+  const ac = (el.getAttribute("autocomplete") ?? "").toLowerCase();
+  return type === "password" || ac.startsWith("cc-") || /password|one-time-code/.test(ac) || SECRET.test(`${el.name} ${el.id} ${fieldName(el)}`);
+}
+function fieldName(el: Element) {
+  const id = el.getAttribute("id");
+  const byFor = id ? document.querySelector(`label[for="${CSS.escape(id)}"]`)?.textContent : null;
+  const wrap = el.closest("label")?.textContent;
+  const near = el.closest(".ui-field")?.querySelector(".ui-field-label")?.textContent;
+  return (el.getAttribute("aria-label") || byFor || near || wrap || el.getAttribute("placeholder") || el.getAttribute("name") || el.tagName.toLowerCase())
+    .replace(/\s+/g, " ").trim().slice(0, 60);
+}
+
 const CONTROL = "a,button,summary,select,label,[role=button],[role=tab],[role=menuitem],[role=option],[role=switch],[role=link]";
 
 function labelOf(el: Element): string {
@@ -51,26 +104,88 @@ function labelOf(el: Element): string {
 }
 
 let watching = false;
-function watch() {
+function watch(origin: string, app: string) {
   if (watching || typeof window === "undefined") return;
   watching = true;
+  liveOrigin = origin;
+  liveApp = app;
   let path = location.pathname;
   noteTrail(`open ${path}`);
+  note("open", document.title.slice(0, 120));
+  setInterval(() => flush(), 4000);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      note("leave");
+      flush(true);
+    }
+  });
+  const typing = new Map<Element, ReturnType<typeof setTimeout>>();
+  document.addEventListener(
+    "input",
+    (e) => {
+      const el = e.target as HTMLInputElement | HTMLTextAreaElement | null;
+      if (!el || !("value" in el) || secret(el) || el.closest(".cc-helper")) return;
+      clearTimeout(typing.get(el));
+      typing.set(el, setTimeout(() => note("type", fieldName(el), String(el.value ?? "")), 800));
+    },
+    true,
+  );
+  document.addEventListener(
+    "focusin",
+    (e) => {
+      const el = e.target as Element | null;
+      if (el?.matches?.("input,textarea,select,[contenteditable=true]") && !el.closest(".cc-helper")) note("focus", fieldName(el));
+    },
+    true,
+  );
+  document.addEventListener(
+    "keydown",
+    (e) => {
+      const named = ["Enter", "Escape", "Tab", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "PageUp", "PageDown", "Home", "End", "Delete"];
+      const combo = e.ctrlKey || e.metaKey || e.altKey;
+      if (!combo && !named.includes(e.key)) return;
+      const t = e.target as Element | null;
+      if (t && "value" in t && secret(t as HTMLInputElement)) return;
+      note("key", t ? fieldName(t) : "", `${e.ctrlKey ? "Ctrl+" : ""}${e.metaKey ? "Cmd+" : ""}${e.altKey ? "Alt+" : ""}${e.shiftKey && combo ? "Shift+" : ""}${e.key}`);
+    },
+    true,
+  );
+  let scrolled: ReturnType<typeof setTimeout> | undefined;
+  addEventListener(
+    "scroll",
+    () => {
+      clearTimeout(scrolled);
+      scrolled = setTimeout(() => {
+        const most = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+        note("scroll", "", `${Math.round((scrollY / most) * 100)}% down`);
+      }, 1000);
+    },
+    { passive: true, capture: true },
+  );
   document.addEventListener(
     "click",
     (e) => {
       const el = (e.target as Element | null)?.closest?.(CONTROL);
-      if (el && !el.closest(".cc-report-sheet")) noteTrail(`tap ${labelOf(el)} on ${location.pathname}`);
+      if (el && !el.closest(".cc-report-sheet")) {
+        noteTrail(`tap ${labelOf(el)} on ${location.pathname}`);
+        note("tap", labelOf(el), el.getAttribute("href") ?? "");
+      }
     },
     true,
   );
-  window.addEventListener("error", (e) => noteTrail(`error: ${e.message || "error"}`));
+  window.addEventListener("error", (e) => {
+    noteTrail(`error: ${e.message || "error"}`);
+    note("error", "", e.message || "error");
+  });
   window.addEventListener("unhandledrejection", (e) => {
     const r = e.reason as { message?: string } | string | undefined;
     noteTrail(`error: ${typeof r === "string" ? r : r?.message || "a promise was rejected"}`);
   });
   setInterval(() => {
-    if (location.pathname !== path) noteTrail(`open ${(path = location.pathname)}`);
+    if (location.pathname !== path) {
+      noteTrail(`open ${(path = location.pathname)}`);
+      note("open", document.title.slice(0, 120));
+    }
   }, 1000);
 }
 
@@ -102,8 +217,10 @@ async function capture(): Promise<string | null> {
     return await domToJpeg(document.documentElement, {
       width: innerWidth,
       height: innerHeight,
-      scale: Math.min(devicePixelRatio || 1, 2),
-      quality: 0.7,
+      // Scale 1 and 0.6: a 2x picture of a wide PC screen passed Vercel's 4.5 MB request limit and the send failed
+      // with nothing saved (Cody, 11/23).
+      scale: 1,
+      quality: 0.6,
       style: { transform: `translate(${-scrollX}px, ${-scrollY}px)` },
     });
   } catch {
@@ -127,7 +244,7 @@ export function ReportButton({ app, endpoint }: { app?: string; endpoint?: strin
   const id = useId();
   const [host, setHost] = useState(false);
   useEffect(() => {
-    watch();
+    watch(endpoint ? new URL(endpoint, location.href).origin : location.origin, app ?? "");
     hosts.push(id);
     setHost(hosts[0] === id);
     const onOpen = () => {
