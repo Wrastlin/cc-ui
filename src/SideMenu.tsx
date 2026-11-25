@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import {
-  BookOpen, Briefcase, Droplets, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, FilePen,
+  BookOpen, Briefcase, Calculator, CalendarRange, ClipboardCheck, ClipboardList, Clock, Contact, FilePen,
   FileText, Files, FolderOpen, Gamepad2, GraduationCap, LayoutGrid, Layers, ListChecks, MapPin, Mic, Package,
   PanelLeftClose, PanelLeftOpen, Printer, QrCode, RotateCw, Ruler, Scale, Store, Upload, Home, ShieldCheck, Building2,
   FileStack, HandCoins, Presentation, Plane, Gavel, HardDrive, UserPlus, type LucideIcon,
@@ -15,7 +15,7 @@ const ICON: Record<string, LucideIcon> = {
   "/time": Clock, "/tasks": ListChecks, "/inventory/upload": Upload,
   "/jobs": Briefcase, "/checks": Scale, "/money/unpaid": HandCoins, "/contacts": Contact, "/zoho": BookOpen,
   "/forms": ClipboardList,
-  "/pdf": FileText, "/templates": Files, "/production": CalendarRange, "/gutters": Droplets, "/folders": FolderOpen,
+  "/pdf": FileText, "/templates": Files, "/production": CalendarRange, "/folders": FolderOpen,
   "/admin": ClipboardCheck, "/canvass": MapPin, "/inspection-rotation": RotateCw, "/subcontracts": FilePen,
   "/inventory/buy": Package, "/inventory/shop": QrCode, "/inventory/shop/print": Printer, "/estimating/queue": Calculator, "/commercial": Ruler,
   "/panels": Layers, "/sim": Gamepad2, "/bricks": Store, "/library/index.html": GraduationCap, "/record": Mic,
