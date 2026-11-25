@@ -24,8 +24,6 @@ const MAIN = [
   // Done work not yet paid (cc-app /money/unpaid, 11/7); the same money gate as Checks.
   ["Unpaid work", "/money/unpaid", "checks"],
   ["Production", "/production", "production"],
-  // Each gutter job's work order, the picker on the house, ABC parts and the crew's costs (Aaron, 2026-10-16).
-  ["Gutters", "/gutters", "gutters"],
   // The paper job folders, each opened by the QR tag taped to it; the production grant opens them (Aaron, 2026-10-09).
   ["Job folders", "/folders", "production"],
   // Every applicant in one list (cc-app /core/hiring, Aaron's 11/18 paper list, priority 2); the page checks production.
@@ -48,7 +46,7 @@ const MAIN = [
 // navigate"). Picked from 30 days of opens by the team, Aaron's own left out. Everything else sits under More, still one
 // click away (2026-10-19: "hide the others in a 'more' tab so i can access them still"). Back on the rail is one line.
 const EVERYDAY = new Set<string>([
-  "/production", "/gutters", "/subcontracts", "/estimating/queue", "/canvass",
+  "/production", "/subcontracts", "/estimating/queue", "/canvass",
 ]);
 
 // Kept on the Bricks heading; its other links go under More with the rest.
@@ -131,7 +129,6 @@ const SECTIONS: readonly SectionDef[] = [
       { label: "Insurance", href: "/core/estimating?p=insurance", grant: "estimating" },
       { label: "Commercial", href: "/core/estimating?p=commercial", grant: "commercial" },
       { label: "Plan bids", href: "/core/estimating?p=plan_bid", grant: "estimating" },
-      { label: "Gutters", href: "/gutters", grant: "gutters" },
       { label: "Metal panels", href: "/panels", grant: "panels" },
     ],
     under: ["/estimating", "/commercial", "/core/estimating", "/panels"],
