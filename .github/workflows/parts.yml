@@ -1,0 +1,23 @@
+# Every PR: the unit tests, the types, and every catalog story rendered in Chromium with its a11y checks.
+# The pinned pictures are not run here: they were taken on the Mac Mini and Linux draws fonts differently, so they run
+# there with `npm run test:pictures` before a PR is opened.
+name: Parts
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  parts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - run: npx tsc --noEmit -p .
+      - run: npm run test:stories
