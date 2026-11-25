@@ -490,6 +490,20 @@
   justify-content: center;
   cursor: pointer;
 }
+/* A finger gets the 44 px target (specs/ui U6); the bar is 52 tall, so it fits. */
+@media (pointer: coarse) {
+  .cc-report,
+  .cc-bar .cc-report,
+  .cc-overlay .cc-report {
+    width: 44px;
+    height: 44px;
+  }
+}
+/* HelperInBar: on a screen with a control at the right edge of every line, the round button would sit on one of them
+   at every scroll position (specs/ui U5). The Helper is the glyph in the bar there. */
+[data-helper="bar"] .cc-helper-float {
+  display: none;
+}
 .cc-report[data-hovered],
 .cc-report[data-pressed] {
   background: var(--cc-hover);
