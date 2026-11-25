@@ -30,7 +30,8 @@ type Common = {
 // one More menu beside either (P3). A third control cannot be passed.
 type RowProps = Common & { more?: readonly MenuEntry[] } &
   (
-    | { href: string; external?: boolean; onClick?: never; action?: never }
+    // href may be undefined: a row that links only when it has somewhere to go renders as a plain row.
+    | { href: string | undefined; external?: boolean; onClick?: never; action?: never }
     | { href?: undefined; external?: never; onClick?: () => void; action?: never }
     | { href?: undefined; external?: never; onClick?: undefined; action: ReactElement }
   );
