@@ -25,14 +25,27 @@ export type CountMark = {
   onPress?: () => void;
 };
 
+/** A small button beside the mark, the same size on every line (the receiving line's camera, R18). */
+export type CountTool = {
+  /** Spoken name: "Photo, line 3". */
+  "aria-label": string;
+  icon: ReactNode;
+  /** How many are saved (photos on the line); shown on the button when above 0. */
+  count?: number;
+  disabled?: boolean;
+  onPress?: () => void;
+};
+
 export default function CountRow({
   n,
   title,
   code,
+  detail,
   note,
   count,
   cells,
   mark,
+  tool,
   onOpen,
   openLabel,
   done = false,
@@ -43,6 +56,8 @@ export default function CountRow({
   title: ReactNode;
   /** The item's code, after the name. */
   code?: ReactNode;
+  /** One quiet line under the name: maker and color on a receiving line. */
+  detail?: ReactNode;
   /** Phone: what is short on this line ("32 left"). Shown only when there is something to say. */
   note?: ReactNode;
   /** Phone: the count against the paper ("12 of 44 EA"). */
@@ -50,6 +65,7 @@ export default function CountRow({
   /** Desk: one value per CountHead column, in order. */
   cells?: readonly ReactNode[];
   mark?: CountMark;
+  tool?: CountTool;
   /** Opens the line for counting. */
   onOpen?: () => void;
   openLabel?: string;
@@ -65,6 +81,7 @@ export default function CountRow({
           {title}
           {code ? <span className="ui-countrow-code"> ({code})</span> : null}
         </span>
+        {detail ? <span className="ui-countrow-detail">{detail}</span> : null}
         {note || count ? (
           <span className="ui-countrow-nums">
             <span className="ui-countrow-note">{note}</span>
@@ -92,6 +109,14 @@ export default function CountRow({
       ) : (
         <span className="ui-countrow-hit">{body}</span>
       )}
+      {tool ? (
+        <span className="ui-countrow-act ui-countrow-act-tool">
+          <AriaButton className="ui-countrow-tool" aria-label={tool["aria-label"]} isDisabled={tool.disabled} onPress={tool.onPress}>
+            {tool.icon}
+            {tool.count ? <span className="ui-countrow-tool-n">{tool.count}</span> : null}
+          </AriaButton>
+        </span>
+      ) : null}
       {mark ? (
         <span className="ui-countrow-act">
           <AriaButton
@@ -110,7 +135,7 @@ export default function CountRow({
 }
 
 /** Desk only: the names of the number columns over a list of CountRows. `cells` matches each row's `cells`. */
-export function CountHead({ n, title, cells }: { n?: ReactNode; title: ReactNode; cells: readonly ReactNode[] }) {
+export function CountHead({ n, title, cells, tool }: { n?: ReactNode; title: ReactNode; cells: readonly ReactNode[]; tool?: boolean }) {
   return (
     <div className="ui-counthead" role="presentation">
       <span className="ui-countrow-n">{n}</span>
@@ -122,6 +147,7 @@ export function CountHead({ n, title, cells }: { n?: ReactNode; title: ReactNode
           </span>
         ))}
       </span>
+      {tool ? <span className="ui-countrow-act ui-countrow-act-tool" /> : null}
       <span className="ui-countrow-act" />
     </div>
   );

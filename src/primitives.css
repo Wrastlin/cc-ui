@@ -318,6 +318,13 @@ button.ui-countrow-hit .ui-countrow-title {
 .ui-countrow-code {
   font-weight: 400;
 }
+.ui-countrow-detail {
+  display: block;
+  color: var(--cc-muted);
+  font-size: var(--cc-fs-meta);
+  line-height: var(--cc-lh-meta);
+  overflow-wrap: anywhere;
+}
 .ui-countrow-nums {
   display: flex;
   justify-content: space-between;
@@ -342,6 +349,43 @@ button.ui-countrow-hit .ui-countrow-title {
   display: flex;
   flex: 0 0 76px;
   align-items: center;
+}
+.ui-countrow-act-tool {
+  flex-basis: 44px;
+}
+.ui-countrow-tool {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 50px;
+  padding: 0;
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius);
+  background: var(--cc-bg);
+  color: var(--cc-text);
+  cursor: pointer;
+}
+.ui-countrow-tool[data-pressed] {
+  background: var(--cc-line-2);
+}
+.ui-countrow-tool[data-focus-visible] {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+.ui-countrow-tool[data-disabled] {
+  cursor: default;
+  opacity: 0.55;
+}
+.ui-countrow-tool-n {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 .ui-countrow-mark {
   display: flex;
@@ -381,7 +425,8 @@ button.ui-countrow-hit .ui-countrow-title {
   opacity: 1;
 }
 @media (hover: hover) {
-  .ui-countrow-mark[data-hovered]:not([data-disabled]) {
+  .ui-countrow-mark[data-hovered]:not([data-disabled]),
+  .ui-countrow-tool[data-hovered]:not([data-disabled]) {
     background: var(--cc-line-2);
   }
   .ui-countrow:has(> button.ui-countrow-hit[data-hovered]) {

@@ -45,7 +45,8 @@ test("only the four type sizes and the page size are used", () => {
 });
 
 test("each adapted file names its source and license", () => {
-  for (const f of sources.filter((p) => p.startsWith(dir))) {
+  // Stories are ours, not adapted; the color and wrap rules above still read them.
+  for (const f of sources.filter((p) => p.startsWith(dir) && !p.endsWith(".stories.tsx"))) {
     const s = read(f);
     if (/react-aria-components/.test(s) && !/Section|Panel|useNarrow|cx\.ts/.test(f)) {
       assert.match(s, /Apache-2\.0|MIT/, f);
