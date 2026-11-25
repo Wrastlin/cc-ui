@@ -238,6 +238,22 @@ async function start() {
   set({ open: true, shot, at });
 }
 
+/**
+ * Mounted by a screen whose lines each end in a control at the right edge (a Received mark on every PO line): while it
+ * is on the page the floating Helper button is hidden and the Helper is the glyph in the bar, because the round button
+ * would cover one of those controls wherever the page is scrolled (specs/ui U5).
+ */
+export function HelperInBar() {
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.helper = "bar";
+    return () => {
+      delete root.dataset.helper;
+    };
+  }, []);
+  return null;
+}
+
 const hosts: string[] = [];
 
 export function ReportButton({ app, endpoint }: { app?: string; endpoint?: string }) {

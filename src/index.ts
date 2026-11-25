@@ -18,7 +18,7 @@ export type { BackTarget, BarAction } from "./AppBar";
 
 export { AccountButton, initialsFromEmail } from "./AccountButton";
 export type { AccountItem } from "./AccountButton";
-export { ReportButton, openReport, noteTrail } from "./ReportProblem";
+export { ReportButton, HelperInBar, openReport, noteTrail } from "./ReportProblem";
 
 export { TabRow, SectionTabRow, RecordRow, Chip, Breadcrumbs } from "./ContextRow";
 export type { Tab, ChipTone, Crumb } from "./ContextRow";
@@ -35,7 +35,8 @@ export { default as Swatch } from "./ColorSwatch";
 export { default as NumberStepper } from "./NumberStepper";
 export { default as YesNo, ChoiceGroup, RadioChoice, type ChoiceOption } from "./YesNo";
 export { default as Row, RowGroup } from "./Row";
-export { default as CountRow } from "./CountRow";
+export { default as CountRow, CountHead, type CountMark } from "./CountRow";
+export { default as SplitView } from "./SplitView";
 export { default as FieldRow } from "./FieldRow";
 export { default as Card, Actions, useOneAction } from "./Card";
 export { RowList, ListRow, usePaging, SHORT } from "./RowList";
