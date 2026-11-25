@@ -301,6 +301,23 @@ button.ui-row-hit {
   }
 }
 
+/* ---- FieldRow ---- */
+.ui-fieldrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--cc-space-3);
+  padding: var(--cc-space-3) 16px;
+}
+.ui-fieldrow > .ui-field,
+.ui-fieldrow > * > .ui-field {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.ui-fieldrow-act {
+  flex: 0 0 auto;
+}
+
 /* ---- Action slot and Card ---- */
 .ui-acts {
   display: flex;
