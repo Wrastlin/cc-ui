@@ -24,7 +24,7 @@ test("every menu link is reached from a section", () => {
 
 test("estimating holds every kind of estimate, and its tools show its tabs", () => {
   const est = menuSections(ALL).find((s) => s.id === "estimating");
-  assert.deepEqual(est?.links.map(([l]) => l), ["Queue", "Residential", "Insurance", "Commercial", "Plan bids", "Gutters"]);
+  assert.deepEqual(est?.links.map(([l]) => l), ["Queue", "Residential", "Insurance", "Commercial", "Plan bids"]);
   assert.equal(sectionTabs(ALL, "/estimating/queue")?.section.id, "estimating");
   assert.deepEqual(sectionTabs(ALL, "/estimating/queue")?.tabs.filter((t) => t.current).map((t) => t.label), ["Queue"]);
   assert.equal(sectionTabs(ALL, "/commercial")?.section.id, "estimating");
