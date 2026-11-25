@@ -251,6 +251,73 @@ button.ui-row-hit {
   cursor: pointer;
 }
 
+/* ---- CountRow ---- */
+/* A line counted against paper: number, text, then the count box and its buttons. Wraps the controls under the text
+   on a phone so the name is never squeezed to a word. */
+.ui-countrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cc-space-2) var(--cc-space-3);
+  min-height: max(var(--cc-ctl-h), 56px);
+  padding: 10px 16px;
+  border-top: 1px solid var(--cc-line);
+  color: var(--cc-text);
+}
+.ui-rows > .ui-countrow:first-child {
+  border-top: none;
+}
+.ui-countrow > .ui-row-main {
+  flex: 1 1 240px;
+}
+.ui-countrow-n {
+  flex: 0 0 auto;
+  min-width: 2ch;
+  color: var(--cc-muted);
+  font-size: var(--cc-fs-ui);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.ui-countrow-ctl {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--cc-space-2);
+  margin-left: auto;
+}
+.ui-countrow-ctl .ui-input {
+  width: 6.5em;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.ui-countrow-done .ui-row-title,
+.ui-countrow-done .ui-countrow-n {
+  color: var(--cc-muted);
+}
+@media (max-width: 599px) {
+  .ui-countrow-ctl {
+    flex: 1 1 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* ---- FieldRow ---- */
+.ui-fieldrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--cc-space-3);
+  padding: var(--cc-space-3) 16px;
+}
+.ui-fieldrow > .ui-field,
+.ui-fieldrow > * > .ui-field {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.ui-fieldrow-act {
+  flex: 0 0 auto;
+}
+
 /* ---- Action slot and Card ---- */
 .ui-acts {
   display: flex;
