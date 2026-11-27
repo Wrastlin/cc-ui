@@ -12,6 +12,7 @@ export { CCLogo, CC_MARK_RATIO, CC_LOCKUP_RATIO } from "./CCLogo";
 export type { LogoVariant } from "./CCLogo";
 
 export { AppBar, IdentityBar } from "./AppBar";
+export { AppShell } from "./AppShell";
 export { OverlayBar } from "./OverlayBar";
 export { BackButton } from "./BackButton";
 export type { BackTarget, BarAction } from "./AppBar";
