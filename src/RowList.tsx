@@ -1,8 +1,10 @@
 "use client";
 
-import { Children, useState, type ReactNode } from "react";
+import { Children, useState, type ReactElement, type ReactNode } from "react";
 import { GridList, GridListItem } from "react-aria-components";
 import Button from "./Button";
+import InlineMessage from "./InlineMessage";
+import { EmptyState, SkeletonRows } from "./States";
 
 // A list of rows on React Aria's GridList (HUMAN-UI move 2). Arrow keys move between rows, Tab reaches a link or button
 // inside the focused row, and a screen reader hears "row 3 of 12". The caller keeps its own row markup and class: the
@@ -47,18 +49,40 @@ export function usePaging<T>(items: readonly T[], pageSize = 20): { page: T[]; p
   };
 }
 
+/** Where a list stands. "ready" with no rows shows `empty`; a list cannot sit blank or spin forever. */
+export type ListState = "loading" | "failed" | "ready";
+
 export function RowList({
   label,
   className,
   paging,
+  state = "ready",
+  empty,
+  onRetry,
   children,
 }: {
   label: string;
   className?: string;
   /** usePaging's paging, or "short" for a list that never passes SHORT rows. */
   paging: Paging | "short";
-  children: ReactNode;
+  state?: ListState;
+  /** One line saying what goes here, and the one action that adds it. Shown when ready with no rows. */
+  empty?: { text: string; action?: ReactElement | null };
+  /** Offered as Retry when loading failed. */
+  onRetry?: () => void;
+  children?: ReactNode;
 }) {
+  if (state === "loading") return <SkeletonRows label={label} />;
+  if (state === "failed") {
+    return (
+      <InlineMessage tone="danger" action={onRetry ? <Button onClick={onRetry}>Retry</Button> : null}>
+        {`${label} did not load.`}
+      </InlineMessage>
+    );
+  }
+  if (Children.count(children) === 0) {
+    return <EmptyState text={empty?.text ?? `No ${label.toLowerCase()}.`} action={empty?.action} />;
+  }
   if (process.env.NODE_ENV !== "production" && paging === "short" && Children.count(children) > SHORT) {
     console.error(`RowList "${label}": ${Children.count(children)} rows marked short; page it with usePaging.`);
   }
