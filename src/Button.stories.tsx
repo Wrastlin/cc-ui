@@ -20,8 +20,11 @@ export const Small: Story = { args: { size: "sm", children: "Add" } };
 export const Large: Story = { args: { size: "lg", children: "Approve" } };
 export const WithIcon: Story = { args: { icon: <Plus size={16} aria-hidden />, children: "New PO" } };
 export const WithTrailing: Story = { args: { trailing: <ChevronRight size={16} aria-hidden />, children: "Next" } };
-export const IconOnly: Story = { args: { icon: <Camera size={18} aria-hidden />, children: undefined, title: "Photo" } };
+export const IconOnly: Story = { args: { icon: <Camera size={18} aria-hidden />, children: undefined, title: "Photo", "aria-label": "Photo" } };
 export const Block: Story = { args: { block: true, children: "Received" } };
 export const Disabled: Story = { args: { disabled: true } };
 export const Pressed: Story = { args: { variant: "secondary", pressed: true, children: "Open" } };
 export const AsLink: Story = { args: { href: "/receiving", children: "Receiving" } as never };
+
+/** Saving: a spinner over the label, the same width, presses ignored, focus kept. */
+export const Busy: Story = { args: { variant: "primary", busy: true, children: "Save" } };
