@@ -939,6 +939,25 @@ button.ui-countrow-hit .ui-countrow-title {
   color: var(--cc-danger);
 }
 
+/* ---- Icon ---- */
+.ui-icon {
+  flex: none;
+  color: currentColor;
+  vertical-align: -0.125em;
+}
+.ui-icon-text {
+  width: var(--cc-icon-text);
+  height: var(--cc-icon-text);
+}
+.ui-icon-control {
+  width: var(--cc-icon-control);
+  height: var(--cc-icon-control);
+}
+.ui-icon-display {
+  width: var(--cc-icon-display);
+  height: var(--cc-icon-display);
+}
+
 /* ---- PhotoGallery ---- */
 .ui-gallery {
   display: flex;

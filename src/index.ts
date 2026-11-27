@@ -50,6 +50,7 @@ export { SkeletonRows, EmptyState } from "./States";
 export { default as ActionBar, type BulkAction } from "./ActionBar";
 export { default as ReviewPager, nextOpen, type ReviewDecision } from "./ReviewPager";
 export { default as PhotoDrop, PhotoAdd, shrinkPhoto, type PhotoItem } from "./PhotoDrop";
+export { default as Icon, type IconSize } from "./Icon";
 export { default as PhotoGallery, type GalleryPhoto, type GalleryValue } from "./PhotoGallery";
 export { move, withCover } from "./gallery-order";
 export { isPhoto, refusal, PHOTO_ACCEPT } from "./photo";
