@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, type ReactElement, type ReactNode } from "react";
 import { Dialog, Heading, Modal, ModalOverlay } from "react-aria-components";
 
 // A bottom sheet.
@@ -94,11 +94,20 @@ function dismissesSheet(el: Element) {
   return !el.closest(".dlg-scrim");
 }
 
+/**
+ * A sheet's two buttons (gap 2b; Aaron 11/19 "You can't do bottom buttons", 11/20 "fixed at the top"; Apple sheets).
+ * On a phone they sit in a bar at the top: `cancel` (or Back on a later step) leading, `primary` trailing, the title
+ * between. A centered dialog on a computer shows the same two at its bottom right, primary last. Two at most: the
+ * type has no room for a third. A sheet with nothing to decide passes only `cancel` (a Close).
+ */
+export type SheetActions = { cancel: ReactElement; primary?: ReactElement };
+
 export default function Sheet({
   open,
   onClose,
   title,
-  /** Pinned under the scroll region — actions stay reachable however long the content. */
+  actions,
+  /** Under the scroll region, for read-only lines (a total). Buttons go in `actions`, never here. */
   footer,
   children,
   labelledBy,
@@ -108,6 +117,7 @@ export default function Sheet({
   open: boolean;
   onClose: () => void;
   title?: ReactNode;
+  actions?: SheetActions;
   footer?: ReactNode;
   children: ReactNode;
   labelledBy?: string;
@@ -153,7 +163,17 @@ export default function Sheet({
       <Modal className="ui-sheet-modal">
         <Dialog ref={drag} className="ui-sheet" aria-labelledby={labelledBy}>
           <span className="ui-sheet-grab" aria-hidden />
-          {title ? (
+          {actions ? (
+            <div className="ui-sheet-head">
+              <span className="ui-sheet-top-act ui-sheet-top-cancel">{actions.cancel}</span>
+              {title ? (
+                <Heading slot="title" level={2} className="ui-sheet-title">
+                  {title}
+                </Heading>
+              ) : null}
+              <span className="ui-sheet-top-act ui-sheet-top-primary">{actions.primary}</span>
+            </div>
+          ) : title ? (
             <Heading slot="title" level={2} className="ui-sheet-title">
               {title}
             </Heading>
@@ -161,6 +181,12 @@ export default function Sheet({
           {/* the ONLY scroll region in here */}
           <div className="ui-sheet-body">{children}</div>
           {footer ? <div className="ui-sheet-foot">{footer}</div> : null}
+          {actions && placement === "center" ? (
+            <div className="ui-sheet-desk-acts">
+              {actions.cancel}
+              {actions.primary}
+            </div>
+          ) : null}
         </Dialog>
       </Modal>
     </ModalOverlay>
