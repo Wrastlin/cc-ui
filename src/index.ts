@@ -49,6 +49,8 @@ export type { Paging, ListState } from "./RowList";
 export { SkeletonRows, EmptyState } from "./States";
 export { default as ActionBar, type BulkAction } from "./ActionBar";
 export { default as ReviewPager, nextOpen, type ReviewDecision } from "./ReviewPager";
+export { default as PhotoDrop, shrinkPhoto, type PhotoItem } from "./PhotoDrop";
+export { isPhoto, refusal, PHOTO_ACCEPT } from "./photo";
 export { default as DescriptionList, type Fact } from "./DescriptionList";
 export { money, count, date, time, range, ago } from "./format";
 export { MoneyText, NumberText } from "./NumberText";

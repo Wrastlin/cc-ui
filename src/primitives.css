@@ -844,6 +844,101 @@ button.ui-countrow-hit .ui-countrow-title {
   outline: none;
 }
 
+/* ---- PhotoDrop ---- */
+.ui-photodrop {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-2);
+}
+.ui-photodrop-label {
+  font-size: var(--cc-fs-meta);
+  font-weight: 500;
+  color: var(--cc-muted);
+}
+.ui-photodrop-count {
+  font-variant-numeric: tabular-nums;
+}
+.ui-photodrop-zone {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cc-space-3);
+  padding: var(--cc-space-3);
+  border: 1px dashed var(--cc-line-strong, var(--cc-line));
+  border-radius: var(--cc-radius);
+  background: var(--cc-panel);
+}
+.ui-photodrop-zone[data-drop-target] {
+  border-style: solid;
+  border-color: var(--cc-accent);
+  background: var(--cc-selected);
+}
+.ui-photodrop-zone[data-focus-visible] {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+.ui-photodrop-drop {
+  font-size: var(--cc-fs-body);
+  color: var(--cc-muted);
+}
+.ui-photodrop-refused {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--cc-fs-body);
+  color: var(--cc-danger);
+}
+.ui-photodrop-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ui-photodrop-row {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-3);
+  min-height: var(--cc-ctl-h);
+  padding: var(--cc-space-1) 0;
+  border-top: 1px solid var(--cc-line);
+}
+.ui-photodrop-thumb {
+  flex: 0 0 40px;
+  border-radius: var(--cc-radius-sm, 4px);
+  object-fit: cover;
+  background: var(--cc-sunk);
+}
+.ui-photodrop-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--cc-fs-body);
+  overflow-wrap: anywhere;
+}
+.ui-photodrop-name progress {
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--cc-sunk);
+  overflow: hidden;
+}
+.ui-photodrop-name progress::-webkit-progress-bar {
+  background: var(--cc-sunk);
+}
+.ui-photodrop-name progress::-webkit-progress-value {
+  background: var(--cc-accent);
+}
+.ui-photodrop-name progress::-moz-progress-bar {
+  background: var(--cc-accent);
+}
+.ui-photodrop-failed {
+  font-size: var(--cc-fs-meta);
+  color: var(--cc-danger);
+}
+
 /* ---- ReviewPager ---- */
 .ui-pager {
   display: flex;
