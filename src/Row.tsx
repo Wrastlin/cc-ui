@@ -24,6 +24,8 @@ type Common = {
   /** A chevron, a count, a status. Never shrinks. */
   trailing?: ReactNode;
   className?: string;
+  /** The record open beside this list (a jump list, a split view): filled, and read as the current page. */
+  current?: boolean;
 };
 
 // The row's own target (href, onClick) is its one action, so `action` is only for a row that is not one; `more` is the
@@ -55,23 +57,24 @@ function Body({ icon, title, sub, trailing }: Common) {
 
 export default function Row(props: RowProps) {
   if (props.action || props.more?.length) return <SplitRow {...props} />;
-  const cls = ["ui-row", props.className ?? ""].filter(Boolean).join(" ");
+  const cls = ["ui-row", props.current ? "ui-row-on" : "", props.className ?? ""].filter(Boolean).join(" ");
+  const cur = props.current ? ("page" as const) : undefined;
   if (props.href && props.external) {
     return (
-      <a className={cls} href={props.href} target="_blank" rel="noreferrer">
+      <a className={cls} href={props.href} target="_blank" rel="noreferrer" aria-current={cur}>
         <Body {...props} />
       </a>
     );
   }
   if (props.href) {
     return (
-      <Link className={cls} href={props.href}>
+      <Link className={cls} href={props.href} aria-current={cur}>
         <Body {...props} />
       </Link>
     );
   }
   return (
-    <button type="button" className={cls} onClick={props.onClick}>
+    <button type="button" className={cls} onClick={props.onClick} aria-current={cur}>
       <Body {...props} />
     </button>
   );
@@ -93,7 +96,7 @@ function SplitRow(props: RowProps) {
     <div className="ui-row-hit">{body}</div>
   );
   return (
-    <div ref={ref} className={["ui-row ui-row-split", props.className ?? ""].filter(Boolean).join(" ")}>
+    <div ref={ref} className={["ui-row ui-row-split", props.current ? "ui-row-on" : "", props.className ?? ""].filter(Boolean).join(" ")}>
       {hit}
       <Actions name={name} action={props.action} more={props.more} />
     </div>
