@@ -30,3 +30,4 @@ export { Panel } from "./Panel";
 export { Disclosure } from "./Disclosure";
 export { ProgressBar } from "./ProgressBar";
 export { Tooltip, TooltipTrigger } from "./Tooltip";
+export { DateField } from "./DateField";
