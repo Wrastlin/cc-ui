@@ -844,6 +844,58 @@ button.ui-countrow-hit .ui-countrow-title {
   outline: none;
 }
 
+/* ---- DescriptionList ---- */
+.ui-dl {
+  margin: 0;
+}
+.ui-dl-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cc-space-3);
+  min-height: var(--cc-ctl-h);
+  padding: var(--cc-space-2) 0;
+  border-top: 1px solid var(--cc-line);
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+}
+.ui-dl-row:first-child {
+  border-top: none;
+}
+.ui-dl-label {
+  flex: 0 1 auto;
+  color: var(--cc-muted);
+  overflow-wrap: anywhere;
+}
+.ui-dl-value {
+  flex: 1 1 auto;
+  margin: 0;
+  min-width: 0;
+  text-align: end;
+  color: var(--cc-text);
+  overflow-wrap: anywhere;
+}
+.ui-dl-num {
+  font-variant-numeric: tabular-nums;
+}
+.ui-dl-missing {
+  color: var(--cc-muted);
+}
+.ui-dl-act {
+  flex: 0 0 auto;
+  margin: 0;
+}
+.ui-dl-long {
+  flex-wrap: wrap;
+}
+.ui-dl-long > .ui-dl-label {
+  flex: 1 1 auto;
+}
+.ui-dl-long > .ui-dl-value {
+  order: 3;
+  flex-basis: 100%;
+  text-align: start;
+}
+
 /* ---- Field ---- */
 .ui-field {
   display: flex;
