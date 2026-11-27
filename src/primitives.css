@@ -939,6 +939,59 @@ button.ui-countrow-hit .ui-countrow-title {
   color: var(--cc-danger);
 }
 
+/* ---- CheckAnswers and Confirmation ---- */
+.ui-check {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-5);
+}
+.ui-check-title {
+  margin: 0 0 var(--cc-space-2);
+  font-size: var(--cc-fs-section, var(--cc-fs-title));
+  font-weight: 600;
+  color: var(--cc-text);
+}
+.ui-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--cc-space-3);
+}
+.ui-confirm-mark {
+  color: var(--cc-good);
+}
+.ui-confirm-title {
+  margin: 0;
+  font-size: var(--cc-fs-page, var(--cc-fs-title));
+  font-weight: 600;
+  color: var(--cc-text);
+}
+.ui-confirm-next {
+  margin: 0;
+  list-style: disc;
+  padding-left: 1.25em;
+  font-size: var(--cc-fs-body);
+  color: var(--cc-text);
+}
+
+/* ---- Icon ---- */
+.ui-icon {
+  flex: none;
+  vertical-align: -0.125em;
+}
+.ui-icon-text {
+  width: var(--cc-icon-text);
+  height: var(--cc-icon-text);
+}
+.ui-icon-control {
+  width: var(--cc-icon-control);
+  height: var(--cc-icon-control);
+}
+.ui-icon-display {
+  width: var(--cc-icon-display);
+  height: var(--cc-icon-display);
+}
+
 /* ---- PhotoGallery ---- */
 .ui-gallery {
   display: flex;
@@ -1050,10 +1103,30 @@ button.ui-countrow-hit .ui-countrow-title {
 /* ---- ReviewPager ---- */
 .ui-pager {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: var(--cc-space-3);
+}
+.ui-pager-bar,
+.ui-pager-head {
+  display: flex;
   align-items: center;
-  gap: var(--cc-space-2) var(--cc-space-3);
+  justify-content: space-between;
+  gap: var(--cc-space-3);
   min-height: var(--cc-ctl-h);
+}
+.ui-pager-head {
+  align-items: flex-start;
+}
+.ui-pager-name {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ui-pager-step,
+.ui-pager-decide {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+  flex: none;
 }
 .ui-pager-at {
   font-size: var(--cc-fs-body);
@@ -1061,16 +1134,9 @@ button.ui-countrow-hit .ui-countrow-title {
   font-variant-numeric: tabular-nums;
   color: var(--cc-muted);
   white-space: nowrap;
-}
-.ui-pager-arrows {
-  display: inline-flex;
-  gap: var(--cc-space-2);
-}
-.ui-pager-decide {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--cc-space-2);
-  margin-inline-start: auto;
+  min-width: 4.5em;
+  text-align: center;
+  justify-content: center;
 }
 
 /* ---- DescriptionList ---- */
