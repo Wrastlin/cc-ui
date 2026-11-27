@@ -697,6 +697,47 @@ button.ui-countrow-hit .ui-countrow-title {
   outline-offset: -2px;
 }
 
+/* ---- Form and ErrorSummary ---- */
+.ui-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-4);
+  min-width: 0;
+}
+.ui-form-save {
+  display: flex;
+  justify-content: flex-start;
+}
+.ui-errsum {
+  padding: var(--cc-space-3) var(--cc-space-4);
+  border: 2px solid var(--cc-danger);
+  border-radius: var(--cc-radius);
+  background: var(--cc-panel);
+  color: var(--cc-text);
+}
+.ui-errsum:focus-visible,
+.ui-errsum:focus {
+  outline: 3px solid var(--cc-ring);
+  outline-offset: 2px;
+}
+.ui-errsum-title {
+  margin: 0 0 var(--cc-space-1);
+  font-size: var(--cc-fs-section);
+  line-height: var(--cc-lh-section);
+  font-weight: 600;
+}
+.ui-errsum-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ui-errsum-list a {
+  color: var(--cc-danger);
+  font-weight: 600;
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
 /* ---- Field ---- */
 .ui-field {
   display: flex;

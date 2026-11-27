@@ -42,6 +42,7 @@ export { default as FieldRow } from "./FieldRow";
 export { default as Card, Actions, useOneAction } from "./Card";
 export { default as InlineMessage, type MessageTone } from "./InlineMessage";
 export { toast, ToastHost } from "./Toast";
+export { default as Form, ErrorSummary, useFieldError, type FormErrors } from "./Form";
 export { RowList, ListRow, usePaging, SHORT } from "./RowList";
 export type { Paging } from "./RowList";
 export { default as Sheet } from "./Sheet";
