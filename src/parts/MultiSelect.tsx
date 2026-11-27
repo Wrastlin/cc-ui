@@ -129,7 +129,7 @@ export function MultiSelect({
             invalid && "border-cc-danger",
           )}
         >
-          <span id={`${id}-v`} className={cx("flex-1", picked.length === 0 && "text-cc-faint")}>
+          <span id={`${id}-v`} className={cx("flex-1", picked.length === 0 && "text-cc-muted")}>
             {picked.length ? picked.map((o) => o.label).join(", ") : placeholder}
           </span>
           <ChevronDown aria-hidden size={20} className="shrink-0 text-cc-muted" />

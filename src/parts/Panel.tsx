@@ -26,7 +26,7 @@ export function Panel({
     >
       {title && (
         <div className="flex min-h-12 items-center gap-2 border-b border-solid border-cc-line px-4">
-          <h2 id={id} className="m-0 text-cc-title font-semibold text-cc-text">
+          <h2 id={id} className="m-0 text-cc-section font-semibold text-cc-text">
             {title}
           </h2>
           {action && <div className="ms-auto">{action}</div>}

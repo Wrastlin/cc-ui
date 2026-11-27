@@ -32,12 +32,12 @@ test("every token parts.css reads is defined in tokens.css", () => {
   for (const t of new Set(used)) assert.match(tokens, new RegExp(`${t}:`), t);
 });
 
-test("only the four type sizes and the page size are used", () => {
+test("only the Crisp type steps (meta, body, input, section, title, page) are used", () => {
   for (const f of sources) {
     const sizes = [...read(f).matchAll(/\btext-cc-([a-z]+)\b/g)].map((m) => m[1]);
     for (const s of sizes) {
       assert.ok(
-        ["meta", "body", "input", "title", "page", "text", "muted", "faint", "accent", "bg", "danger", "good", "warn"].includes(s),
+        ["meta", "body", "input", "section", "title", "page", "text", "muted", "faint", "accent", "bg", "danger", "good", "warn"].includes(s),
         `${f}: text-cc-${s}`,
       );
     }
@@ -45,7 +45,8 @@ test("only the four type sizes and the page size are used", () => {
 });
 
 test("each adapted file names its source and license", () => {
-  for (const f of sources.filter((p) => p.startsWith(dir))) {
+  // Stories are ours, not adapted; the color and wrap rules above still read them.
+  for (const f of sources.filter((p) => p.startsWith(dir) && !p.endsWith(".stories.tsx"))) {
     const s = read(f);
     if (/react-aria-components/.test(s) && !/Section|Panel|useNarrow|cx\.ts/.test(f)) {
       assert.match(s, /Apache-2\.0|MIT/, f);

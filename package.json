@@ -15,14 +15,20 @@
     ".": "./src/index.ts",
     "./parts": "./src/parts/index.ts",
     "./parts.css": "./src/parts.css",
+    "./templates": "./src/templates/index.ts",
     "./gallery": "./gallery/Gallery.tsx",
     "./swatch": "./src/swatch.ts",
+    "./format": "./src/format.ts",
     "./tokens.css": "./src/tokens.css",
     "./styles.css": "./src/styles.css"
   },
   "scripts": {
     "test": "node --test src/*.test.ts src/parts/*.test.ts",
-    "typecheck": "tsc -p ."
+    "typecheck": "tsc -p .",
+    "storybook": "storybook dev -p 6106 --no-open",
+    "build-storybook": "storybook build -o storybook-static --quiet",
+    "test:pictures": "npm run build-storybook && playwright test --trace off",
+    "test:stories": "vitest run --project storybook"
   },
   "files": [
     "src",
@@ -30,19 +36,36 @@
     "LICENSES"
   ],
   "peerDependencies": {
+    "lucide-react": ">=1",
     "next": ">=15",
     "react": ">=19",
-    "react-dom": ">=19",
-    "lucide-react": ">=1",
-    "react-aria-components": ">=1.22"
+    "react-aria-components": ">=1.22",
+    "react-dom": ">=19"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@storybook/addon-a11y": "^10.6.9",
+    "@storybook/addon-mcp": "^10.6.9",
+    "@storybook/addon-vitest": "^10.6.9",
+    "@storybook/nextjs-vite": "^10.6.9",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/node": "^26.6.10",
     "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.3.0",
+    "@vitest/browser-playwright": "^5.1.2",
+    "lucide-react": "^1.80.0",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-aria-components": "^1.22.1",
+    "react-dom": "^19.3.1",
+    "storybook": "^10.6.9",
+    "tailwindcss": "^4.3.5",
     "typescript": "^5.9.3",
-    "lucide-react": "^1.23.0",
-    "react-aria-components": "^1.22.1"
+    "vite": "^8.3.8",
+    "vitest": "^5.1.2"
   },
   "dependencies": {
+    "@internationalized/date": "^3.12.4",
     "modern-screenshot": "^4.7.0"
   }
 }

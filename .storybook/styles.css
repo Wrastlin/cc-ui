@@ -1,0 +1,55 @@
+/* Style options for Aaron to compare (AARON-NOW 11/25 6:20 PM: "the 10/31 look plus two or three alternatives").
+   Catalog only: the toolbar's Style switch sets data-cc-style on <html>; apps never load this file. Crisp is
+   tokens.css as it stands (since 11/27). Every text color here keeps 4.5:1 on its background except 10/31's faint gray (3.65:1), kept only to compare. */
+
+/* 10/31: the look before Crisp became the base (11/27), kept so the two can still be compared. */
+html[data-cc-style="1031"] {
+  --cc-faint: #7b8796;
+  --cc-border: #7b8796;
+  --cc-muted: #526071;
+  --cc-fs-title: 17px;
+  --cc-fs-section: 17px;
+  --cc-fs-page: 20px;
+  --cc-fs-display: 24px;
+  --cc-lh-title: 24px;
+  --cc-lh-page: 28px;
+  --cc-radius: 8px;
+  --cc-radius-lg: 12px;
+}
+
+/* Field: for a bright shop floor and gloves: darker text, larger body and inputs, rounder controls. */
+html[data-cc-style="field"] {
+  --cc-text: #0b1118;
+  --cc-muted: #3d4a5a;
+  --cc-faint: #4b5768;
+  --cc-border: #4b5768;
+  --cc-line: #cfd6de;
+  --cc-fs-meta: 15px;
+  --cc-fs-ui: 15px;
+  --cc-fs-body: 17px;
+  --cc-fs-input: 18px;
+  --cc-fs-title: 20px;
+  --cc-fs-page: 24px;
+  --cc-fs-display: 30px;
+  --cc-lh-meta: 22px;
+  --cc-lh-body: 24px;
+  --cc-lh-page: 32px;
+  --cc-radius: 10px;
+  --cc-radius-lg: 14px;
+}
+
+/* Warm: paper-white and warm grays instead of blue-grays, the navy kept. */
+html[data-cc-style="warm"] {
+  --cc-bg: #fffdf9;
+  --cc-panel: #fffdf9;
+  --cc-panel-2: #f5f1ea;
+  --cc-line: #e8e1d6;
+  --cc-line-2: #f1ece4;
+  --cc-text: #1d1a16;
+  --cc-muted: #5b5348;
+  --cc-faint: #6e665b;
+  --cc-border: #8a8175;
+  --cc-good-bg: #eef5ea;
+  --cc-hover: color-mix(in srgb, var(--cc-accent) 4%, #fffdf9);
+  --cc-selected: color-mix(in srgb, var(--cc-accent) 8%, #fffdf9);
+}

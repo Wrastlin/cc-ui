@@ -80,7 +80,8 @@ export function AccountButton({
           }, 0),
   }));
 
-  const name = email ? `${email}, account and menu` : "Account and menu";
+  // The initials lead the name so a voice user can say what they see (WCAG 2.5.3, caught by the catalog a11y run).
+  const name = email ? `${initialsFromEmail(email)}, ${email}, account and menu` : "Account and menu";
 
   return (
     <div className="cc-account">
