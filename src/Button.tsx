@@ -25,7 +25,7 @@ import { Button as AriaButton, type PressEvent } from "react-aria-components";
 
 /** secondary is the visual system's name for ghost (a white button with a real edge); text is an action with no box. */
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "text" | "danger";
-/** sm and md are 48px on a phone (--cc-ctl-h); lg is the 56px primary target (--cc-ctl-h-lg). */
+/** On a phone md is 48px, sm 44px (Apple's minimum hit) and lg the 56px primary target (tokens.css phone block). */
 export type ButtonSize = "md" | "sm" | "lg";
 
 type Common = {
@@ -52,6 +52,10 @@ type AsButton = Common & {
   "aria-describedby"?: string;
   /** One of a set of choices: the picked one reads as picked without competing with the screen's primary action. */
   pressed?: boolean;
+  /** Working on it: a spinner over the label, the width held, presses ignored, focus kept. Not React Aria's isPending:
+   *  its announcer leaves an unlabeled role=img node in the page that axe fails. A submit button's form ignores a
+   *  second submit itself (Form does). */
+  busy?: boolean;
 };
 
 type AsLink = Common & {
@@ -86,9 +90,10 @@ function classes({
     .join(" ");
 }
 
-function Inner({ icon, children, trailing }: Common) {
+function Inner({ icon, children, trailing, busy }: Common & { busy?: boolean }) {
   return (
     <>
+      {busy ? <span className="ui-btn-spin" aria-hidden /> : null}
       {icon ? (
         <span className="ui-btn-glyph" aria-hidden>
           {icon}
@@ -101,6 +106,9 @@ function Inner({ icon, children, trailing }: Common) {
 }
 
 export default function Button(props: AsButton | AsLink) {
+  if (DEV && props.icon && !props.children && !props["aria-label"]) {
+    console.error("Button: an icon-only button needs aria-label, its spoken name.");
+  }
   if ("href" in props && props.href) {
     const { href, external, title } = props;
     const label = props["aria-label"];
@@ -128,8 +136,8 @@ export default function Button(props: AsButton | AsLink) {
   return (
     <AriaButton
       type={p.type ?? "button"}
-      className={classes(props)}
-      onPress={p.onClick ? () => p.onClick?.() : undefined}
+      className={[classes(props), p.busy ? "ui-btn-busy" : ""].filter(Boolean).join(" ")}
+      onPress={p.onClick && !p.busy ? () => p.onClick?.() : undefined}
       onPressStart={keepBubbling}
       onPressUp={keepBubbling}
       onPressEnd={keepBubbling}
@@ -139,10 +147,12 @@ export default function Button(props: AsButton | AsLink) {
       aria-pressed={p.pressed}
       render={p.title ? (attrs) => <button {...attrs} title={p.title} /> : undefined}
     >
-      <Inner {...props} />
+      <Inner {...props} busy={p.busy} />
     </AriaButton>
   );
 }
+
+const DEV = process.env.NODE_ENV !== "production";
 
 // React Aria stops press events at the button by default. A native button let
 // them bubble, and callers lean on that (a row that also listens, a menu that

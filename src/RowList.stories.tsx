@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn } from "storybook/test";
+import Button from "./Button";
 import { ListRow, RowList, usePaging } from "./RowList";
 
 const meta = { title: "Rows/RowList" } satisfies Meta;
@@ -27,3 +28,16 @@ export const Paged: Story = {
     );
   },
 };
+
+/** Loading: three rows the shape of real rows, after 300 ms. */
+export const Loading: Story = { render: () => <RowList label="Open POs" paging="short" state="loading" /> };
+
+/** Ready with nothing in it: one line, one action. */
+export const Empty: Story = {
+  render: () => (
+    <RowList label="Open POs" paging="short" empty={{ text: "No open POs.", action: <Button>New PO</Button> }} />
+  ),
+};
+
+/** Failed: said in place, with Retry. */
+export const Failed: Story = { render: () => <RowList label="Open POs" paging="short" state="failed" onRetry={fn()} /> };

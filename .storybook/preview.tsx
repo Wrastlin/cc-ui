@@ -10,18 +10,18 @@ const preview: Preview = {
         icon: "paintbrush",
         dynamicTitle: true,
         items: [
-          { value: "1031", title: "10/31 (now)" },
-          { value: "crisp", title: "Crisp" },
+          { value: "crisp", title: "Crisp (now)" },
+          { value: "1031", title: "10/31 (before)" },
           { value: "field", title: "Field" },
           { value: "warm", title: "Warm" },
         ],
       },
     },
   },
-  initialGlobals: { ccStyle: "1031" },
+  initialGlobals: { ccStyle: "crisp" },
   decorators: [
     (Story, ctx) => {
-      document.documentElement.dataset.ccStyle = ctx.globals.ccStyle ?? "1031";
+      document.documentElement.dataset.ccStyle = ctx.globals.ccStyle ?? "crisp";
       return <Story />;
     },
   ],
