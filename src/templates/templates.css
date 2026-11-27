@@ -81,3 +81,9 @@
     top: var(--cc-space-4);
   }
 }
+.ui-pager-name .ui-tpl-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--cc-space-1);
+}
