@@ -1103,10 +1103,30 @@ button.ui-countrow-hit .ui-countrow-title {
 /* ---- ReviewPager ---- */
 .ui-pager {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: var(--cc-space-3);
+}
+.ui-pager-bar,
+.ui-pager-head {
+  display: flex;
   align-items: center;
-  gap: var(--cc-space-2) var(--cc-space-3);
+  justify-content: space-between;
+  gap: var(--cc-space-3);
   min-height: var(--cc-ctl-h);
+}
+.ui-pager-head {
+  align-items: flex-start;
+}
+.ui-pager-name {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ui-pager-step,
+.ui-pager-decide {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+  flex: none;
 }
 .ui-pager-at {
   font-size: var(--cc-fs-body);
@@ -1114,16 +1134,9 @@ button.ui-countrow-hit .ui-countrow-title {
   font-variant-numeric: tabular-nums;
   color: var(--cc-muted);
   white-space: nowrap;
-}
-.ui-pager-arrows {
-  display: inline-flex;
-  gap: var(--cc-space-2);
-}
-.ui-pager-decide {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--cc-space-2);
-  margin-inline-start: auto;
+  min-width: 4.5em;
+  text-align: center;
+  justify-content: center;
 }
 
 /* ---- DescriptionList ---- */
