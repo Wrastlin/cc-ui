@@ -906,6 +906,48 @@ button.ui-countrow-hit .ui-countrow-title {
   white-space: normal;
 }
 
+/* ---- SaveState ---- */
+.ui-save-line {
+  display: block;
+  height: 2px;
+  margin-top: 4px;
+  border-radius: 1px;
+  background: var(--cc-accent);
+  opacity: 0;
+  animation: ui-skel-in 0s linear 400ms forwards;
+}
+.ui-save-word,
+.ui-save-failed {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--cc-fs-meta);
+  line-height: var(--cc-lh-meta);
+  color: var(--cc-muted);
+}
+.ui-save-failed {
+  color: var(--cc-danger);
+  font-weight: 500;
+}
+.ui-save-retry {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--cc-danger);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ui-save-retry::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+.ui-save-retry {
+  position: relative;
+}
+
 /* ---- Field ---- */
 .ui-field {
   display: flex;
