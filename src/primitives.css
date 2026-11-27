@@ -897,6 +897,29 @@ button.ui-countrow-hit .ui-countrow-title {
   font-weight: 600;
   letter-spacing: -0.01em;
 }
+/* actions: Cancel leading, the title between, the one primary trailing (Apple sheets). */
+.ui-sheet-head {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--cc-space-2);
+  margin: 0 -8px 10px;
+}
+.ui-sheet-head > .ui-sheet-title {
+  margin: 0;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.ui-sheet-top-cancel {
+  justify-self: start;
+}
+.ui-sheet-top-primary {
+  justify-self: end;
+}
+.ui-sheet-desk-acts {
+  display: none;
+}
 /* the ONE scroll region — never a scroller inside this */
 .ui-sheet-body {
   flex: 1 1 auto;
@@ -925,6 +948,24 @@ button.ui-countrow-hit .ui-countrow-title {
   }
   .ui-sheet-scrim-center .ui-sheet-grab.ui-sheet-grab {
     display: none;
+  }
+  /* A centered dialog on a computer: the same two buttons at its bottom right, primary last; the title reads left. */
+  .ui-sheet-scrim-center .ui-sheet-top-act.ui-sheet-top-act {
+    display: none;
+  }
+  .ui-sheet-scrim-center .ui-sheet-head.ui-sheet-head {
+    display: block;
+    margin: 0 0 10px;
+  }
+  .ui-sheet-scrim-center .ui-sheet-head > .ui-sheet-title {
+    text-align: start;
+  }
+  .ui-sheet-scrim-center .ui-sheet-desk-acts.ui-sheet-desk-acts {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    gap: var(--cc-space-2);
+    padding-top: 14px;
   }
 }
 
