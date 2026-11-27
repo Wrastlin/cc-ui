@@ -558,6 +558,28 @@ button.ui-countrow-hit .ui-countrow-title {
   color: var(--cc-muted);
   overflow-wrap: anywhere;
 }
+.ui-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-2);
+  min-width: 0;
+}
+.ui-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cc-space-2);
+  margin: 0 calc(-1 * var(--cc-space-4)) calc(-1 * var(--cc-space-2));
+  padding: var(--cc-space-2) var(--cc-space-4) 0;
+  border-top: 1px solid var(--cc-line);
+}
+.ui-card-foot-list {
+  min-width: 0;
+}
+.ui-card-foot > .ui-acts {
+  margin-left: auto;
+}
 
 /* ---- Field ---- */
 .ui-field {

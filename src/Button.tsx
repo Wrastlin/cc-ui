@@ -25,7 +25,7 @@ import { Button as AriaButton, type PressEvent } from "react-aria-components";
 
 /** secondary is the visual system's name for ghost (a white button with a real edge); text is an action with no box. */
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "text" | "danger";
-/** sm and md are 48px on a phone (--cc-ctl-h); lg is the 56px primary target (--cc-ctl-h-lg). */
+/** On a phone md is 48px, sm 44px (Apple's minimum hit) and lg the 56px primary target (tokens.css phone block). */
 export type ButtonSize = "md" | "sm" | "lg";
 
 type Common = {
