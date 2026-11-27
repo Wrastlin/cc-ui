@@ -46,6 +46,7 @@ export { default as Form, ErrorSummary, useFieldError, type FormErrors } from ".
 export { RowList, ListRow, usePaging, SHORT } from "./RowList";
 export type { Paging, ListState } from "./RowList";
 export { SkeletonRows, EmptyState } from "./States";
+export { default as ActionBar, type BulkAction } from "./ActionBar";
 export { default as Sheet } from "./Sheet";
 export { default as Menu, type MenuEntry, type MenuChecks } from "./ActionMenu";
 export { default as DialogHost } from "./DialogHost";

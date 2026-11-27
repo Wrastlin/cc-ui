@@ -822,6 +822,28 @@ button.ui-countrow-hit .ui-countrow-title {
   to { transform: rotate(360deg); }
 }
 
+/* ---- ActionBar ---- */
+/* In the list header's place, the height of a row. */
+.ui-actionbar {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-3);
+  min-height: max(var(--cc-ctl-h), 56px);
+  padding: var(--cc-space-1) var(--cc-space-2) var(--cc-space-1) 16px;
+  border-radius: var(--cc-radius);
+  background: var(--cc-selected);
+  color: var(--cc-text);
+}
+.ui-actionbar-count {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 600;
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+  overflow-wrap: anywhere;
+  outline: none;
+}
+
 /* ---- Field ---- */
 .ui-field {
   display: flex;
