@@ -112,6 +112,10 @@
    * every control reads it from here.
    */
   --cc-ctl-h: 36px;
+  /* Icon sizes (Icon part): one beside text, one inside a control, one for display. Lucide's one stroke, 1.75. */
+  --cc-icon-text: 1.0667em;
+  --cc-icon-control: 18px;
+  --cc-icon-display: 24px;
   --cc-ctl-h-sm: 32px;
   --cc-ctl-h-lg: 44px;
 
@@ -166,6 +170,7 @@
 @media (max-width: 719px) {
   :root {
     --cc-ctl-h: 48px;
+    --cc-icon-control: 20px;
     --cc-ctl-h-sm: 44px;
     --cc-ctl-h-lg: 56px;
     --cc-logo-h: 17px;
