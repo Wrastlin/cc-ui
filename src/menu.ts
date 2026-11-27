@@ -26,8 +26,6 @@ const MAIN = [
   ["Production", "/production", "production"],
   // The paper job folders, each opened by the QR tag taped to it; the production grant opens them (Aaron, 2026-10-09).
   ["Job folders", "/folders", "production"],
-  // Every applicant in one list (cc-app /core/hiring, Aaron's 11/18 paper list, priority 2); the page checks production.
-  ["Hiring", "/core/hiring", "production"],
   ["CRMP", "/admin", "crmp"],
   ["Canvass", "/canvass", "canvass"],
   ["Subcontracts", "/subcontracts", "subcontracts"],
@@ -138,7 +136,6 @@ const SECTIONS: readonly SectionDef[] = [
     tabs: [
       { label: "Subcontracts", href: "/subcontracts", grant: "subcontracts" },
       { label: "Time", href: "/time" },
-      { label: "Hiring", href: "/core/hiring", grant: "production" },
     ],
   },
   // The id stays "bricks" so /apps/bricks keeps opening it: Bricks is the warehouse taking over the shop (Aaron 11/3).
