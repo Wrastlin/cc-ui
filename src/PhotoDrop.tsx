@@ -25,21 +25,17 @@ export type PhotoItem = {
   failed?: string;
 };
 
-export default function PhotoDrop({
+/** The Add photos button and the drop box, shared by PhotoDrop and PhotoGallery. Refused files are listed under it in
+ * one sentence each; accepted ones go to onAdd in the order picked. */
+export function PhotoAdd({
   label,
-  photos,
   onAdd,
-  onRemove,
   maxBytes,
 }: {
   label: string;
-  photos: readonly PhotoItem[];
-  /** The accepted files, in the order picked. Shrink each with shrinkPhoto before sending. */
   onAdd: (files: File[]) => void;
-  onRemove: (id: string) => void;
   maxBytes?: number;
 }) {
-  const id = useId();
   const [refused, setRefused] = useState<string[]>([]);
 
   function take(files: File[]) {
@@ -59,13 +55,8 @@ export default function PhotoDrop({
     take(files);
   }
 
-  const n = photos.length;
   return (
-    <div className="ui-photodrop" role="group" aria-labelledby={`${id}-l`}>
-      <span id={`${id}-l`} className="ui-photodrop-label">
-        {label}
-        {n ? <span className="ui-photodrop-count">{` ${n.toLocaleString("en-US")}`}</span> : null}
-      </span>
+    <>
       <DropZone className="ui-photodrop-zone" aria-label={`Drop photos for ${label}`} onDrop={(e) => void dropped(e)}>
         <FileTrigger acceptedFileTypes={PHOTO_ACCEPT} allowsMultiple onSelect={(list) => list && take(Array.from(list))}>
           <Button variant="secondary" icon={<ImagePlus size={18} aria-hidden />}>
@@ -85,6 +76,33 @@ export default function PhotoDrop({
           </ul>
         </div>
       ) : null}
+    </>
+  );
+}
+
+export default function PhotoDrop({
+  label,
+  photos,
+  onAdd,
+  onRemove,
+  maxBytes,
+}: {
+  label: string;
+  photos: readonly PhotoItem[];
+  /** The accepted files, in the order picked. Shrink each with shrinkPhoto before sending. */
+  onAdd: (files: File[]) => void;
+  onRemove: (id: string) => void;
+  maxBytes?: number;
+}) {
+  const id = useId();
+  const n = photos.length;
+  return (
+    <div className="ui-photodrop" role="group" aria-labelledby={`${id}-l`}>
+      <span id={`${id}-l`} className="ui-photodrop-label">
+        {label}
+        {n ? <span className="ui-photodrop-count">{` ${n.toLocaleString("en-US")}`}</span> : null}
+      </span>
+      <PhotoAdd label={label} onAdd={onAdd} maxBytes={maxBytes} />
       {n ? (
         <ul className="ui-photodrop-list" aria-label={`${label}, ${n} photos`}>
           {photos.map((p) => (

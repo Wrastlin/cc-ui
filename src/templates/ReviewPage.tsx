@@ -1,16 +1,14 @@
 "use client";
 
 import { useState, type ComponentProps, type ReactNode } from "react";
-import { List } from "lucide-react";
-import Button from "../Button";
 import ReviewPager from "../ReviewPager";
 import Sheet from "../Sheet";
 import { useNarrow } from "../parts/useNarrow";
 
 // One item in hand from a pile (gap 3c). The paper process (global rule, Aaron 11/04): pick up the one document, match
-// its lines, make the mark, and see the original as is. So: the pager and the one decision in the item's header, the
+// its lines, make the mark, and see the original as is. So: the pager bar, then the item's name with its one decision on the same line, the
 // item's name as the h1, its lines to match, then the original document untouched. The jump list (every item, the
-// current one selected) is the left pane on a desk and a Sheet on a phone (Material 3 list-detail: back in one pane,
+// current one selected) is the left pane on a desk and a Sheet on a phone, opened from the position ("3 of 4") (Material 3 list-detail: back in one pane,
 // selection in two). Deciding moves to the next open item (nextOpen), never a separate "N left" banner.
 
 export default function ReviewPage({
@@ -47,18 +45,17 @@ export default function ReviewPage({
         </nav>
       )}
       <div className="ui-tpl-review-main">
-        <ReviewPager {...pager} docTitle={pager.docTitle ?? title} />
-        <header className="ui-tpl-identity">
-          <div>
-            <h1 className="ui-tpl-title">{title}</h1>
-            {status}
-          </div>
-          {list && narrow && (
-            <Button variant="secondary" size="sm" icon={<List size={18} aria-hidden />} onClick={() => setListOpen(true)}>
-              {jump}
-            </Button>
-          )}
-        </header>
+        <ReviewPager
+          {...pager}
+          docTitle={pager.docTitle ?? title}
+          onJump={list && narrow ? () => setListOpen(true) : undefined}
+          title={
+            <header className="ui-tpl-identity">
+              <h1 className="ui-tpl-title">{title}</h1>
+              {status}
+            </header>
+          }
+        />
         <div className="ui-tpl-review-cols">
           <section className="ui-tpl-review-lines" aria-label="Lines">
             {children}
