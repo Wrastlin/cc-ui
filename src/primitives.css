@@ -844,6 +844,405 @@ button.ui-countrow-hit .ui-countrow-title {
   outline: none;
 }
 
+/* ---- PhotoDrop ---- */
+.ui-photodrop {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-2);
+}
+.ui-photodrop-label {
+  font-size: var(--cc-fs-meta);
+  font-weight: 500;
+  color: var(--cc-muted);
+}
+.ui-photodrop-count {
+  font-variant-numeric: tabular-nums;
+}
+.ui-photodrop-zone {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cc-space-3);
+  padding: var(--cc-space-3);
+  border: 1px dashed var(--cc-line-strong, var(--cc-line));
+  border-radius: var(--cc-radius);
+  background: var(--cc-panel);
+}
+.ui-photodrop-zone[data-drop-target] {
+  border-style: solid;
+  border-color: var(--cc-accent);
+  background: var(--cc-selected);
+}
+.ui-photodrop-zone[data-focus-visible] {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+.ui-photodrop-drop {
+  font-size: var(--cc-fs-body);
+  color: var(--cc-muted);
+}
+.ui-photodrop-refused {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--cc-fs-body);
+  color: var(--cc-danger);
+}
+.ui-photodrop-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ui-photodrop-row {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-3);
+  min-height: var(--cc-ctl-h);
+  padding: var(--cc-space-1) 0;
+  border-top: 1px solid var(--cc-line);
+}
+.ui-photodrop-thumb {
+  flex: 0 0 40px;
+  border-radius: var(--cc-radius-sm, 4px);
+  object-fit: cover;
+  background: var(--cc-sunk);
+}
+.ui-photodrop-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--cc-fs-body);
+  overflow-wrap: anywhere;
+}
+.ui-photodrop-name progress {
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--cc-sunk);
+  overflow: hidden;
+}
+.ui-photodrop-name progress::-webkit-progress-bar {
+  background: var(--cc-sunk);
+}
+.ui-photodrop-name progress::-webkit-progress-value {
+  background: var(--cc-accent);
+}
+.ui-photodrop-name progress::-moz-progress-bar {
+  background: var(--cc-accent);
+}
+.ui-photodrop-failed {
+  font-size: var(--cc-fs-meta);
+  color: var(--cc-danger);
+}
+
+/* ---- CheckAnswers and Confirmation ---- */
+.ui-check {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-5);
+}
+.ui-check-title {
+  margin: 0 0 var(--cc-space-2);
+  font-size: var(--cc-fs-section, var(--cc-fs-title));
+  font-weight: 600;
+  color: var(--cc-text);
+}
+.ui-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--cc-space-3);
+}
+.ui-confirm-mark {
+  color: var(--cc-good);
+}
+.ui-confirm-title {
+  margin: 0;
+  font-size: var(--cc-fs-page, var(--cc-fs-title));
+  font-weight: 600;
+  color: var(--cc-text);
+}
+.ui-confirm-next {
+  margin: 0;
+  list-style: disc;
+  padding-left: 1.25em;
+  font-size: var(--cc-fs-body);
+  color: var(--cc-text);
+}
+
+/* ---- Icon ---- */
+.ui-icon {
+  flex: none;
+  vertical-align: -0.125em;
+}
+.ui-icon-text {
+  width: var(--cc-icon-text);
+  height: var(--cc-icon-text);
+}
+.ui-icon-control {
+  width: var(--cc-icon-control);
+  height: var(--cc-icon-control);
+}
+.ui-icon-display {
+  width: var(--cc-icon-display);
+  height: var(--cc-icon-display);
+}
+
+/* ---- PhotoGallery ---- */
+.ui-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-2);
+}
+.ui-gallery-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 1px solid var(--cc-line);
+  border-radius: var(--cc-radius-lg);
+  overflow: hidden;
+  background: var(--cc-sunk);
+  cursor: zoom-in;
+}
+.ui-gallery-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ui-gallery-cover:focus-visible {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+.ui-gallery-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cc-space-2);
+}
+.ui-gallery-thumb {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--cc-radius);
+  overflow: hidden;
+  outline: none;
+  cursor: pointer;
+  background: var(--cc-sunk);
+}
+.ui-gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ui-gallery-thumb[data-focus-visible] {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+/* React Aria's keyboard and screen reader drag handle; the thumbnail itself drags with a pointer. */
+.ui-gallery-drag {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  border: 0;
+  padding: 0;
+}
+.ui-gallery-thumb[data-dragging] {
+  opacity: 0.4;
+}
+.ui-gallery-strip .react-aria-DropIndicator[data-drop-target] {
+  outline: 2px solid var(--cc-accent);
+}
+.ui-gallery-cover-mark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1px 0;
+  font-size: var(--cc-fs-meta);
+  line-height: 1.3;
+  text-align: center;
+  color: #fff;
+  background: rgb(0 0 0 / 0.55);
+}
+.ui-gallery-full {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-3);
+}
+.ui-gallery-full img {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  background: var(--cc-sunk);
+  border-radius: var(--cc-radius);
+}
+.ui-gallery-full-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+}
+.ui-gallery-full-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--cc-fs-body);
+  overflow-wrap: anywhere;
+}
+.ui-gallery-cover-word {
+  font-size: var(--cc-fs-meta);
+  color: var(--cc-muted);
+}
+
+/* ---- ReviewPager ---- */
+.ui-pager {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-3);
+}
+.ui-pager-bar,
+.ui-pager-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cc-space-3);
+  min-height: var(--cc-ctl-h);
+}
+.ui-pager-head {
+  align-items: flex-start;
+}
+.ui-pager-name {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ui-pager-step,
+.ui-pager-decide {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+  flex: none;
+}
+.ui-pager-at {
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+  font-variant-numeric: tabular-nums;
+  color: var(--cc-muted);
+  white-space: nowrap;
+  min-width: 4.5em;
+  text-align: center;
+  justify-content: center;
+}
+
+/* ---- DescriptionList ---- */
+.ui-dl {
+  margin: 0;
+}
+.ui-dl-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cc-space-3);
+  min-height: var(--cc-ctl-h);
+  padding: var(--cc-space-2) 0;
+  border-top: 1px solid var(--cc-line);
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+}
+.ui-dl-row:first-child {
+  border-top: none;
+}
+.ui-dl-label {
+  flex: 0 1 auto;
+  color: var(--cc-muted);
+  overflow-wrap: anywhere;
+}
+.ui-dl-value {
+  flex: 1 1 auto;
+  margin: 0;
+  min-width: 0;
+  text-align: end;
+  color: var(--cc-text);
+  overflow-wrap: anywhere;
+}
+.ui-dl-num {
+  font-variant-numeric: tabular-nums;
+}
+.ui-dl-missing {
+  color: var(--cc-muted);
+}
+.ui-dl-act {
+  flex: 0 0 auto;
+  margin: 0;
+}
+.ui-dl-long {
+  flex-wrap: wrap;
+}
+.ui-dl-long > .ui-dl-label {
+  flex: 1 1 auto;
+}
+.ui-dl-long > .ui-dl-value {
+  order: 3;
+  flex-basis: 100%;
+  text-align: start;
+}
+
+/* ---- NumberText and MoneyText ---- */
+.ui-num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ui-num-missing {
+  color: var(--cc-muted);
+  white-space: normal;
+}
+
+/* ---- SaveState ---- */
+.ui-save-line {
+  display: block;
+  height: 2px;
+  margin-top: 4px;
+  border-radius: 1px;
+  background: var(--cc-accent);
+  opacity: 0;
+  animation: ui-skel-in 0s linear 400ms forwards;
+}
+.ui-save-word,
+.ui-save-failed {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--cc-fs-meta);
+  line-height: var(--cc-lh-meta);
+  color: var(--cc-muted);
+}
+.ui-save-failed {
+  color: var(--cc-danger);
+  font-weight: 500;
+}
+.ui-save-retry {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--cc-danger);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ui-save-retry::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+.ui-save-retry {
+  position: relative;
+}
+
 /* ---- Field ---- */
 .ui-field {
   display: flex;
@@ -937,6 +1336,11 @@ button.ui-countrow-hit .ui-countrow-title {
 }
 .ui-listrow[data-disabled] {
   opacity: 0.4;
+}
+/* The item open beside the list (ReviewPage's jump list, Row `current`): filled like a selection, a heavier name. */
+.ui-row.ui-row-on {
+  background: var(--cc-selected);
+  font-weight: 600;
 }
 .ui-listrow[data-focus-visible] {
   outline: 2px solid var(--cc-ring);
