@@ -844,6 +844,32 @@ button.ui-countrow-hit .ui-countrow-title {
   outline: none;
 }
 
+/* ---- ReviewPager ---- */
+.ui-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cc-space-2) var(--cc-space-3);
+  min-height: var(--cc-ctl-h);
+}
+.ui-pager-at {
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+  font-variant-numeric: tabular-nums;
+  color: var(--cc-muted);
+  white-space: nowrap;
+}
+.ui-pager-arrows {
+  display: inline-flex;
+  gap: var(--cc-space-2);
+}
+.ui-pager-decide {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+  margin-inline-start: auto;
+}
+
 /* ---- DescriptionList ---- */
 .ui-dl {
   margin: 0;

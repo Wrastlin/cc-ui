@@ -47,6 +47,7 @@ export { RowList, ListRow, usePaging, SHORT } from "./RowList";
 export type { Paging, ListState } from "./RowList";
 export { SkeletonRows, EmptyState } from "./States";
 export { default as ActionBar, type BulkAction } from "./ActionBar";
+export { default as ReviewPager, nextOpen, type ReviewDecision } from "./ReviewPager";
 export { default as DescriptionList, type Fact } from "./DescriptionList";
 export { money, count, date, time, range, ago } from "./format";
 export { MoneyText, NumberText } from "./NumberText";
