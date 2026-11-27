@@ -41,6 +41,7 @@ export { default as SplitView } from "./SplitView";
 export { default as FieldRow } from "./FieldRow";
 export { default as Card, Actions, useOneAction } from "./Card";
 export { default as InlineMessage, type MessageTone } from "./InlineMessage";
+export { toast, ToastHost } from "./Toast";
 export { RowList, ListRow, usePaging, SHORT } from "./RowList";
 export type { Paging } from "./RowList";
 export { default as Sheet } from "./Sheet";

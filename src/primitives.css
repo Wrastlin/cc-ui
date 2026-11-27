@@ -634,6 +634,69 @@ button.ui-countrow-hit .ui-countrow-title {
 .ui-msg-danger { background: var(--cc-danger-bg); }
 .ui-msg-danger .ui-msg-icon { color: var(--cc-danger); }
 
+/* ---- Toast ---- */
+/* Under the top bar, centered, at every width; above sheets (4000) and menus (4100), under dialogs (5000). */
+.ui-toast-region {
+  position: fixed;
+  top: calc(var(--cc-bar-h) + env(safe-area-inset-top, 0px) + var(--cc-space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4200;
+  width: min(480px, calc(100vw - 2 * var(--cc-space-4)));
+  outline: none;
+}
+.ui-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--cc-space-2);
+  min-height: var(--cc-ctl-h);
+  padding: var(--cc-space-1) var(--cc-space-1) var(--cc-space-1) var(--cc-space-4);
+  border-radius: var(--cc-radius);
+  background: var(--cc-text);
+  color: #ffffff;
+  box-shadow: var(--cc-e2);
+  font-size: var(--cc-fs-body);
+  line-height: var(--cc-lh-body);
+}
+.ui-toast[data-focus-visible] {
+  outline: 2px solid var(--cc-ring);
+  outline-offset: 2px;
+}
+.ui-toast-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ui-toast-undo,
+.ui-toast-close {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--cc-ctl-h-sm);
+  min-width: var(--cc-ctl-h-sm);
+  padding: 0 var(--cc-space-3);
+  border: 0;
+  border-radius: var(--cc-radius);
+  background: transparent;
+  color: #ffffff;
+  font: 600 var(--cc-fs-body) / 1 var(--cc-font-sans);
+  cursor: pointer;
+}
+.ui-toast-close {
+  padding: 0;
+  color: #d5dbe3;
+}
+.ui-toast-undo[data-hovered],
+.ui-toast-close[data-hovered] {
+  background: rgba(255, 255, 255, 0.12);
+}
+.ui-toast-undo[data-focus-visible],
+.ui-toast-close[data-focus-visible] {
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
 /* ---- Field ---- */
 .ui-field {
   display: flex;
