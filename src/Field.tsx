@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useFieldError } from "./Form";
 
 // A labelled control.
 //
@@ -18,6 +19,8 @@ type FieldProps = {
   help?: ReactNode;
   /** Marks the label and hands the control aria-invalid. */
   error?: boolean;
+  /** The control's `name` inside a Form: the Form's error for it marks this field and replaces help. */
+  name?: string;
   children: ReactNode;
   className?: string;
 };
@@ -26,9 +29,15 @@ export default function Field({
   label,
   help,
   error,
+  name,
   children,
   className,
 }: FieldProps) {
+  const formError = useFieldError(name);
+  if (formError) {
+    error = true;
+    help = formError;
+  }
   return (
     <label
       className={["ui-field", error ? "ui-field-err" : "", className ?? ""]

@@ -80,7 +80,7 @@ function isLinks(x: unknown): x is readonly MenuLink[] {
 
 /** Every link the rail shows, in a sheet. A tap on any link closes it on its way through. */
 export function MenuSheet({
-  apps, path, open, onClose, renderLink, extra,
+  apps, path, open, onClose, renderLink, extra, account,
 }: {
   apps: readonly string[];
   path: string;
@@ -89,6 +89,8 @@ export function MenuSheet({
   renderLink?: (p: MenuLinkProps) => ReactNode;
   /** Links after the menu's own, such as the main app's All apps. A list of links is drawn like the menu's own. */
   extra?: ReactNode | readonly MenuLink[];
+  /** The account control, drawn first on a phone, where AppShell takes it out of the bar. */
+  account?: ReactNode;
 }) {
   return (
     <Sheet
@@ -101,6 +103,7 @@ export function MenuSheet({
         </Button>
       }
     >
+      {account ? <div className="cc-sheet-account">{account}</div> : null}
       <div className="cc-sheet-menu" onClick={(e) => (e.target as Element).closest("a") && onClose()}>
         <MenuLinks apps={apps} path={path} renderLink={renderLink} />
         {isLinks(extra) ? (
