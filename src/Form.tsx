@@ -99,8 +99,8 @@ export default function Form({
         <ErrorSummary errors={errors} onPick={(name) => focusField(form.current, name)} />
         {children}
         <div className="ui-form-save">
-          <Button type="submit" variant="primary">
-            {saving ? "Saving" : saveLabel}
+          <Button type="submit" variant="primary" busy={saving}>
+            {saveLabel}
           </Button>
         </div>
       </form>

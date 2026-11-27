@@ -92,6 +92,31 @@
   }
 }
 
+/* ------------------------------------------- icon controls: menu, More, Helper, bell */
+/* 48 px targets with no box: the bar's icons read as chrome, the action as the one command (Apple toolbars, M3 top
+   app bar). At 390 the bar holds four of them at most, three when Back shows (systems.md, App shell). */
+.cc-bar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cc-radius);
+  background: transparent;
+  color: var(--cc-text);
+  cursor: pointer;
+}
+.cc-bar-icon:hover {
+  background: var(--cc-selected);
+}
+.cc-bar-icon:focus-visible {
+  outline: 2px solid var(--cc-focus, var(--cc-accent));
+  outline-offset: 2px;
+}
+
 /* ------------------------------------------------------- the primary action */
 .cc-bar-action {
   display: inline-flex;
@@ -824,3 +849,19 @@
 }
 @media print { .cc-helper-float, .cc-helper { display: none; } }
 .cc-helper .cc-report-shot { max-height: 160px; }
+
+/* AppShell on a phone: four bar icons at most (systems.md, App shell). The product name and the account leave the bar;
+   the logo goes home and the account opens from the top of the menu Sheet. */
+.cc-sheet-account {
+  display: none;
+}
+@media (max-width: 599px) {
+  .cc-shell-frame .cc-bar-product,
+  .cc-shell-frame .cc-shell-account {
+    display: none;
+  }
+  .cc-sheet-account {
+    display: flex;
+    padding-bottom: var(--cc-space-3);
+  }
+}
