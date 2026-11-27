@@ -939,10 +939,44 @@ button.ui-countrow-hit .ui-countrow-title {
   color: var(--cc-danger);
 }
 
+/* ---- CheckAnswers and Confirmation ---- */
+.ui-check {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cc-space-5);
+}
+.ui-check-title {
+  margin: 0 0 var(--cc-space-2);
+  font-size: var(--cc-fs-section, var(--cc-fs-title));
+  font-weight: 600;
+  color: var(--cc-text);
+}
+.ui-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--cc-space-3);
+}
+.ui-confirm-mark {
+  color: var(--cc-good);
+}
+.ui-confirm-title {
+  margin: 0;
+  font-size: var(--cc-fs-page, var(--cc-fs-title));
+  font-weight: 600;
+  color: var(--cc-text);
+}
+.ui-confirm-next {
+  margin: 0;
+  list-style: disc;
+  padding-left: 1.25em;
+  font-size: var(--cc-fs-body);
+  color: var(--cc-text);
+}
+
 /* ---- Icon ---- */
 .ui-icon {
   flex: none;
-  color: currentColor;
   vertical-align: -0.125em;
 }
 .ui-icon-text {
