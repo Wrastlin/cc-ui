@@ -15,6 +15,7 @@
     ".": "./src/index.ts",
     "./parts": "./src/parts/index.ts",
     "./parts.css": "./src/parts.css",
+    "./templates": "./src/templates/index.ts",
     "./gallery": "./gallery/Gallery.tsx",
     "./swatch": "./src/swatch.ts",
     "./format": "./src/format.ts",
@@ -64,6 +65,7 @@
     "vitest": "^5.1.2"
   },
   "dependencies": {
+    "@internationalized/date": "^3.12.4",
     "modern-screenshot": "^4.7.0"
   }
 }
