@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Menu as MenuIcon, MoreHorizontal } from "lucide-react";
+import ActionMenu, { type MenuEntry } from "./ActionMenu";
 import { BackButton } from "./BackButton";
 import { CCLogo } from "./CCLogo";
 
@@ -75,6 +77,10 @@ export function AppBar({
   hubHref = "/apps",
   action,
   extraActions,
+  more,
+  helper,
+  bell,
+  onMenu,
   account,
   className,
 }: {
@@ -92,6 +98,13 @@ export function AppBar({
    * put secondary controls in the page or the account menu instead.
    */
   extraActions?: ReactNode;
+  /** The page's other commands, one More icon after the action. */
+  more?: readonly MenuEntry[];
+  /** The shell's own, on every page, after More: the Helper, then the bell (Aaron 11/06, 11/23). */
+  helper?: ReactNode;
+  bell?: ReactNode;
+  /** Opens the one menu. Drawn at the leading edge when there is no back (a top-level page). */
+  onMenu?: () => void;
   /**
    * The account control. Pass `<AccountButton />` from this package: the shell
    * owns the avatar so it is identical everywhere, but the menu's contents are
@@ -108,6 +121,10 @@ export function AppBar({
           <BackButton {...back} />
           <span className="cc-bar-rule" aria-hidden />
         </>
+      ) : onMenu ? (
+        <button type="button" className="cc-bar-icon cc-bar-menu" onClick={onMenu} aria-label="Menu" title="Menu">
+          <MenuIcon size={22} aria-hidden />
+        </button>
       ) : null}
 
       <a className="cc-bar-logo" href={hubHref} title="C&C Services dashboard">
@@ -122,6 +139,11 @@ export function AppBar({
 
       {extraActions}
       {action ? <BarActionControl {...action} /> : null}
+      {more?.length ? (
+        <ActionMenu aria-label="More" icon={<MoreHorizontal size={22} aria-hidden />} items={more} className="cc-bar-icon" />
+      ) : null}
+      {helper}
+      {bell}
 
       {account}
     </header>
