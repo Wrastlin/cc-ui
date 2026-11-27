@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import Button from "./Button";
 import DescriptionList from "./DescriptionList";
+import { MoneyText } from "./NumberText";
 
 const meta = { title: "Layout/DescriptionList", component: DescriptionList } satisfies Meta<typeof DescriptionList>;
 export default meta;
@@ -35,7 +36,8 @@ export const MoneyColumnAligned: Story = {
     facts: [
       { label: "Contract", value: "$18,420.00", numeric: true },
       { label: "Paid", value: "$9,210.00", numeric: true },
-      { label: "Owed", value: "$9,210.00", numeric: true },
+      { label: "Owed", value: <MoneyText value={9210} />, numeric: true },
+      { label: "Retainage", value: <MoneyText value={null} />, numeric: true },
     ],
   },
 };

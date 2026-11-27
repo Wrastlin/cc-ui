@@ -896,6 +896,16 @@ button.ui-countrow-hit .ui-countrow-title {
   text-align: start;
 }
 
+/* ---- NumberText and MoneyText ---- */
+.ui-num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ui-num-missing {
+  color: var(--cc-muted);
+  white-space: normal;
+}
+
 /* ---- Field ---- */
 .ui-field {
   display: flex;

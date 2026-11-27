@@ -17,6 +17,7 @@
     "./parts.css": "./src/parts.css",
     "./gallery": "./gallery/Gallery.tsx",
     "./swatch": "./src/swatch.ts",
+    "./format": "./src/format.ts",
     "./tokens.css": "./src/tokens.css",
     "./styles.css": "./src/styles.css"
   },
