@@ -63,3 +63,5 @@ export { PhoneTabs, MenuSheet, phoneTabs } from "./PhoneMenu";
 export type { MenuLinkProps } from "./SideMenu";
 export { menuFor, menuSections, sectionTabs, rowTwo, SECTION_HREFS, menuLabel, isCurrent, MENU_FOLD_KEY } from "./menu";
 export type { MenuLink, MenuSection, SectionTabs } from "./menu";
+export { WIDTHS } from "./widths";
+export type { WidthName } from "./widths";

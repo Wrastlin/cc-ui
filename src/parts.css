@@ -14,6 +14,9 @@
 @theme inline {
   --breakpoint-desk: 720px;
   --breakpoint-wide: 1000px;
+  /* The three named widths for new work (tokens.css header, WIDTHS in cc-ui): tablet: and laptop: prefixes. */
+  --breakpoint-tablet: 600px;
+  --breakpoint-laptop: 1024px;
 
   --color-cc-bg: var(--cc-bg);
   --color-cc-panel-2: var(--cc-panel-2);
@@ -42,9 +45,11 @@
   --text-cc-body: var(--cc-fs-body);
   --text-cc-body--line-height: var(--cc-lh-body);
   --text-cc-input: var(--cc-fs-input);
-  --text-cc-input--line-height: 24px;
+  --text-cc-input--line-height: 1.5rem;
+  --text-cc-section: var(--cc-fs-section);
+  --text-cc-section--line-height: var(--cc-lh-section);
   --text-cc-title: var(--cc-fs-title);
-  --text-cc-title--line-height: 24px;
+  --text-cc-title--line-height: var(--cc-lh-title);
   --text-cc-page: var(--cc-fs-page);
   --text-cc-page--line-height: var(--cc-lh-page);
 

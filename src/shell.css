@@ -98,7 +98,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--cc-space-2);
-  height: var(--cc-ctl-h-sm);
+  min-height: var(--cc-ctl-h-sm);
   padding: 0 var(--cc-space-3);
   flex: 0 0 auto;
   border: 1px solid var(--cc-line);
@@ -775,7 +775,7 @@
 .cc-helper-head h2 {
   flex: 1;
   margin: 0;
-  font-size: var(--cc-fs-title);
+  font-size: var(--cc-fs-section);
   font-weight: 600;
 }
 .cc-helper-body {

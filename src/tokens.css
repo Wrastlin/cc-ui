@@ -12,9 +12,11 @@
  * collisions. Apps adopt by aliasing their own names to these
  * (e.g. --accent: var(--cc-accent)), never by restating a value.
  *
- * Breakpoints (custom properties cannot drive @media; keep these numbers):
- *   narrow < 420px · phone < 720px · desktop >= 720px · wide >= 1000px
+ * Widths (custom properties cannot drive @media). Three named widths for new work, also exported as WIDTHS:
+ *   phone < 600px · tablet 600 to 1023px · desk >= 1024px; content stops widening at 1280px.
+ * Older rules still use 420, 720 and 1000; they move to these one template at a time.
  */
+
 
 :root {
   /* -------------------------------------------------------------- palette */
@@ -28,10 +30,10 @@
   --cc-line: #e2e6eb;
   --cc-line-2: #eef1f4;
   /* --cc-line is decoration only; a field or a secondary button needs an edge that reads, which is this. */
-  --cc-border: #7b8796;
+  --cc-border: #5f6b7a;
   --cc-text: #17212e;
-  --cc-muted: #526071;
-  --cc-faint: #7b8796;
+  --cc-muted: #4a5666;
+  --cc-faint: #5f6b7a;
   --cc-accent: #234d91;
   --cc-accent-hover: #1d4380;
   --cc-accent-press: #18386b;
@@ -58,20 +60,24 @@
   --cc-logo-grey: #5f7180;
 
   /* ----------------------------------------------------------- type scale */
-  /* Three levels on a view (13 meta, 15 body, 20 page), 16 for what a person types, 17 for an optional group title.
-     The same on a phone: the old phone bump to 17 and 24 is what made the screens read as shouting. Nothing under
-     13; caption is kept as a name so old call sites land on the floor. */
-  --cc-fs-caption: 13px;
-  --cc-fs-meta: 13px;
-  --cc-fs-ui: 13px;
-  --cc-fs-body: 15px;
-  --cc-fs-input: 16px;
-  --cc-fs-title: 17px;
-  --cc-fs-page: 20px;
-  --cc-fs-display: 24px;
-  --cc-lh-meta: 20px;
-  --cc-lh-body: 22px;
-  --cc-lh-page: 28px;
+  /* Crisp (picked 11/25): five steps about 1.25x apart (13 meta, 15 body, 17 section, 19 title, 24 page), 16 for what
+     a person types, 30 for display. In rem so a reader's larger browser text grows every screen (WCAG 1.4.4); fixed
+     px ignored it. A section head (Section, Panel) reads --cc-fs-section, a sheet or dialog title --cc-fs-title.
+     Nothing under 13; caption, meta and ui are one size kept under three names for old call sites. */
+  --cc-fs-caption: 0.8125rem;
+  --cc-fs-meta: 0.8125rem;
+  --cc-fs-ui: 0.8125rem;
+  --cc-fs-body: 0.9375rem;
+  --cc-fs-input: 1rem;
+  --cc-fs-section: 1.0625rem;
+  --cc-fs-title: 1.1875rem;
+  --cc-fs-page: 1.5rem;
+  --cc-fs-display: 1.875rem;
+  --cc-lh-meta: 1.25rem;
+  --cc-lh-body: 1.375rem;
+  --cc-lh-section: 1.5rem;
+  --cc-lh-title: 1.625rem;
+  --cc-lh-page: 2rem;
 
   --cc-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
@@ -87,9 +93,11 @@
   --cc-space-6: 32px;
 
   /* --------------------------------------------------------------- radii */
+  /* One control radius (6) and one surface radius (10, sheets and cards). radius-sm is kept equal to the control
+     radius for old call sites; Crisp's 4 would be a seventh radius. */
   --cc-radius-sm: 6px;
-  --cc-radius: 8px;
-  --cc-radius-lg: 12px;
+  --cc-radius: 6px;
+  --cc-radius-lg: 10px;
 
   /* ----------------------------------------------------------- elevation */
   /* Controls and content are flat; only what floats casts a shadow (a menu e2, a dialog e3). e1 stays for old
@@ -116,6 +124,9 @@
    * height should still do that; this is for the ones that cannot.
    */
   --cc-tap: 48px;
+  /* A control in a screen corner is hard to hit with a thumb (NN/g, about 1 cm of error at the edge), so its hit
+     area reaches this wide. */
+  --cc-tap-edge: 60px;
 
   /* ---------------------------------------------------------- the shell */
   --cc-bar-h: 52px;
@@ -155,7 +166,7 @@
 @media (max-width: 719px) {
   :root {
     --cc-ctl-h: 48px;
-    --cc-ctl-h-sm: 48px;
+    --cc-ctl-h-sm: 44px;
     --cc-ctl-h-lg: 56px;
     --cc-logo-h: 17px;
     --cc-bar-pad-x: 8px;
